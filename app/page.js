@@ -136,7 +136,7 @@ export default function Home() {
           </div>
           <div className="relative z-10 flex justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="w-full max-w-[600px] h-auto object-contain animate-[float_6s_ease-in-out_infinite]" alt="Robot Mascot" src="/Robot Mascot.png" />
+            <img className="w-full max-w-[600px] h-auto object-contain animate-[float_6s_ease-in-out_infinite]" alt="BDE-LEARNTOEARN IMG" src="/BDE-LEARNTOEARN IMG.png" />
           </div>
         </div>
         {/* Decorative Elements - Background image removed to fix Next.js build error */}
