@@ -348,6 +348,81 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Check Status Section */}
+      <section id="check-status" className="py-xl px-gutter max-w-container-max mx-auto w-full scroll-mt-24">
+        <div className="text-center mb-lg">
+          <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
+            ตรวจสอบสถานะผู้สมัคร
+            <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
+          </h2>
+          <p className="text-on-surface-variant font-body-lg mt-4 max-w-1xl mx-auto">
+            กรุณากรอก ชื่อ-นามสกุล, อีเมล หรือ เบอร์โทรศัพท์ ที่ใช้ในการสมัครให้ถูกต้องครบถ้วน เพื่อตรวจสอบสถานะ
+          </p>
+        </div>
+        
+        <div className="max-w-full mx-auto bg-surface-container-lowest p-lg rounded-3xl shadow-sm border border-outline-variant/30 text-center">
+          <form onSubmit={handleCheckStatus} className="flex flex-col sm:flex-row gap-sm items-center justify-center">
+            <input 
+              type="text" 
+              placeholder="กรอกชื่อ-นามสกุล, อีเมล หรือ เบอร์โทร..." 
+              value={statusSearchKey}
+              onChange={(e) => setStatusSearchKey(e.target.value)}
+              required
+              className="w-full sm:flex-1 bg-surface-container-high text-on-surface placeholder:text-on-surface-variant/60 rounded-full py-3 px-6 font-body-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all border border-transparent focus:border-primary/20"
+            />
+            <button 
+              type="submit"
+              disabled={checkingStatus || !statusSearchKey.trim()}
+              className="w-full sm:w-auto bg-primary text-on-primary px-lg py-3 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap"
+            >
+              {checkingStatus ? (
+                <span className="inline-block w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full animate-spin"></span>
+              ) : (
+                <span className="material-symbols-outlined text-[20px]">manage_search</span>
+              )}
+              ตรวจสอบ
+            </button>
+          </form>
+
+          {/* Status Result Display */}
+          {statusResult && (
+            <div className={`mt-lg p-lg rounded-2xl border-l-4 animate-[fadeIn_0.3s_ease-out] ${
+              statusResult.error ? 'bg-error-container text-on-error-container border-l-error' :
+              !statusResult.found ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
+              statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
+              'bg-primary/10 text-primary border-l-primary'
+            }`}>
+              {statusResult.error ? (
+                <div className="flex flex-col items-center gap-2">
+                  <span className="material-symbols-outlined text-[48px] opacity-70">error</span>
+                  <p className="font-headline-md">เกิดข้อผิดพลาดในการตรวจสอบ กรุณาลองใหม่อีกครั้ง</p>
+                </div>
+              ) : !statusResult.found ? (
+                <div className="flex flex-col items-center gap-2">
+                  <span className="material-symbols-outlined text-[48px] opacity-70">person_off</span>
+                  <p className="font-headline-md">ไม่พบข้อมูลผู้สมัคร</p>
+                  <p className="font-body-md opacity-80 mt-1">โปรดตรวจสอบว่าพิมพ์ ชื่อ-นามสกุล, อีเมล หรือ เบอร์โทรศัพท์ ถูกต้อง 100%</p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-2">
+                  <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    {statusResult.data.status.includes('สำรอง') ? 'hourglass_empty' : 'verified'}
+                  </span>
+                  <p className="font-body-lg text-on-surface-variant mb-1">
+                    พบข้อมูลของคุณ: <span className="font-bold">{statusResult.data.name}</span>
+                  </p>
+                  <p className="font-headline-xl text-[36px] font-bold">
+                    {statusResult.data.status}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+
+
+
       {/* Center Search Section */}
       <section id="centers" className="py-xl px-gutter max-w-container-max mx-auto w-full scroll-mt-24">
         <div className="text-center mb-lg">
@@ -446,100 +521,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Check Status Section */}
-      <section id="check-status" className="py-xl px-gutter max-w-container-max mx-auto w-full scroll-mt-24">
-        <div className="text-center mb-lg">
-          <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
-            ตรวจสอบสถานะการสมัคร
-            <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
-          </h2>
-          <p className="text-on-surface-variant font-body-lg mt-4 max-w-1xl mx-auto">
-            กรุณากรอก ชื่อ-นามสกุล, อีเมล หรือ เบอร์โทรศัพท์ ที่ใช้ในการสมัครให้ถูกต้องครบถ้วน เพื่อตรวจสอบสถานะ
-          </p>
-        </div>
-        
-        <div className="max-w-full mx-auto bg-surface-container-lowest p-lg rounded-3xl shadow-sm border border-outline-variant/30 text-center">
-          <form onSubmit={handleCheckStatus} className="flex flex-col sm:flex-row gap-sm items-center justify-center">
-            <input 
-              type="text" 
-              placeholder="กรอกชื่อ-นามสกุล, อีเมล หรือ เบอร์โทร..." 
-              value={statusSearchKey}
-              onChange={(e) => setStatusSearchKey(e.target.value)}
-              required
-              className="w-full sm:flex-1 bg-surface-container-high text-on-surface placeholder:text-on-surface-variant/60 rounded-full py-3 px-6 font-body-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all border border-transparent focus:border-primary/20"
-            />
-            <button 
-              type="submit"
-              disabled={checkingStatus || !statusSearchKey.trim()}
-              className="w-full sm:w-auto bg-primary text-on-primary px-lg py-3 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap"
-            >
-              {checkingStatus ? (
-                <span className="inline-block w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full animate-spin"></span>
-              ) : (
-                <span className="material-symbols-outlined text-[20px]">manage_search</span>
-              )}
-              ตรวจสอบ
-            </button>
-          </form>
-
-          {/* Status Result Display */}
-          {statusResult && (
-            <div className={`mt-lg p-lg rounded-2xl border-l-4 animate-[fadeIn_0.3s_ease-out] ${
-              statusResult.error ? 'bg-error-container text-on-error-container border-l-error' :
-              !statusResult.found ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
-              statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
-              'bg-primary/10 text-primary border-l-primary'
-            }`}>
-              {statusResult.error ? (
-                <div className="flex flex-col items-center gap-2">
-                  <span className="material-symbols-outlined text-[48px] opacity-70">error</span>
-                  <p className="font-headline-md">เกิดข้อผิดพลาดในการตรวจสอบ กรุณาลองใหม่อีกครั้ง</p>
-                </div>
-              ) : !statusResult.found ? (
-                <div className="flex flex-col items-center gap-2">
-                  <span className="material-symbols-outlined text-[48px] opacity-70">person_off</span>
-                  <p className="font-headline-md">ไม่พบข้อมูลผู้สมัคร</p>
-                  <p className="font-body-md opacity-80 mt-1">โปรดตรวจสอบว่าพิมพ์ ชื่อ-นามสกุล, อีเมล หรือ เบอร์โทรศัพท์ ถูกต้อง 100%</p>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center gap-2">
-                  <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    {statusResult.data.status.includes('สำรอง') ? 'hourglass_empty' : 'verified'}
-                  </span>
-                  <p className="font-body-lg text-on-surface-variant mb-1">
-                    พบข้อมูลของคุณ: <span className="font-bold">{statusResult.data.name}</span>
-                  </p>
-                  <p className="font-headline-xl text-[36px] font-bold">
-                    {statusResult.data.status}
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
+      
 
       {/* Footer */}
       <footer className="bg-surface-container-lowest full-width relative border-t border-outline-variant/30 mt-xl">
-        <div className="px-gutter py-lg max-w-container-max mx-auto w-full flex flex-col gap-lg md:flex-row md:justify-between md:items-end">
-          <div className="flex flex-col gap-2 max-w-[500px]">
-            <span className="font-headline-md text-headline-md font-black text-primary">
-              Digital Thai Thai
+        <div className="px-gutter py-xl max-w-container-max mx-auto w-full flex flex-col gap-xl md:flex-row md:justify-between md:items-start">
+          <div className="flex flex-col gap-4 max-w-[500px]">
+            <span className="font-headline-sm text-headline-sm font-black text-primary">
+              สำนักงานคณะกรรมการดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งชาติ
             </span>
-            <p className="text-on-surface-variant font-body-md text-body-md">
-              โครงการอบรมและประกวดสื่อสร้างสรรค์
+            <p className="text-on-surface-variant font-body-sm leading-relaxed">
+              เลขที่ 120 หมู่ 3 ชั้น 3 และ 5 ศูนย์ราชการฯ แจ้งวัฒนะ (อาคาร ซี) <br/>
+              ถนนแจ้งวัฒนะ แขวงทุ่งสองห้อง เขตหลักสี่ กรุงเทพฯ 10210 <br/>
+              
+            </p>
+            <p className="text-on-surface-variant font-body-sm leading-relaxed -mt-2">
+<b>โทร 080 0727072 </b>
             </p>
           </div>
-          <div className="flex flex-col md:items-end gap-4 mt-sm md:mt-0">
+          <div className="flex flex-col md:items-end gap-3">
+            <span className="font-headline-sm text-headline-sm font-black text-primary">
+              Digital Thai Thai
+              
+            </span>
+            <p className="text-on-surface-variant font-body-sm mb-2 -mt-2">
+              โครงการอบรมและประกวดสื่อสร้างสรรค์
+            </p>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
               <span className="font-label-sm text-label-sm text-on-surface hidden md:block">ติดตามเรา:</span>
               <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Facebook</Link>
               <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Line Official</Link>
-              <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">TikTok</Link>
               <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">YouTube</Link>
             </div>
-            <p className="text-on-surface-variant font-label-sm text-label-sm">
-              © 2024 Digital Thai Thai. All rights reserved.
+            <p className="text-on-surface-variant font-label-sm text-label-sm -mt-2">
+              © 2026 Digital Thai Thai. All rights reserved.
             </p>
           </div>
         </div>
