@@ -98,7 +98,7 @@ export default function Home() {
   });
 
   return (
-    <main className="flex-grow overflow-x-hidden">
+    <main className="flex-grow">
       {/* Top Navigation */}
       <nav className="bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-xl docked full-width top-0 sticky border-b border-outline-variant/30 shadow-sm z-50">
         <div className="flex justify-between items-center w-full px-gutter py-sm max-w-container-max mx-auto relative">
@@ -162,8 +162,8 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="hero-gradient relative py-xl px-gutter w-full">
-        <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
+      <section className="hero-gradient relative py-xl px-gutter w-full min-h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden">
+        <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-center w-full">
           <div className="z-10 flex flex-col gap-md order-2 md:order-1">
             <h1 className="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface">
               <span className="bg-gradient-to-r from-[#2f6b8f] via-[#90c759] to-[#dde14a] bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text block mb-2 pb-1">Digital Thai Thai</span>
@@ -172,7 +172,8 @@ export default function Home() {
               ไปกับศูนย์ดิจิทัลชุมชน
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant border-l-4 border-tertiary-fixed-dim pl-sm">
-              โครงการอบรมและประกวดสื่อสร้างสรรค์
+              โครงการพัฒนาแพลตฟอร์มภาครัฐเพื่อรองรับการพัฒนาทักษะดิจิทัล<br></br>
+              เรียนรู้มีรายได้เรียนรู้ง่ายตลอดชีวิต ผ่านรูปแบบ Learn to Earn
             </p>
             <div className="mt-sm flex justify-center md:justify-start">
               <Link href="#register" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg">
@@ -587,16 +588,17 @@ export default function Home() {
               Digital Thai Thai
 
             </span>
-            <p className="text-on-surface-variant font-body-sm mb-2 -mt-5">
-              โครงการอบรมและประกวดสื่อสร้างสรรค์
+            <p className="text-on-surface-variant font-body-sm mb-2 -mt-4 text-right">
+              โครงการพัฒนาแพลตฟอร์มภาครัฐเพื่อรองรับการพัฒนาทักษะดิจิทัล<br></br>
+              เรียนรู้มีรายได้เรียนรู้ง่ายตลอดชีวิต ผ่านรูปแบบ Learn to Earn
             </p>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
               <span className="font-label-sm text-label-sm text-on-surface hidden md:block">ติดตามเรา:</span>
-              <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Facebook</Link>
-              <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Line Official</Link>
-              <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">YouTube</Link>
+              <Link href="https://www.facebook.com" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Facebook</Link>
+              <Link href="https://www.line.me/th/" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Line Official</Link>
+              <Link href="https://www.youtube.com" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">YouTube</Link>
             </div>
-            <p className="text-on-surface-variant font-label-sm text-label-sm">
+            <p className="text-on-surface-variant font-label-sm text-label-sm -mt-3">
               © 2026 Digital Thai Thai. All rights reserved.
             </p>
           </div>
