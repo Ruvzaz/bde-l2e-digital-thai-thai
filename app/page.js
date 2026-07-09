@@ -98,24 +98,40 @@ export default function Home() {
   });
 
   return (
-    <main className="flex-grow">
+    <main className="flex-grow overflow-x-hidden">
       {/* Top Navigation */}
       <nav className="bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-xl docked full-width top-0 sticky border-b border-outline-variant/30 shadow-sm z-50">
         <div className="flex justify-between items-center w-full px-gutter py-sm max-w-container-max mx-auto relative">
           <div className="flex items-center gap-md">
-            <Link href="#" className="font-headline-md text-headline-md font-bold bg-gradient-to-r from-primary via-tertiary-fixed-dim to-primary bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text">
-              Digital Thai Thai
+            <Link href="#" className="flex items-center gap-2 group">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/ICON Home.png" alt="Digital Thai Thai Logo" className="h-8 md:h-10 w-auto object-contain transition-transform group-hover:scale-105" />
+              <span className="font-headline-md text-headline-md font-bold bg-gradient-to-r from-[#2f6b8f] via-[#90c759] to-[#dde14a] bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text">
+                Digital Thai Thai
+              </span>
             </Link>
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex gap-lg items-center">
-            <Link href="#schedule" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">กำหนดการ</Link>
-            <Link href="#applicants" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">จำนวนผู้สมัคร</Link>
-            <Link href="#check-status" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">เช็คสถานะ</Link>
-            <Link href="#register" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">ช่องทางการสมัคร</Link>
+            <Link href="#schedule" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+              กำหนดการ
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            <Link href="#applicants" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+              จำนวนผู้สมัคร
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            <Link href="#check-status" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+              เช็คสถานะ
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            <Link href="#register" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+              ช่องทางการสมัคร
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
           </div>
-          <Link href="#register" className="hidden lg:flex bg-primary text-on-primary px-md py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm items-center gap-2">
+          <Link href="#register" className="hidden lg:flex bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-1 transition-all duration-300 shadow-sm items-center gap-2">
             สมัครเข้าร่วมกิจกรรม
             <span className="material-symbols-outlined text-[18px]">open_in_new</span>
           </Link>
@@ -148,9 +164,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero-gradient relative py-xl px-gutter w-full">
         <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
-          <div className="z-10 flex flex-col gap-md">
+          <div className="z-10 flex flex-col gap-md order-2 md:order-1">
             <h1 className="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface">
-              <span className="bg-gradient-to-r from-primary via-tertiary-fixed-dim to-primary bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text block mb-2 pb-1">Digital Thai Thai</span>
+              <span className="bg-gradient-to-r from-[#2f6b8f] via-[#90c759] to-[#dde14a] bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text block mb-2 pb-1">Digital Thai Thai</span>
               เทคโนโลยีล้ำสมัย<br></br>
               สะท้อนอัตลักษณ์ไทย<br></br>
               ไปกับศูนย์ดิจิทัลชุมชน
@@ -158,16 +174,16 @@ export default function Home() {
             <p className="font-body-lg text-body-lg text-on-surface-variant border-l-4 border-tertiary-fixed-dim pl-sm">
               โครงการอบรมและประกวดสื่อสร้างสรรค์
             </p>
-            <div className="mt-sm">
+            <div className="mt-sm flex justify-center md:justify-start">
               <Link href="#register" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg">
                 สมัครเลยตอนนี้
                 <span className="material-symbols-outlined">arrow_forward</span>
               </Link>
             </div>
           </div>
-          <div className="relative z-10 flex justify-center">
+          <div className="relative z-10 flex justify-center order-1 md:order-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="w-full max-w-[600px] h-auto object-contain animate-[float_6s_ease-in-out_infinite]" alt="BDE-LEARNTOEARN IMG" src="/BDE-LEARNTOEARN IMG.png" />
+            <img className="w-full max-w-[600px] h-auto object-contain animate-[float_6s_ease-in-out_infinite] scale-110 md:scale-150" alt="BDE-LEARNTOEARN IMG" src="/BDE-LEARNTOEARN IMG.png" />
           </div>
         </div>
         {/* Decorative Elements - Background image removed to fix Next.js build error */}
@@ -567,7 +583,7 @@ export default function Home() {
             </p>
           </div>
           <div className="flex flex-col md:items-end gap-3">
-            <span className="font-headline-sm text-headline-sm font-black bg-gradient-to-r from-primary via-tertiary-fixed-dim to-primary bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text pb-1">
+            <span className="font-headline-sm text-headline-sm font-black bg-gradient-to-r from-[#2f6b8f] via-[#90c759] to-[#dde14a] bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text pb-1">
               Digital Thai Thai
 
             </span>
