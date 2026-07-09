@@ -11,6 +11,9 @@ export default function Home() {
   const [applicantCount, setApplicantCount] = useState(null);
   const [reserveCount, setReserveCount] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Schedule Popup State
+  const [selectedScheduleImg, setSelectedScheduleImg] = useState(null);
   
   // Center Search State
   const [centers, setCenters] = useState([]);
@@ -104,8 +107,8 @@ export default function Home() {
           <div className="hidden md:flex gap-lg items-center">
             <Link href="#schedule" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">กำหนดการ</Link>
             <Link href="#curriculum" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">โจทย์ประกวด</Link>
-            <Link href="#centers" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">ค้นหาศูนย์</Link>
             <Link href="#applicants" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">จำนวนผู้สมัคร</Link>
+            <Link href="#centers" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">ค้นหาศูนย์</Link>
             <Link href="#register" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">ช่องทางการสมัคร</Link>
             <Link href="#check-status" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">เช็คสถานะ</Link>
           </div>
@@ -153,7 +156,10 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
           {/* Session 1 */}
-          <div className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full">
+          <div 
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+            onClick={() => setSelectedScheduleImg("/schedule-1.png")}
+          >
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
               <span className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 1</span>
@@ -168,7 +174,10 @@ export default function Home() {
             </div>
           </div>
           {/* Session 2 */}
-          <div className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full">
+          <div 
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+            onClick={() => setSelectedScheduleImg("/schedule-2.png")}
+          >
             <div className="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
               <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 2</span>
@@ -183,7 +192,10 @@ export default function Home() {
             </div>
           </div>
           {/* Session 3 */}
-          <div className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full">
+          <div 
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+            onClick={() => setSelectedScheduleImg("/schedule-3.png")}
+          >
             <div className="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
               <span className="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 3</span>
@@ -198,7 +210,10 @@ export default function Home() {
             </div>
           </div>
           {/* Session 4 */}
-          <div className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full">
+          <div 
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+            onClick={() => setSelectedScheduleImg("/schedule-4.png")}
+          >
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
               <span className="bg-primary/20 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 4</span>
@@ -299,7 +314,7 @@ export default function Home() {
             <div className="bg-primary/10 p-4 rounded-full text-primary mb-sm">
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>person_add</span>
             </div>
-            <h3 className="font-headline-md text-headline-md text-on-surface mb-2">จำนวนผู้สมัคร</h3>
+            <h3 className="font-headline-md text-headline-md text-on-surface mb-2">จำนวนศูนย์ที่ได้รับคัดเลือก</h3>
             <p className="font-headline-xl text-primary text-[48px] font-bold tabular-nums">
               {loading ? (
                 <span className="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></span>
@@ -308,7 +323,7 @@ export default function Home() {
               )}
             </p>
             <p className="text-on-surface-variant font-body-md mt-2 flex items-center gap-2">
-              คนเข้าร่วมโครงการ
+              ผู้เข้าร่วมกิจกรรม
               {!loading && <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -320,7 +335,7 @@ export default function Home() {
             <div className="bg-tertiary-fixed-dim/10 p-4 rounded-full text-tertiary-fixed-dim mb-sm">
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>group_add</span>
             </div>
-            <h3 className="font-headline-md text-headline-md text-on-surface mb-2">ผู้สมัครสำรอง</h3>
+            <h3 className="font-headline-md text-headline-md text-on-surface mb-2">จำนวนศูนย์ที่ได้รับคัดเลือก (สำรอง)</h3>
             <p className="font-headline-xl text-tertiary-fixed-dim text-[48px] font-bold">
               {loading ? (
                 <span className="inline-block w-8 h-8 border-4 border-tertiary-fixed-dim border-t-transparent rounded-full animate-spin"></span>
@@ -512,7 +527,7 @@ export default function Home() {
               Digital Thai Thai
             </span>
             <p className="text-on-surface-variant font-body-md text-body-md">
-              โครงการพัฒนาแพลตฟอร์มภาครัฐเพื่อรองรับการพัฒนาทักษะดิจิทัล
+              โครงการอบรมและประกวดสื่อสร้างสรรค์
             </p>
           </div>
           <div className="flex flex-col md:items-end gap-4 mt-sm md:mt-0">
@@ -529,6 +544,32 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      {/* Schedule Popup Modal */}
+      {selectedScheduleImg && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-[fadeIn_0.2s_ease-out]"
+          onClick={() => setSelectedScheduleImg(null)}
+        >
+          <div 
+            className="relative max-w-4xl w-full flex flex-col items-center justify-center animate-[scaleIn_0.2s_ease-out]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              className="absolute -top-12 right-0 text-white hover:text-primary transition-colors bg-black/50 rounded-full p-2 flex items-center justify-center"
+              onClick={() => setSelectedScheduleImg(null)}
+            >
+              <span className="material-symbols-outlined text-[28px]">close</span>
+            </button>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src={selectedScheduleImg} 
+              alt="Schedule Detail" 
+              className="w-full h-auto object-contain rounded-xl shadow-2xl"
+              style={{ maxHeight: 'calc(100vh - 80px)' }}
+            />
+          </div>
+        </div>
+      )}
     </main>
   );
 }
