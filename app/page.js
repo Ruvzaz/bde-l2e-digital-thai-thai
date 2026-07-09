@@ -167,7 +167,7 @@ export default function Home() {
           <div className="z-10 flex flex-col gap-md order-2 md:order-1">
             <h1 className="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface">
               <span className="bg-gradient-to-r from-[#2f6b8f] via-[#90c759] to-[#dde14a] bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text block mb-2 pb-1">Digital Thai Thai</span>
-              เทคโนโลยีล้ำสมัย<br></br>
+              เทคโนโลยี<span className="animate-text-shimmer bg-gradient-to-r from-on-surface via-primary to-on-surface bg-[length:200%_auto] bg-clip-text text-transparent drop-shadow-sm">ล้ำสมัย</span><br></br>
               สะท้อนอัตลักษณ์ไทย<br></br>
               ไปกับศูนย์ดิจิทัลชุมชน
             </h1>

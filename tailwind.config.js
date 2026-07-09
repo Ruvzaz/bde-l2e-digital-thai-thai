@@ -97,6 +97,7 @@ module.exports = {
       },
       animation: {
         'gradient': 'gradient 8s linear infinite',
+        'text-shimmer': 'text-shimmer 2.5s ease-out infinite alternate',
       },
       keyframes: {
         gradient: {
@@ -108,6 +109,10 @@ module.exports = {
             'background-size': '200% 200%',
             'background-position': 'right center'
           },
+        },
+        "text-shimmer": {
+          from: { backgroundPosition: "0 0" },
+          to: { backgroundPosition: "-200% 0" },
         },
       }
     }

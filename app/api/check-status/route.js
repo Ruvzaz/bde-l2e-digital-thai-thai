@@ -10,7 +10,7 @@ const CONFIG = {
   NAME_COL: 7,     // คอลัมน์ "ชื่อ-นามสกุล"
   EMAIL_COL: 10,    // คอลัมน์ "อีเมล"
   PHONE_COL: 9,    // คอลัมน์ "เบอร์โทรศัพท์"
-  STATUS_COL: 16,   // คอลัมน์ "สถานะ (ผู้สมัครหลัก/สำรอง)"
+  STATUS_COL: 17,   // คอลัมน์ "สถานะ (ผู้สมัครหลัก/สำรอง)"
 };
 
 export async function POST(request) {

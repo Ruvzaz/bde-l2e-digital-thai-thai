@@ -16,31 +16,31 @@ export async function GET() {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
 
-    // Fetch data from Google Sheet. Range: Form Responses 1!A:Q
+    // Fetch data from Google Sheet. Range: Form Responses 1!A:Z
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: 'Form Responses 1!A:Q',
+      range: 'Form Responses 1!A:Z',
     });
 
     const rows = response.data.values || [];
-    
+
     let mainCount = 0;
     let reserveCount = 0;
 
     // Start from 1 to skip header
     for (let i = 1; i < rows.length; i++) {
-      const status = (rows[i][16] || '').toString().trim();
+      const status = (rows[i][17] || '').toString().trim();
       if (status.includes('สำรอง')) {
         reserveCount++;
-      } else {
+      } else if (status.includes('ศูนย์ได้รับการคัดเลือก')) {
         mainCount++;
       }
     }
 
     return NextResponse.json(
-      { 
+      {
         count: mainCount,
-        reserveCount: reserveCount 
+        reserveCount: reserveCount
       },
       {
         headers: {
