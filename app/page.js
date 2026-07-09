@@ -571,7 +571,7 @@ export default function Home() {
               Digital Thai Thai
 
             </span>
-            <p className="text-on-surface-variant font-body-sm mb-2 -mt-2">
+            <p className="text-on-surface-variant font-body-sm mb-2 -mt-5">
               โครงการอบรมและประกวดสื่อสร้างสรรค์
             </p>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -580,7 +580,7 @@ export default function Home() {
               <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Line Official</Link>
               <Link href="#" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">YouTube</Link>
             </div>
-            <p className="text-on-surface-variant font-label-sm text-label-sm -mt-2">
+            <p className="text-on-surface-variant font-label-sm text-label-sm">
               © 2026 Digital Thai Thai. All rights reserved.
             </p>
           </div>
