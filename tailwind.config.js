@@ -73,8 +73,11 @@ module.exports = {
         gutter: "24px"
       },
       fontFamily: {
+        sans: ["var(--font-prompt)", "sans-serif"],
+        "headline-sm": ["var(--font-prompt)", "sans-serif"],
         "headline-md": ["var(--font-prompt)", "sans-serif"],
         "label-sm": ["var(--font-prompt)", "sans-serif"],
+        "body-sm": ["var(--font-prompt)", "sans-serif"],
         "body-md": ["var(--font-prompt)", "sans-serif"],
         "headline-lg": ["var(--font-prompt)", "sans-serif"],
         "headline-xl": ["var(--font-prompt)", "sans-serif"],
@@ -82,13 +85,30 @@ module.exports = {
         "headline-xl-mobile": ["var(--font-prompt)", "sans-serif"]
       },
       fontSize: {
+        "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
         "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
         "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
         "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
         "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }],
         "headline-xl": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
         "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
         "headline-xl-mobile": ["32px", { lineHeight: "40px", fontWeight: "700" }]
+      },
+      animation: {
+        'gradient': 'gradient 8s linear infinite',
+      },
+      keyframes: {
+        gradient: {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center'
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center'
+          },
+        },
       }
     }
   }

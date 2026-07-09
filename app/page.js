@@ -14,7 +14,10 @@ export default function Home() {
 
   // Schedule Popup State
   const [selectedScheduleImg, setSelectedScheduleImg] = useState(null);
-  
+
+  // Mobile Menu State
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   // Center Search State
   const [centers, setCenters] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,11 +27,11 @@ export default function Home() {
   const [statusSearchKey, setStatusSearchKey] = useState("");
   const [statusResult, setStatusResult] = useState(null);
   const [checkingStatus, setCheckingStatus] = useState(false);
-  
+
   const handleCheckStatus = async (e) => {
     e.preventDefault();
     if (!statusSearchKey.trim()) return;
-    
+
     setCheckingStatus(true);
     setStatusResult(null);
     try {
@@ -62,7 +65,7 @@ export default function Home() {
         setLoading(false);
       }
     }
-    
+
     async function fetchCenters() {
       setLoadingCenters(true);
       try {
@@ -98,23 +101,46 @@ export default function Home() {
     <main className="flex-grow">
       {/* Top Navigation */}
       <nav className="bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-xl docked full-width top-0 sticky border-b border-outline-variant/30 shadow-sm z-50">
-        <div className="flex justify-between items-center w-full px-gutter py-sm max-w-container-max mx-auto">
+        <div className="flex justify-between items-center w-full px-gutter py-sm max-w-container-max mx-auto relative">
           <div className="flex items-center gap-md">
-            <Link href="#" className="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+            <Link href="#" className="font-headline-md text-headline-md font-bold bg-gradient-to-r from-primary via-tertiary-fixed-dim to-primary bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text">
               Digital Thai Thai
             </Link>
           </div>
-          <div className="hidden md:flex gap-lg items-center">
-            <Link href="#schedule" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">กำหนดการ</Link>
-            <Link href="#curriculum" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">โจทย์ประกวด</Link>
-            <Link href="#applicants" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">จำนวนผู้สมัคร</Link>
-            <Link href="#centers" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">ค้นหาศูนย์</Link>
-            <Link href="#register" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">ช่องทางการสมัคร</Link>
-            <Link href="#check-status" className="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm">เช็คสถานะ</Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex gap-lg items-center">
+            <Link href="#schedule" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">กำหนดการ</Link>
+            <Link href="#applicants" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">จำนวนผู้สมัคร</Link>
+            <Link href="#check-status" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">เช็คสถานะ</Link>
+            <Link href="#register" className="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">ช่องทางการสมัคร</Link>
           </div>
-          <Link href="#register" className="bg-primary text-on-primary px-md py-sm rounded-full font-label-sm text-label-sm hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
+          <Link href="#register" className="hidden lg:flex bg-primary text-on-primary px-md py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm items-center gap-2">
             สมัครเข้าร่วมกิจกรรม
             <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+          </Link>
+
+          {/* Mobile Toggle Button */}
+          <button
+            className="lg:hidden flex items-center text-primary p-2 focus:outline-none"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span className="material-symbols-outlined text-[32px]">
+              {isMenuOpen ? "close" : "menu"}
+            </span>
+          </button>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        <div className={`lg:hidden absolute top-full left-0 w-full bg-surface-container-lowest border-b border-outline-variant/30 shadow-lg transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-[500px] py-6 opacity-100" : "max-h-0 py-0 opacity-0"} flex flex-col items-center gap-4`}>
+          <Link href="#schedule" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">กำหนดการ</Link>
+          <Link href="#applicants" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">จำนวนผู้สมัคร</Link>
+          <Link href="#check-status" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">เช็คสถานะ</Link>
+          <Link href="#register" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">ช่องทางการสมัคร</Link>
+
+          <Link href="#register" onClick={() => setIsMenuOpen(false)} className="bg-primary text-on-primary px-lg py-3 mt-2 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
+            สมัครเข้าร่วมกิจกรรม
+            <span className="material-symbols-outlined text-[20px]">open_in_new</span>
           </Link>
         </div>
       </nav>
@@ -124,11 +150,13 @@ export default function Home() {
         <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
           <div className="z-10 flex flex-col gap-md">
             <h1 className="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface">
-              <span className="text-primary block mb-2">Digital Thai Thai</span>
-              โครงการอบรมและประกวดสื่อสร้างสรรค์
+              <span className="bg-gradient-to-r from-primary via-tertiary-fixed-dim to-primary bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text block mb-2 pb-1">Digital Thai Thai</span>
+              เทคโนโลยีล้ำสมัย<br></br>
+              สะท้อนอัตลักษณ์ไทย<br></br>
+              ไปกับศูนย์ดิจิทัลชุมชน
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant border-l-4 border-tertiary-fixed-dim pl-sm">
-              เทคโนโลยีล้ำสมัย สะท้อนอัตลักษณ์ไทย ไปกับศูนย์ดิจิทัลชุมชน
+              โครงการอบรมและประกวดสื่อสร้างสรรค์
             </p>
             <div className="mt-sm">
               <Link href="#register" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg">
@@ -156,8 +184,8 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
           {/* Session 1 */}
-          <div 
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+          <div
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
             onClick={() => setSelectedScheduleImg("/schedule-1.png")}
           >
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -174,8 +202,8 @@ export default function Home() {
             </div>
           </div>
           {/* Session 2 */}
-          <div 
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+          <div
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
             onClick={() => setSelectedScheduleImg("/schedule-2.png")}
           >
             <div className="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -192,8 +220,8 @@ export default function Home() {
             </div>
           </div>
           {/* Session 3 */}
-          <div 
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+          <div
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
             onClick={() => setSelectedScheduleImg("/schedule-3.png")}
           >
             <div className="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -210,8 +238,8 @@ export default function Home() {
             </div>
           </div>
           {/* Session 4 */}
-          <div 
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
+          <div
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
             onClick={() => setSelectedScheduleImg("/schedule-4.png")}
           >
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -277,19 +305,19 @@ export default function Home() {
               <h2 className="font-headline-lg text-headline-lg text-on-surface">โจทย์ประกวด</h2>
             </div>
             <div className="flex flex-col gap-md">
-              <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm">
+              <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
                 <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>local_cafe</span>
                 </div>
                 <span className="font-headline-md text-[20px] text-on-surface">ของดีที่ถูกลืม</span>
               </div>
-              <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm">
+              <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
                 <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>home</span>
                 </div>
                 <span className="font-headline-md text-[20px] text-on-surface">1 วันในบ้าน</span>
               </div>
-              <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm">
+              <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
                 <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
                 </div>
@@ -310,7 +338,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
           {/* Applicants Card */}
-          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow bg-surface-container-lowest">
+          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-primary shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest cursor-default">
             <div className="bg-primary/10 p-4 rounded-full text-primary mb-sm">
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>person_add</span>
             </div>
@@ -331,7 +359,7 @@ export default function Home() {
             </p>
           </div>
           {/* Waitlist Card */}
-          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-tertiary-fixed-dim shadow-sm hover:shadow-md transition-shadow bg-surface-container-lowest">
+          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-tertiary-fixed-dim shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest cursor-default">
             <div className="bg-tertiary-fixed-dim/10 p-4 rounded-full text-tertiary-fixed-dim mb-sm">
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>group_add</span>
             </div>
@@ -359,18 +387,18 @@ export default function Home() {
             กรุณากรอก ชื่อ-นามสกุล, อีเมล หรือ เบอร์โทรศัพท์ ที่ใช้ในการสมัครให้ถูกต้องครบถ้วน เพื่อตรวจสอบสถานะ
           </p>
         </div>
-        
+
         <div className="max-w-full mx-auto bg-surface-container-lowest p-lg rounded-3xl shadow-sm border border-outline-variant/30 text-center">
           <form onSubmit={handleCheckStatus} className="flex flex-col sm:flex-row gap-sm items-center justify-center">
-            <input 
-              type="text" 
-              placeholder="กรอกชื่อ-นามสกุล, อีเมล หรือ เบอร์โทร..." 
+            <input
+              type="text"
+              placeholder="กรอกชื่อ-นามสกุล, อีเมล หรือ เบอร์โทร..."
               value={statusSearchKey}
               onChange={(e) => setStatusSearchKey(e.target.value)}
               required
               className="w-full sm:flex-1 bg-surface-container-high text-on-surface placeholder:text-on-surface-variant/60 rounded-full py-3 px-6 font-body-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all border border-transparent focus:border-primary/20"
             />
-            <button 
+            <button
               type="submit"
               disabled={checkingStatus || !statusSearchKey.trim()}
               className="w-full sm:w-auto bg-primary text-on-primary px-lg py-3 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap"
@@ -386,12 +414,11 @@ export default function Home() {
 
           {/* Status Result Display */}
           {statusResult && (
-            <div className={`mt-lg p-lg rounded-2xl border-l-4 animate-[fadeIn_0.3s_ease-out] ${
-              statusResult.error ? 'bg-error-container text-on-error-container border-l-error' :
+            <div className={`mt-lg p-lg rounded-2xl border-l-4 animate-[fadeIn_0.3s_ease-out] ${statusResult.error ? 'bg-error-container text-on-error-container border-l-error' :
               !statusResult.found ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
-              statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
-              'bg-primary/10 text-primary border-l-primary'
-            }`}>
+                statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
+                  'bg-primary/10 text-primary border-l-primary'
+              }`}>
               {statusResult.error ? (
                 <div className="flex flex-col items-center gap-2">
                   <span className="material-symbols-outlined text-[48px] opacity-70">error</span>
@@ -434,19 +461,19 @@ export default function Home() {
             ค้นหาด้วย รหัสศูนย์ ชื่อศูนย์ หรือ จังหวัด เพื่อใช้เป็นข้อมูลในการกรอกใบสมัคร
           </p>
         </div>
-        
+
         <div className="max-w-full mx-auto bg-surface-container-lowest p-lg rounded-2xl shadow-sm border border-outline-variant/30">
           <div className="relative mb-md">
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-            <input 
-              type="text" 
-              placeholder="พิมพ์ชื่อศูนย์, รหัส หรือจังหวัด..." 
+            <input
+              type="text"
+              placeholder="พิมพ์ชื่อศูนย์, รหัส หรือจังหวัด..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-surface-container-high text-on-surface placeholder:text-on-surface-variant/60 rounded-full py-3 pl-12 pr-4 font-body-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all"
             />
           </div>
-          
+
           <div className="bg-surface-container rounded-xl overflow-hidden min-h-[100px]">
             {loadingCenters ? (
               <div className="p-8 text-center text-on-surface-variant flex flex-col items-center justify-center gap-3">
@@ -521,28 +548,28 @@ export default function Home() {
         </div>
       </section>
 
-      
+
 
       {/* Footer */}
       <footer className="bg-surface-container-lowest full-width relative border-t border-outline-variant/30 mt-xl">
         <div className="px-gutter py-xl max-w-container-max mx-auto w-full flex flex-col gap-xl md:flex-row md:justify-between md:items-start">
-          <div className="flex flex-col gap-4 max-w-[500px]">
+          <div className="flex flex-col gap-4 max-w-[550px]">
             <span className="font-headline-sm text-headline-sm font-black text-primary">
               สำนักงานคณะกรรมการดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งชาติ
             </span>
             <p className="text-on-surface-variant font-body-sm leading-relaxed">
-              เลขที่ 120 หมู่ 3 ชั้น 3 และ 5 ศูนย์ราชการฯ แจ้งวัฒนะ (อาคาร ซี) <br/>
-              ถนนแจ้งวัฒนะ แขวงทุ่งสองห้อง เขตหลักสี่ กรุงเทพฯ 10210 <br/>
-              
+              เลขที่ 120 หมู่ 3 ชั้น 3 และ 5 ศูนย์ราชการฯ แจ้งวัฒนะ (อาคาร ซี) <br />
+              ถนนแจ้งวัฒนะ แขวงทุ่งสองห้อง เขตหลักสี่ กรุงเทพฯ 10210 <br />
+
             </p>
             <p className="text-on-surface-variant font-body-sm leading-relaxed -mt-2">
-<b>โทร 080 0727072 </b>
+              <b>โทร 080 0727072 </b>
             </p>
           </div>
           <div className="flex flex-col md:items-end gap-3">
-            <span className="font-headline-sm text-headline-sm font-black text-primary">
+            <span className="font-headline-sm text-headline-sm font-black bg-gradient-to-r from-primary via-tertiary-fixed-dim to-primary bg-[length:200%_auto] animate-gradient text-transparent bg-clip-text pb-1">
               Digital Thai Thai
-              
+
             </span>
             <p className="text-on-surface-variant font-body-sm mb-2 -mt-2">
               โครงการอบรมและประกวดสื่อสร้างสรรค์
@@ -561,24 +588,24 @@ export default function Home() {
       </footer>
       {/* Schedule Popup Modal */}
       {selectedScheduleImg && (
-        <div 
+        <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-[fadeIn_0.2s_ease-out]"
           onClick={() => setSelectedScheduleImg(null)}
         >
-          <div 
+          <div
             className="relative max-w-4xl w-full flex flex-col items-center justify-center animate-[scaleIn_0.2s_ease-out]"
             onClick={(e) => e.stopPropagation()}
           >
-            <button 
+            <button
               className="absolute -top-12 right-0 text-white hover:text-primary transition-colors bg-black/50 rounded-full p-2 flex items-center justify-center"
               onClick={() => setSelectedScheduleImg(null)}
             >
               <span className="material-symbols-outlined text-[28px]">close</span>
             </button>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src={selectedScheduleImg} 
-              alt="Schedule Detail" 
+            <img
+              src={selectedScheduleImg}
+              alt="Schedule Detail"
               className="w-full h-auto object-contain rounded-xl shadow-2xl"
               style={{ maxHeight: 'calc(100vh - 80px)' }}
             />
