@@ -132,7 +132,7 @@ export default function Home() {
             </Link>
           </div>
           <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="hidden lg:flex bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-1 transition-all duration-300 shadow-sm items-center gap-2">
-            สมัครเข้าร่วมกิจกรรม
+            ลงทะเบียนเข้าร่วมโครงการ
             <span className="material-symbols-outlined text-[18px]">open_in_new</span>
           </a>
 
@@ -155,7 +155,7 @@ export default function Home() {
           <Link href="#register" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">ช่องทางการสมัคร</Link>
 
           <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="bg-primary text-on-primary px-lg py-3 mt-2 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
-            สมัครเข้าร่วมกิจกรรม
+            ลงทะเบียนเข้าร่วมโครงการ
             <span className="material-symbols-outlined text-[20px]">open_in_new</span>
           </a>
         </div>
@@ -175,11 +175,14 @@ export default function Home() {
               โครงการพัฒนาแพลตฟอร์มภาครัฐเพื่อรองรับการพัฒนาทักษะดิจิทัล<br></br>
               เรียนรู้มีรายได้เรียนรู้ง่ายตลอดชีวิต ผ่านรูปแบบ Learn to Earn
             </p>
-            <div className="mt-sm flex justify-center md:justify-start">
-              <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg">
-                สมัครเลยตอนนี้
+            <div className="mt-sm flex flex-col items-center md:items-start gap-3">
+              <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[18px] md:text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg text-center">
+                ลงทะเบียนศูนย์ดิจิทัลชุมชนเข้าร่วมโครงการ
                 <span className="material-symbols-outlined">arrow_forward</span>
               </a>
+              <p className="text-on-surface-variant font-body-sm text-center md:text-left bg-surface-container-high px-3 py-1 rounded-full w-fit">
+                * สำหรับศูนย์ดิจิทัลชุมชน (เดิม/ใหม่) เพื่อเป็นหน่วยจัดอบรมออนไลน์ให้สมาชิก 10 คน
+              </p>
             </div>
           </div>
           <div className="relative z-10 flex justify-center order-1 md:order-2">
@@ -191,11 +194,88 @@ export default function Home() {
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-transparent bg-cover bg-center"></div>
       </section>
 
+      {/* Target Audience Section */}
+      <section id="target-audience" className="py-xl px-gutter max-w-container-max mx-auto w-full">
+        <div className="text-center mb-lg">
+          <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
+            ใครสมัครได้บ้าง ?
+            <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-md items-stretch">
+          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-t-4 border-t-primary shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
+              <span className="material-symbols-outlined text-[32px]">store</span>
+            </div>
+            <h3 className="font-headline-md text-[22px] text-on-surface mb-2">ศูนย์เดิม 1,722 ศูนย์</h3>
+            <p className="text-on-surface-variant font-body-md">
+              ยืนยันสิทธิ์เพื่อรักษาสถานะการเป็นศูนย์ดิจิทัลชุมชนในโครงการ
+            </p>
+          </div>
+          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-t-4 border-t-tertiary-fixed-dim shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest">
+            <div className="w-16 h-16 bg-tertiary-fixed-dim/10 rounded-full flex items-center justify-center text-tertiary-fixed-dim mb-4">
+              <span className="material-symbols-outlined text-[32px]">add_business</span>
+            </div>
+            <h3 className="font-headline-md text-[22px] text-on-surface mb-2">ศูนย์ใหม่ (เปิดรับเพิ่ม ~500 ศูนย์)</h3>
+            <p className="text-on-surface-variant font-body-md">
+              สมัครใหม่เข้าร่วมโครงการ เพื่อยกระดับเป็นศูนย์ดิจิทัลชุมชน
+            </p>
+          </div>
+        </div>
+        <div className="mt-md text-center">
+          <p className="text-on-surface-variant font-body-sm bg-surface-container-high inline-block px-4 py-2 rounded-full">
+            * ทั้งศูนย์เดิมและศูนย์ใหม่ กรอกฟอร์มสมัครเดียวกัน (สามารถดูรหัสศูนย์ได้ที่ <b>ค้นหาข้อมูลศูนย์ดิจิทัลชุมชน</b>)
+          </p>
+        </div>
+      </section>
+
+      {/* Conditions Section */}
+      <section id="conditions" className="py-xl px-gutter max-w-container-max mx-auto w-full">
+        <div className="text-center mb-lg">
+          <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
+            หน้าที่ของศูนย์ดิจิทัลชุมชนที่เข้าร่วมโครงการ
+            <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
+          <div className="glass-card p-lg rounded-2xl flex flex-col items-center text-center shadow-sm bg-surface-container-lowest relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-full z-0"></div>
+            <div className="w-14 h-14 bg-primary text-on-primary rounded-full flex items-center justify-center font-headline-lg text-[24px] mb-4 z-10 shadow-md">
+              1
+            </div>
+            <h3 className="font-headline-md text-[18px] text-on-surface mb-2 z-10">จัดอบรมออนไลน์</h3>
+            <p className="text-on-surface-variant font-body-sm z-10">
+              จัดอบรมออนไลน์ให้มีผู้เข้าร่วมอย่างน้อย 10 คน
+            </p>
+          </div>
+          <div className="glass-card p-lg rounded-2xl flex flex-col items-center text-center shadow-sm bg-surface-container-lowest relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-full z-0"></div>
+            <div className="w-14 h-14 bg-primary text-on-primary rounded-full flex items-center justify-center font-headline-lg text-[24px] mb-4 z-10 shadow-md">
+              2
+            </div>
+            <h3 className="font-headline-md text-[18px] text-on-surface mb-2 z-10">รายงานผล</h3>
+            <p className="text-on-surface-variant font-body-sm z-10">
+              ส่งรายงานผลการจัดอบรม
+            </p>
+          </div>
+          <div className="glass-card p-lg rounded-2xl flex flex-col items-center text-center shadow-sm bg-surface-container-lowest relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-full z-0"></div>
+            <div className="w-14 h-14 bg-primary text-on-primary rounded-full flex items-center justify-center font-headline-lg text-[24px] mb-4 z-10 shadow-md">
+              3
+            </div>
+            <h3 className="font-headline-md text-[18px] text-on-surface mb-2 z-10">ส่งคลิปวิดีโอ</h3>
+            <p className="text-on-surface-variant font-body-sm z-10">
+              ส่งคลิปวิดีโออัตลักษณ์ชุมชน 1 ชิ้น<br />(สามารถใช้สิทธิ์ต่อยอดเข้าประกวดได้)
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Timeline Section */}
       <section id="schedule" className="py-xl px-gutter max-w-container-max mx-auto w-full">
         <div className="text-center mb-lg">
           <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
-            กำหนดการ
+            กำหนดการจัดอบรม
             <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
           </h2>
         </div>
@@ -315,21 +395,25 @@ export default function Home() {
       </section>
 
 
-      {/* Learning & Reward Grid */}
+      {/* Contest & Reward Section */}
       <section id="contest" className="bg-surface-container pt-lg pb-xl px-gutter">
-        <div className="text-center mb-lg">
+        <div className="text-center mb-xl flex flex-col items-center">
+          <span className="bg-[#fff8d6] text-[#735c00] px-4 py-1.5 rounded-full font-label-md text-sm mb-4 flex items-center gap-2 border border-[#e6c200] shadow-sm font-bold">
+            <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
+            กิจกรรมพิเศษ (ต่อยอดจากการจัดอบรม)
+          </span>
           <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
             การประกวดสื่อสร้างสรรค์
             <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
           </h2>
-          <p className="text-on-surface-variant font-body-lg mt-4 max-w-1xl mx-auto">
-            การประกวดจัดทำคลิปวิดีโอถ่ายทอดความเป็นพื้นเมืองต้นตำหรับ หรืออัตลักษณ์ชุมชน
+          <p className="text-on-surface-variant font-body-lg mt-4 max-w-2xl mx-auto">
+            ต่อยอดผลงานจากการจัดอบรม เพียงส่งคลิปวิดีโอถ่ายทอดความเป็นพื้นเมืองต้นตำรับ หรืออัตลักษณ์ชุมชน ก็มีสิทธิ์ลุ้นรับเงินรางวัลสนับสนุนรวมกว่า 60,000 บาท!
           </p>
         </div>
-        <div className="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-xl">
-          {/* Modules */}
-          <div>
 
+        <div className="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-xl">
+          {/* Criteria */}
+          <div>
             <div className="flex items-center gap-3 mb-md">
               <div className="bg-primary p-2 rounded-lg text-on-primary">
                 <span className="material-symbols-outlined">done_all</span>
@@ -349,12 +433,11 @@ export default function Home() {
                 </div>
                 <span className="font-headline-md text-[18px] text-on-surface">มีความคิดสร้างสรรค์ (Creativity) สื่อถึงอัตลักษณ์ชุมชน</span>
               </div>
-
-
             </div>
           </div>
-          {/* Topics */}
-          <div id="topics">
+
+          {/* Prizes */}
+          <div>
             <div className="flex items-center gap-3 mb-md">
               <div className="bg-tertiary-fixed-dim p-2 rounded-lg text-on-tertiary-container">
                 <span className="material-symbols-outlined">emoji_events</span>
@@ -592,27 +675,44 @@ export default function Home() {
 
       {/* CTA / Registration */}
       <section id="register" className="py-xl px-gutter max-w-container-max mx-auto w-full">
-        <div className="bg-primary rounded-3xl p-lg md:p-xl shadow-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-xl">
-          {/* BG Pattern - URL removed to avoid Next.js build error */}
-          <div className="absolute inset-0 z-0 opacity-10 bg-transparent bg-cover"></div>
+        <div className="bg-gradient-to-br from-primary via-primary to-[#2f6b8f] rounded-3xl p-lg md:p-xl shadow-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-xl">
+          {/* Decorative Background Elements */}
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-on-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-tertiary-fixed-dim/20 rounded-full blur-3xl pointer-events-none"></div>
+
           <div className="z-10 text-on-primary max-w-[500px] flex flex-col gap-md">
-            <h2 className="font-headline-xl text-headline-xl text-on-primary">ช่องทางการสมัคร</h2>
-            <p className="font-body-lg text-body-lg text-on-primary opacity-90">สแกน QR Code หรือคลิกปุ่มด้านล่างเพื่อลงทะเบียนเข้าร่วมโครงการ</p>
-            <div className="flex items-center gap-3 mt-2 bg-on-primary/10 w-fit p-md rounded-lg border border-on-primary/20 backdrop-blur-sm">
-              <span className="material-symbols-outlined text-tertiary-fixed-dim text-[32px]">calendar_month</span>
+            <h2 className="font-headline-xl text-[36px] md:text-[42px] font-bold text-on-primary leading-tight">
+              เริ่มยกระดับศูนย์ดิจิทัลชุมชนของคุณ
+            </h2>
+            <p className="font-body-lg text-on-primary/90">
+              สแกน QR Code หรือคลิกปุ่มด้านล่างเพื่อลงทะเบียนเข้าร่วมโครงการ Digital Thai Thai เป็นหน่วยจัดอบรมให้สมาชิกในชุมชน
+            </p>
+            <div className="flex items-center gap-4 mt-2 bg-on-primary/10 w-fit p-4 rounded-xl border border-on-primary/20 backdrop-blur-md shadow-inner">
+              <div className="w-12 h-12 flex items-center justify-center shrink-0 bg-on-primary text-primary rounded-full shadow-sm">
+                <span className="material-symbols-outlined text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>calendar_month</span>
+              </div>
               <div>
-                <p className="text-sm opacity-80 text-on-primary">ตั้งแต่วันนี้ถึง</p>
-                <p className="font-bold text-xl text-tertiary-fixed-dim">24 กรกฎาคม 2569</p>
+                <p className="text-sm text-on-primary/80 font-body-sm">เปิดรับสมัครตั้งแต่วันนี้ถึง</p>
+                <p className="font-bold text-[20px] text-tertiary-fixed-dim tracking-wide drop-shadow-sm">27 กรกฎาคม 2569</p>
               </div>
             </div>
-            <a href={GOOGLE_FORM_URL} target="_blank" rel="noreferrer" className="mt-2 bg-tertiary-fixed-dim text-on-tertiary-container px-lg py-sm rounded-full font-headline-md text-[20px] hover:bg-tertiary-fixed transition-all w-fit shadow-md flex items-center gap-2">
-              ลงทะเบียนเลย <span className="material-symbols-outlined">open_in_new</span>
-            </a>
+            <div className="mt-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <a href={GOOGLE_FORM_URL} target="_blank" rel="noreferrer" className="bg-tertiary-fixed-dim text-on-tertiary-container px-8 py-3 rounded-full font-headline-md text-[20px] hover:bg-[#c8cc42] hover:-translate-y-1 transition-all shadow-lg flex items-center gap-2 group">
+                ลงทะเบียนศูนย์ดิจิทัลชุมชน
+                <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </a>
+            </div>
           </div>
-          <div className="z-10 bg-surface-container-lowest p-md rounded-2xl shadow-xl transform rotate-3 hover:rotate-0 transition-transform">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="w-[300px] h-[300px] object-cover rounded-lg border border-outline-variant/30" alt="QR Code" src="/register_qr.png" />
-            <p className="text-center text-primary font-bold mt-3 font-body-md">Scan to Register</p>
+
+          <div className="z-10 bg-surface-container-lowest p-5 rounded-3xl shadow-2xl transform md:rotate-3 hover:rotate-0 transition-all duration-500 hover:scale-105 group border-4 border-on-primary/20">
+            <div className="overflow-hidden rounded-xl bg-white">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="w-[280px] h-[280px] object-cover mix-blend-multiply" alt="QR Code" src="/register_qr.png" />
+            </div>
+            <div className="flex items-center justify-center gap-2 mt-4 text-primary font-headline-md bg-primary/5 py-2 rounded-lg">
+              <span className="material-symbols-outlined text-[24px]">qr_code_scanner</span>
+              <span>Scan to Register</span>
+            </div>
           </div>
         </div>
       </section>
