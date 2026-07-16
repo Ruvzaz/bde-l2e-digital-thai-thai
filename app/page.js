@@ -272,19 +272,11 @@ export default function Home() {
       </section>
 
       {/* Learning & Topics Grid */}
-      <section id="curriculum" className="bg-surface-container py-xl px-gutter">
+      <section id="learning" className="bg-surface-container pt-xl pb-lg px-gutter">
         <div className="max-w-container-max mx-auto grid grid-cols-1 gap-xl">
           {/* Modules */}
           <div>
-            <div className="text-center mb-lg">
-              <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
-                การประกวดสื่อสร้างสรรค์
-                <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
-              </h2>
-              <p className="text-on-surface-variant font-body-lg mt-4 max-w-1xl mx-auto">
-                การประกวดจัดทำคลิปวิดีโอถ่ายทอดความเป็นพื้นเมืองต้นตำหรับ หรืออัตลักษณ์ชุมชน
-              </p>
-            </div>
+
             <div className="flex items-center gap-3 mb-md">
               <div className="bg-primary p-2 rounded-lg text-on-primary">
                 <span className="material-symbols-outlined">lightbulb</span>
@@ -322,11 +314,22 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* Learning & Reward Grid */}
-      <section id="curriculum" className="bg-surface-container py-xl px-gutter">
+      <section id="contest" className="bg-surface-container pt-lg pb-xl px-gutter">
+        <div className="text-center mb-lg">
+          <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
+            การประกวดสื่อสร้างสรรค์
+            <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
+          </h2>
+          <p className="text-on-surface-variant font-body-lg mt-4 max-w-1xl mx-auto">
+            การประกวดจัดทำคลิปวิดีโอถ่ายทอดความเป็นพื้นเมืองต้นตำหรับ หรืออัตลักษณ์ชุมชน
+          </p>
+        </div>
         <div className="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-xl">
           {/* Modules */}
           <div>
+
             <div className="flex items-center gap-3 mb-md">
               <div className="bg-primary p-2 rounded-lg text-on-primary">
                 <span className="material-symbols-outlined">done_all</span>
