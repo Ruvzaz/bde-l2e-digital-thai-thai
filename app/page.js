@@ -285,25 +285,25 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-md">
               <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
-                <div className="bg-surface-container-high p-3 rounded-full text-primary">
+                <div className="bg-surface-container-high w-12 h-12 flex items-center justify-center shrink-0 rounded-full text-primary">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
                 </div>
                 <span className="font-headline-md text-[18px] text-on-surface">ปั้นสื่อผสม AI</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
-                <div className="bg-surface-container-high p-3 rounded-full text-primary">
+                <div className="bg-surface-container-high w-12 h-12 flex items-center justify-center shrink-0 rounded-full text-primary">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
                 </div>
                 <span className="font-headline-md text-[18px] text-on-surface">การถ่ายภาพและวิดีโอ</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
-                <div className="bg-surface-container-high p-3 rounded-full text-primary">
+                <div className="bg-surface-container-high w-12 h-12 flex items-center justify-center shrink-0 rounded-full text-primary">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>movie_edit</span>
                 </div>
                 <span className="font-headline-md text-[18px] text-on-surface">เทคนิคการตัดต่อ</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
-                <div className="bg-surface-container-high p-3 rounded-full text-primary">
+                <div className="bg-surface-container-high w-12 h-12 flex items-center justify-center shrink-0 rounded-full text-primary">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>menu_book</span>
                 </div>
                 <span className="font-headline-md text-[18px] text-on-surface">ศิลปะการเล่าเรื่อง</span>
@@ -338,14 +338,14 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 gap-md">
               <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
-                <div className="bg-surface-container-high p-3 rounded-full text-primary">
-                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+                <div className="bg-surface-container-high w-12 h-12 flex items-center justify-center shrink-0 rounded-full text-primary">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>more_time</span>
                 </div>
                 <span className="font-headline-md text-[18px] text-on-surface">ความยาวคลิปอย่างน้อย 1-3 นาที</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
-                <div className="bg-surface-container-high p-3 rounded-full text-primary">
-                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+                <div className="bg-surface-container-high w-12 h-12 flex items-center justify-center shrink-0 rounded-full text-primary">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>wand_shine</span>
                 </div>
                 <span className="font-headline-md text-[18px] text-on-surface">มีความคิดสร้างสรรค์ (Creativity) สื่อถึงอัตลักษณ์ชุมชน</span>
               </div>
@@ -363,19 +363,19 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-md">
               <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
-                <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
+                <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 w-10 h-10 flex items-center justify-center shrink-0 rounded-full">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 </div>
                 <span className="font-headline-md text-[20px] text-on-surface">รางวัลที่ 1 (1 รางวัล) : 30,000 บาท</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
-                <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
+                <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 w-10 h-10 flex items-center justify-center shrink-0 rounded-full">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 </div>
                 <span className="font-headline-md text-[20px] text-on-surface">รางวัลที่ 2 (1 รางวัล) : 20,000 บาท</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
-                <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
+                <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 w-10 h-10 flex items-center justify-center shrink-0 rounded-full">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 </div>
                 <span className="font-headline-md text-[20px] text-on-surface">รางวัลที่ 3 (1 รางวัล) : 10,000 บาท</span>
@@ -393,10 +393,10 @@ export default function Home() {
             <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-md gap-y-4">
           {/* Applicants Card */}
-          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-primary shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest cursor-default">
-            <div className="bg-primary/10 p-4 rounded-full text-primary mb-sm">
+          <div className="order-1 md:order-1 glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-primary shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest cursor-default h-full">
+            <div className="bg-primary/10 w-20 h-20 flex items-center justify-center shrink-0 rounded-full text-primary mb-sm">
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>person_add</span>
             </div>
             <h3 className="font-headline-md text-headline-md text-on-surface mb-2">จำนวนศูนย์ที่ได้รับคัดเลือก</h3>
@@ -407,7 +407,7 @@ export default function Home() {
                 applicantCount !== null ? applicantCount : '--'
               )}
             </p>
-            <p className="text-on-surface-variant font-body-md mt-2 flex items-center gap-2">
+            <p className="text-on-surface-variant font-body-md mt-2 flex items-center justify-center gap-2">
               ผู้เข้าร่วมกิจกรรม
               {!loading && <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -415,9 +415,15 @@ export default function Home() {
               </span>}
             </p>
           </div>
+
+          <p className="order-2 md:order-3 text-on-surface-variant font-body-sm px-2 text-center">
+            ศูนย์ที่ได้รับคัดเลือก 1,722 ศูนย์ <br className="hidden md:block" />
+            จะได้รับสนับสนุนงบประมาณในการจัดฝึกอบรม
+          </p>
+
           {/* Waitlist Card */}
-          <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-tertiary-fixed-dim shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest cursor-default">
-            <div className="bg-tertiary-fixed-dim/10 p-4 rounded-full text-tertiary-fixed-dim mb-sm">
+          <div className="order-3 md:order-2 glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-l-4 border-l-tertiary-fixed-dim shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest cursor-default h-full">
+            <div className="bg-tertiary-fixed-dim/10 w-20 h-20 flex items-center justify-center shrink-0 rounded-full text-tertiary-fixed-dim mb-sm">
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>group_add</span>
             </div>
             <h3 className="font-headline-md text-headline-md text-on-surface mb-2">จำนวนศูนย์ที่ได้รับคัดเลือก (สำรอง)</h3>
@@ -430,6 +436,12 @@ export default function Home() {
             </p>
             <p className="text-on-surface-variant font-body-md mt-2">รายชื่อสำรอง</p>
           </div>
+
+          <p className="order-4 md:order-4 text-on-surface-variant font-body-sm px-2 text-center">
+            หากศูนย์ดิจิทัลชุมชน สมัครเข้าร่วม ครบ 1,722 ศูนย์ <br className="hidden lg:block" />
+            ศูนย์ที่ได้รับคัดเลือก (สำรอง) <b>จะไม่ได้รับงบประมาณสนับสนุน</b> <br className="hidden lg:block" />
+            แต่จะมีสิทธิ์ในการส่งคลิปวิดีโอในการประกวด <b>เพื่อลุ้นรับเงินรางวัล</b>
+          </p>
         </div>
       </section>
 
