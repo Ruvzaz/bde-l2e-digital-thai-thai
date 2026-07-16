@@ -131,10 +131,10 @@ export default function Home() {
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
           </div>
-          <Link href="#register" className="hidden lg:flex bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-1 transition-all duration-300 shadow-sm items-center gap-2">
+          <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="hidden lg:flex bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-1 transition-all duration-300 shadow-sm items-center gap-2">
             สมัครเข้าร่วมกิจกรรม
             <span className="material-symbols-outlined text-[18px]">open_in_new</span>
-          </Link>
+          </a>
 
           {/* Mobile Toggle Button */}
           <button
@@ -154,10 +154,10 @@ export default function Home() {
           <Link href="#check-status" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">เช็คสถานะ</Link>
           <Link href="#register" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">ช่องทางการสมัคร</Link>
 
-          <Link href="#register" onClick={() => setIsMenuOpen(false)} className="bg-primary text-on-primary px-lg py-3 mt-2 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
+          <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="bg-primary text-on-primary px-lg py-3 mt-2 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
             สมัครเข้าร่วมกิจกรรม
             <span className="material-symbols-outlined text-[20px]">open_in_new</span>
-          </Link>
+          </a>
         </div>
       </nav>
 
@@ -176,10 +176,10 @@ export default function Home() {
               เรียนรู้มีรายได้เรียนรู้ง่ายตลอดชีวิต ผ่านรูปแบบ Learn to Earn
             </p>
             <div className="mt-sm flex justify-center md:justify-start">
-              <Link href="#register" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg">
+              <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg">
                 สมัครเลยตอนนี้
                 <span className="material-symbols-outlined">arrow_forward</span>
-              </Link>
+              </a>
             </div>
           </div>
           <div className="relative z-10 flex justify-center order-1 md:order-2">
@@ -202,8 +202,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
           {/* Session 1 */}
           <div
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
-            onClick={() => setSelectedScheduleImg("/schedule-1.png")}
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-default"
           >
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
@@ -220,8 +219,7 @@ export default function Home() {
           </div>
           {/* Session 2 */}
           <div
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
-            onClick={() => setSelectedScheduleImg("/schedule-2.png")}
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-default"
           >
             <div className="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
@@ -238,8 +236,7 @@ export default function Home() {
           </div>
           {/* Session 3 */}
           <div
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
-            onClick={() => setSelectedScheduleImg("/schedule-3.png")}
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-default"
           >
             <div className="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
@@ -256,8 +253,7 @@ export default function Home() {
           </div>
           {/* Session 4 */}
           <div
-            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-pointer"
-            onClick={() => setSelectedScheduleImg("/schedule-4.png")}
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-default"
           >
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
@@ -277,16 +273,16 @@ export default function Home() {
 
       {/* Learning & Topics Grid */}
       <section id="curriculum" className="bg-surface-container py-xl px-gutter">
-        <div className="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-xl">
+        <div className="max-w-container-max mx-auto grid grid-cols-1 gap-xl">
           {/* Modules */}
           <div>
             <div className="flex items-center gap-3 mb-md">
               <div className="bg-primary p-2 rounded-lg text-on-primary">
                 <span className="material-symbols-outlined">lightbulb</span>
               </div>
-              <h2 className="font-headline-lg text-headline-lg text-on-surface">เรียนรู้อะไร?</h2>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface">เรียนรู้อะไร ?</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-md">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-md">
               <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
                 <div className="bg-surface-container-high p-3 rounded-full text-primary">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
@@ -313,32 +309,64 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+        </div>
+      </section>
+
+      {/* Learning & Reward Grid */}
+      <section id="curriculum" className="bg-surface-container py-xl px-gutter">
+        <div className="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-xl">
+          {/* Modules */}
+          <div>
+            <div className="flex items-center gap-3 mb-md">
+              <div className="bg-primary p-2 rounded-lg text-on-primary">
+                <span className="material-symbols-outlined">done_all</span>
+              </div>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface">เกณฑ์การให้คะแนน</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-1 gap-md">
+              <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
+                <div className="bg-surface-container-high p-3 rounded-full text-primary">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+                </div>
+                <span className="font-headline-md text-[18px] text-on-surface">ความยาวคลิปอย่างน้อย 1-3 นาที</span>
+              </div>
+              <div className="glass-card p-md rounded-xl flex items-center gap-4 hover:-translate-y-1 transition-transform bg-surface-container-lowest shadow-sm">
+                <div className="bg-surface-container-high p-3 rounded-full text-primary">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+                </div>
+                <span className="font-headline-md text-[18px] text-on-surface">มีความคิดสร้างสรรค์ (Creativity) สื่อถึงอัตลักษณ์ชุมชน</span>
+              </div>
+
+
+            </div>
+          </div>
           {/* Topics */}
           <div id="topics">
             <div className="flex items-center gap-3 mb-md">
               <div className="bg-tertiary-fixed-dim p-2 rounded-lg text-on-tertiary-container">
                 <span className="material-symbols-outlined">emoji_events</span>
               </div>
-              <h2 className="font-headline-lg text-headline-lg text-on-surface">โจทย์ประกวด</h2>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface">จำนวนเงินรางวัล</h2>
             </div>
             <div className="flex flex-col gap-md">
               <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
                 <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
-                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>local_cafe</span>
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 </div>
-                <span className="font-headline-md text-[20px] text-on-surface">ของดีที่ถูกลืม</span>
+                <span className="font-headline-md text-[20px] text-on-surface">รางวัลที่ 1 (1 รางวัล) : 30,000 บาท</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
                 <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
-                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>home</span>
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 </div>
-                <span className="font-headline-md text-[20px] text-on-surface">1 วันในบ้าน</span>
+                <span className="font-headline-md text-[20px] text-on-surface">รางวัลที่ 2 (1 รางวัล) : 20,000 บาท</span>
               </div>
               <div className="glass-card p-md rounded-xl flex items-center gap-4 border-l-4 border-l-tertiary-fixed-dim bg-surface-container-lowest shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 cursor-default">
                 <div className="text-tertiary-fixed-dim bg-tertiary-fixed-dim/10 p-2 rounded-full">
-                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 </div>
-                <span className="font-headline-md text-[20px] text-on-surface">วัยเก๋าเล่าเรื่อง</span>
+                <span className="font-headline-md text-[20px] text-on-surface">รางวัลที่ 3 (1 รางวัล) : 10,000 บาท</span>
               </div>
             </div>
           </div>
@@ -594,9 +622,9 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
               <span className="font-label-sm text-label-sm text-on-surface hidden md:block">ติดตามเรา:</span>
-              <Link href="https://www.facebook.com" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Facebook</Link>
-              <Link href="https://www.line.me/th/" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Line Official</Link>
-              <Link href="https://www.youtube.com" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">YouTube</Link>
+              {/* <Link href="https://www.facebook.com" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Facebook</Link> */}
+              <Link href="https://lin.ee/qGKVs12" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">Line Official</Link>
+              {/* <Link href="https://www.youtube.com" className="text-on-surface-variant hover:text-primary transition-all font-body-md flex items-center gap-1">YouTube</Link> */}
             </div>
             <p className="text-on-surface-variant font-label-sm text-label-sm -mt-3">
               © 2026 Digital Thai Thai. All rights reserved.
