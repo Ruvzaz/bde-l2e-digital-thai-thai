@@ -181,7 +181,7 @@ export default function Home() {
                 <span className="material-symbols-outlined">arrow_forward</span>
               </a>
               <p className="text-on-surface-variant font-body-sm text-center md:text-left bg-surface-container-high px-3 py-1 rounded-full w-fit">
-                * สำหรับศูนย์ดิจิทัลชุมชน (เดิม/ใหม่) เพื่อเป็นหน่วยจัดอบรมออนไลน์ให้สมาชิก 10 คน
+                * สำหรับศูนย์ดิจิทัลชุมชน <b>เพื่อเป็นหน่วยจัดอบรมออนไลน์ให้สมาชิก 10 คน</b>
               </p>
             </div>
           </div>
@@ -207,24 +207,20 @@ export default function Home() {
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
               <span className="material-symbols-outlined text-[32px]">store</span>
             </div>
-            <h3 className="font-headline-md text-[22px] text-on-surface mb-2">ศูนย์เดิม 1,722 ศูนย์</h3>
-            <p className="text-on-surface-variant font-body-md">
-              ยืนยันสิทธิ์เพื่อรักษาสถานะการเป็นศูนย์ดิจิทัลชุมชนในโครงการ
-            </p>
+            <h3 className="font-headline-md text-[22px] text-on-surface mb-2">ศูนย์ดิจิทัลชุมชน (โซน 1-4) จำนวน 1,722 ศูนย์</h3>
+
           </div>
           <div className="glass-card p-lg rounded-2xl flex flex-col items-center justify-center text-center border-t-4 border-t-tertiary-fixed-dim shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 bg-surface-container-lowest">
             <div className="w-16 h-16 bg-tertiary-fixed-dim/10 rounded-full flex items-center justify-center text-tertiary-fixed-dim mb-4">
               <span className="material-symbols-outlined text-[32px]">add_business</span>
             </div>
-            <h3 className="font-headline-md text-[22px] text-on-surface mb-2">ศูนย์ใหม่ (เปิดรับเพิ่ม ~500 ศูนย์)</h3>
-            <p className="text-on-surface-variant font-body-md">
-              สมัครใหม่เข้าร่วมโครงการ เพื่อยกระดับเป็นศูนย์ดิจิทัลชุมชน
-            </p>
+            <h3 className="font-headline-md text-[22px] text-on-surface mb-2">ศูนย์ดิจิทัลชุมชนใหม่ (โครงการใหม่ 500 ศูนย์)</h3>
+
           </div>
         </div>
         <div className="mt-md text-center">
           <p className="text-on-surface-variant font-body-sm bg-surface-container-high inline-block px-4 py-2 rounded-full">
-            * ทั้งศูนย์เดิมและศูนย์ใหม่ กรอกฟอร์มสมัครเดียวกัน (สามารถดูรหัสศูนย์ได้ที่ <b>ค้นหาข้อมูลศูนย์ดิจิทัลชุมชน</b>)
+            * ศูนย์ดิจิทัลชุมชนทั้งสองระบบ กรอกฟอร์มสมัครเดียวกัน (สามารถดูรหัสศูนย์ได้ที่ <b>ค้นหาข้อมูลศูนย์ดิจิทัลชุมชน</b>)
           </p>
         </div>
       </section>
@@ -245,7 +241,7 @@ export default function Home() {
             </div>
             <h3 className="font-headline-md text-[18px] text-on-surface mb-2 z-10">จัดอบรมออนไลน์</h3>
             <p className="text-on-surface-variant font-body-sm z-10">
-              จัดอบรมออนไลน์ให้มีผู้เข้าร่วมอย่างน้อย 10 คน
+              เป็นศูนย์อบรบออนไลน์สำหรับจัดการอบรมจากส่วนกลางโดยต้องจัดหาผู้เข้าร่วมอบรมอย่างน้อย 10 คน
             </p>
           </div>
           <div className="glass-card p-lg rounded-2xl flex flex-col items-center text-center shadow-sm bg-surface-container-lowest relative overflow-hidden">
@@ -255,7 +251,7 @@ export default function Home() {
             </div>
             <h3 className="font-headline-md text-[18px] text-on-surface mb-2 z-10">รายงานผล</h3>
             <p className="text-on-surface-variant font-body-sm z-10">
-              ส่งรายงานผลการจัดอบรม
+              ส่งรายงานผลการจัดอบรม <br></br>ใบลงชื่อเข้าอบรม, รูปภาพ, เอกสารเบิกจ่าย
             </p>
           </div>
           <div className="glass-card p-lg rounded-2xl flex flex-col items-center text-center shadow-sm bg-surface-container-lowest relative overflow-hidden">
@@ -265,7 +261,7 @@ export default function Home() {
             </div>
             <h3 className="font-headline-md text-[18px] text-on-surface mb-2 z-10">ส่งคลิปวิดีโอ</h3>
             <p className="text-on-surface-variant font-body-sm z-10">
-              ส่งคลิปวิดีโออัตลักษณ์ชุมชน 1 ชิ้น<br />(สามารถใช้สิทธิ์ต่อยอดเข้าประกวดได้)
+              ส่งผลงานคลิปวิดีโออัตลักษณ์ชุมชน<br></br>จากการอบรม จำนวน 1 ชิ้น<br />
             </p>
           </div>
         </div>
@@ -407,7 +403,9 @@ export default function Home() {
             <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
           </h2>
           <p className="text-on-surface-variant font-body-lg mt-4 max-w-2xl mx-auto">
-            ต่อยอดผลงานจากการจัดอบรม เพียงส่งคลิปวิดีโอถ่ายทอดความเป็นพื้นเมืองต้นตำรับ หรืออัตลักษณ์ชุมชน ก็มีสิทธิ์ลุ้นรับเงินรางวัลสนับสนุนรวมกว่า 60,000 บาท!
+            ต่อยอดผลงานจากการจัดอบรม โดยปรับปรุงวิดีโอให้น่าสนใจตามความรู้ทักษะที่ได้รับ <br></br>
+            เพียงส่งคลิปวิดีโอถ่ายทอดความเป็นพื้นเมืองต้นตำรับ หรืออัตลักษณ์ชุมชน <br></br>ก็มีสิทธิ์ลุ้นรับเงินรางวัลสนับสนุนรวมกว่า <b>60,000 บาท!</b><br></br>
+            <i>( เป็นการประกวดระดับบุคคล ไม่เกี่ยวกับผลงานจากการจัดอบรม )</i>
           </p>
         </div>
 
