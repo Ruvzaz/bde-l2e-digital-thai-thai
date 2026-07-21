@@ -275,7 +275,29 @@ export default function Home() {
             <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-md">
+          {/* ประกาศชี้แจง  */}
+          <div
+            className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-default"
+          >
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex justify-between items-start z-10 gap-2">
+              <span className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">Pre</span>
+              <span className="text-primary font-bold font-label-sm text-right whitespace-nowrap">Online</span>
+            </div>
+            <div className="z-10 mt-sm flex flex-col h-full">
+              <h3 className="font-headline-md text-headline-md text-on-surface">31 ก.ค. 2569</h3>
+              <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
+                จัดประชุมชี้แจงเจ้าหน้าที่ผู้ดูแลศูนย์ดิจิทัลชุมชน เพื่อแจ้งรายละเอียดกิจกรรม
+              </p>
+              <p className="text-primary flex items-center gap-1 mt-3 font-body-md font-bold">
+                <span className="material-symbols-outlined text-[18px]">videocam</span>
+                จัด Online
+              </p>
+            </div>
+          </div>
+
+
           {/* Session 1 */}
           <div
             className="glass-card gold-border-top rounded-xl p-md flex flex-col gap-sm shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden group bg-surface-container-lowest h-full cursor-default"
@@ -283,13 +305,16 @@ export default function Home() {
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
               <span className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 1</span>
-              <span className="text-primary font-bold font-label-sm text-right whitespace-nowrap">ภาคกลาง</span>
+              <span className="text-primary font-bold font-label-sm text-right whitespace-nowrap">ภาคเหนือ</span>
             </div>
-            <div className="z-10 mt-sm">
+            <div className="z-10 mt-sm flex flex-col h-full">
               <h3 className="font-headline-md text-headline-md text-on-surface">3 ส.ค. 2569</h3>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-1 font-body-md">
+              <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
+                อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
+              </p>
+              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
                 <span className="material-symbols-outlined text-[18px]">location_on</span>
-                ภาคกลาง
+                ภาคเหนือ
               </p>
             </div>
           </div>
@@ -302,11 +327,14 @@ export default function Home() {
               <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 2</span>
               <span className="text-secondary font-bold font-label-sm text-right whitespace-nowrap">ภาคเหนือ</span>
             </div>
-            <div className="z-10 mt-sm">
-              <h3 className="font-headline-md text-headline-md text-on-surface">5 ส.ค. 2569</h3>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-1 font-body-md">
+            <div className="z-10 mt-sm flex flex-col h-full">
+              <h3 className="font-headline-md text-headline-md text-on-surface">10 ส.ค. 2569</h3>
+              <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
+                อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
+              </p>
+              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
                 <span className="material-symbols-outlined text-[18px]">location_on</span>
-                ภาคเหนือ
+                ภาคกลาง
               </p>
             </div>
           </div>
@@ -317,13 +345,16 @@ export default function Home() {
             <div className="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
               <span className="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 3</span>
-              <span className="text-tertiary font-bold font-label-sm text-right whitespace-nowrap">ภาคตะวันออกเฉียงเหนือ</span>
+              <span className="text-tertiary font-bold font-label-sm text-right whitespace-nowrap">ภาคอีสาน</span>
             </div>
-            <div className="z-10 mt-sm">
-              <h3 className="font-headline-md text-headline-md text-on-surface">10 ส.ค. 2569</h3>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-1 font-body-md">
+            <div className="z-10 mt-sm flex flex-col h-full">
+              <h3 className="font-headline-md text-headline-md text-on-surface">11 ส.ค. 2569</h3>
+              <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
+                อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
+              </p>
+              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
                 <span className="material-symbols-outlined text-[18px]">location_on</span>
-                อีสาน
+                ภาคอีสาน
               </p>
             </div>
           </div>
@@ -336,9 +367,12 @@ export default function Home() {
               <span className="bg-primary/20 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 4</span>
               <span className="text-primary font-bold font-label-sm text-right whitespace-nowrap">ภาคใต้</span>
             </div>
-            <div className="z-10 mt-sm">
+            <div className="z-10 mt-sm flex flex-col h-full">
               <h3 className="font-headline-md text-headline-md text-on-surface">14 ส.ค. 2569</h3>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-1 font-body-md">
+              <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
+                อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
+              </p>
+              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
                 <span className="material-symbols-outlined text-[18px]">location_on</span>
                 ภาคใต้
               </p>
