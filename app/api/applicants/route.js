@@ -27,9 +27,15 @@ export async function GET() {
     let mainCount = 0;
     let reserveCount = 0;
 
+    // ==========================================
+    // ⚙️ ตั้งค่าคอลัมน์สถานะ (ใส่เลขคอลัมน์โดยเริ่มนับจาก 0: A=0, B=1, ...)
+    // หากมีการแทรกคอลัมน์ ให้บวกตัวเลขนี้เพิ่มครับ
+    // ==========================================
+    const STATUS_COL = 18; // ขยับจาก 17 เป็น 18
+
     // Start from 1 to skip header
     for (let i = 1; i < rows.length; i++) {
-      const status = (rows[i][17] || '').toString().trim();
+      const status = (rows[i][STATUS_COL] || '').toString().trim();
       if (status.includes('สำรอง')) {
         reserveCount++;
       } else if (status.includes('ศูนย์ได้รับการคัดเลือก')) {
