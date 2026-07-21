@@ -16,10 +16,9 @@ export async function GET() {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
 
-    // Fetch data from Google Sheet. Range: Form Responses 1!A:Z
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: 'Form Responses 1!A:Z',
+      range: 'Main BE!A:Z', // เปลี่ยนเป้าหมายไปดึงจาก Main BE
     });
 
     const rows = response.data.values || [];
@@ -28,14 +27,17 @@ export async function GET() {
     let reserveCount = 0;
 
     // ==========================================
-    // ⚙️ ตั้งค่าคอลัมน์สถานะ (ใส่เลขคอลัมน์โดยเริ่มนับจาก 0: A=0, B=1, ...)
-    // หากมีการแทรกคอลัมน์ ให้บวกตัวเลขนี้เพิ่มครับ
+    // ⚙️ ตั้งค่าคอลัมน์สถานะใน Main BE (Column J = index 9)
     // ==========================================
-    const STATUS_COL = 18; // ขยับจาก 17 เป็น 18
+    const STATUS_COL = 9;
 
     // Start from 1 to skip header
     for (let i = 1; i < rows.length; i++) {
+      // ข้ามแถวที่ข้อมูลยังเป็น #N/A หรือว่าง
       const status = (rows[i][STATUS_COL] || '').toString().trim();
+      
+      if (status === '' || status === '#N/A') continue;
+
       if (status.includes('สำรอง')) {
         reserveCount++;
       } else if (status.includes('ศูนย์ได้รับการคัดเลือก')) {

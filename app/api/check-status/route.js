@@ -2,16 +2,15 @@ import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
 
 // ==========================================
-// ⚙️ ตั้งค่าคอลัมน์ใน Sheet "Form Responses 1"
+// ⚙️ ตั้งค่าคอลัมน์ใน Sheet "Main BE"
 // (ใส่เลขคอลัมน์โดยเริ่มนับจาก 0: A=0, B=1, C=2, ...)
 // ==========================================
 const CONFIG = {
-  SHEET_NAME: 'Form Responses 1',
-  // หากการแทรกคอลัมน์อยู่ก่อนคอลัมน์เหล่านี้ ต้องบวกตัวเลขเพิ่ม 1 ด้วยครับ
-  NAME_COL: 7,     // คอลัมน์ "ชื่อ-นามสกุล"
-  EMAIL_COL: 10,    // คอลัมน์ "อีเมล"
-  PHONE_COL: 9,    // คอลัมน์ "เบอร์โทรศัพท์"
-  STATUS_COL: 18,   // คอลัมน์ "สถานะ (ผู้สมัครหลัก/สำรอง)" (เปลี่ยนจาก 17 เป็น 18)
+  SHEET_NAME: 'Main BE',
+  NAME_COL: 4,     // คอลัมน์ E "ชื่อ-นามสกุล"
+  PHONE_COL: 5,    // คอลัมน์ F "โทรศัพท์"
+  EMAIL_COL: 6,    // คอลัมน์ G "Email"
+  STATUS_COL: 9,   // คอลัมน์ J "สถานะการคัดเลือก"
 };
 
 export async function POST(request) {
@@ -33,7 +32,7 @@ export async function POST(request) {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
 
-    // ดึงข้อมูลทั้งหมดจาก Form Responses 1
+    // ดึงข้อมูลทั้งหมดจาก Main BE
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range: `${CONFIG.SHEET_NAME}!A:Z`,
@@ -51,6 +50,10 @@ export async function POST(request) {
       const name = (row[CONFIG.NAME_COL] || '').toString().trim();
       const email = (row[CONFIG.EMAIL_COL] || '').toString().trim();
       const phone = (row[CONFIG.PHONE_COL] || '').toString().trim();
+      const status = (row[CONFIG.STATUS_COL] || '').toString().trim();
+
+      // ข้ามแถวที่ข้อมูลเป็น #N/A (หมายความว่ายังไม่มีคนกรอกข้อมูลสำหรับศูนย์นี้)
+      if (name === '#N/A' || phone === '#N/A' || email === '#N/A') continue;
 
       // เช็คว่าตรงแบบเป๊ะๆ กับช่องใดช่องหนึ่งหรือไม่
       if (
@@ -60,7 +63,7 @@ export async function POST(request) {
       ) {
         foundData = {
           name: name,
-          status: (row[CONFIG.STATUS_COL] || 'รอดำเนินการ').toString().trim()
+          status: status || 'รอดำเนินการ'
         };
         break; // เจอแล้วหยุดหา
       }
