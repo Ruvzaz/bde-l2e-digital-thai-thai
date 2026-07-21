@@ -282,7 +282,7 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
-              <span className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">Pre</span>
+              <span className="bg-green-600 text-white px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">เตรียมความพร้อม</span>
               <span className="text-primary font-bold font-label-sm text-right whitespace-nowrap">Online</span>
             </div>
             <div className="z-10 mt-sm flex flex-col h-full">
@@ -312,9 +312,9 @@ export default function Home() {
               <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
                 อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
               </p>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
-                <span className="material-symbols-outlined text-[18px]">location_on</span>
-                ภาคเหนือ
+              <p className="text-primary flex items-center gap-1 mt-3 font-body-md font-bold">
+                <span className="material-symbols-outlined text-[18px]">videocam</span>
+                จัด Online
               </p>
             </div>
           </div>
@@ -325,16 +325,16 @@ export default function Home() {
             <div className="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start z-10 gap-2">
               <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm whitespace-nowrap shrink-0">ครั้งที่ 2</span>
-              <span className="text-secondary font-bold font-label-sm text-right whitespace-nowrap">ภาคเหนือ</span>
+              <span className="text-secondary font-bold font-label-sm text-right whitespace-nowrap">ภาคกลาง</span>
             </div>
             <div className="z-10 mt-sm flex flex-col h-full">
               <h3 className="font-headline-md text-headline-md text-on-surface">10 ส.ค. 2569</h3>
               <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
                 อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
               </p>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
-                <span className="material-symbols-outlined text-[18px]">location_on</span>
-                ภาคกลาง
+              <p className="text-primary flex items-center gap-1 mt-3 font-body-md font-bold">
+                <span className="material-symbols-outlined text-[18px]">videocam</span>
+                จัด Online
               </p>
             </div>
           </div>
@@ -352,9 +352,9 @@ export default function Home() {
               <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
                 อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
               </p>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
-                <span className="material-symbols-outlined text-[18px]">location_on</span>
-                ภาคอีสาน
+              <p className="text-primary flex items-center gap-1 mt-3 font-body-md font-bold">
+                <span className="material-symbols-outlined text-[18px]">videocam</span>
+                จัด Online
               </p>
             </div>
           </div>
@@ -372,9 +372,9 @@ export default function Home() {
               <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
                 อบรมออนไลน์เพื่อถ่ายทอดองค์ความรู้และพัฒนาสื่ออัตลักษณ์ชุมชน <br></br>(Digital Thai Thai)
               </p>
-              <p className="text-on-surface-variant flex items-center gap-1 mt-3 font-body-md">
-                <span className="material-symbols-outlined text-[18px]">location_on</span>
-                ภาคใต้
+              <p className="text-primary flex items-center gap-1 mt-3 font-body-md font-bold">
+                <span className="material-symbols-outlined text-[18px]">videocam</span>
+                จัด Online
               </p>
             </div>
           </div>
