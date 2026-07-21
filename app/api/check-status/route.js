@@ -65,7 +65,7 @@ export async function POST(request) {
       ) {
         foundData = {
           name: name,
-          status: status || 'รอตรวจเอกสาร',
+          status: status || 'ยังไม่ส่งแผน',
           remark: remark // ส่งหมายเหตุไปด้วย
         };
         break; // เจอแล้วหยุดหา

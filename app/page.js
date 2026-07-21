@@ -603,6 +603,7 @@ export default function Home() {
                 statusResult.data?.status?.includes('ไม่อนุมัติ') ? 'bg-error-container text-on-error-container border-l-error' :
                 statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
                 statusResult.data?.status?.includes('รอตรวจ') ? 'bg-secondary-container text-on-secondary-container border-l-secondary' :
+                statusResult.data?.status?.includes('ยังไม่ส่งแผน') ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
                   'bg-primary/10 text-primary border-l-primary'
               }`}>
               {statusResult.error ? (
@@ -621,7 +622,8 @@ export default function Home() {
                   <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                     {statusResult.data.status.includes('ไม่อนุมัติ') ? 'cancel' : 
                      statusResult.data.status.includes('สำรอง') ? 'hourglass_empty' : 
-                     statusResult.data.status.includes('รอตรวจ') ? 'pending_actions' : 'verified'}
+                     statusResult.data.status.includes('รอตรวจ') ? 'pending_actions' : 
+                     statusResult.data.status.includes('ยังไม่ส่งแผน') ? 'assignment_late' : 'verified'}
                   </span>
                   <p className="font-body-lg text-on-surface-variant mb-1">
                     พบข้อมูลของคุณ: <span className="font-bold">{statusResult.data.name}</span>
