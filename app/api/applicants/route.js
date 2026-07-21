@@ -40,7 +40,8 @@ export async function GET() {
 
       if (status.includes('สำรอง')) {
         reserveCount++;
-      } else if (status.includes('ศูนย์ได้รับการคัดเลือก')) {
+      } else if (status === 'อนุมัติเข้าร่วมกิจกรรม' || status.includes('อนุมัติเข้าร่วมกิจกรรม')) {
+        // เช็คว่าถ้ามีคำว่า 'สำรอง' จะเข้าเงื่อนไขบนไปแล้ว ส่วนอันนี้คือตัวจริง
         mainCount++;
       }
     }

@@ -11,6 +11,7 @@ const CONFIG = {
   PHONE_COL: 5,    // คอลัมน์ F "โทรศัพท์"
   EMAIL_COL: 6,    // คอลัมน์ G "Email"
   STATUS_COL: 9,   // คอลัมน์ J "สถานะการคัดเลือก"
+  REMARK_COL: 10,  // คอลัมน์ K "หมายเหตุ"
 };
 
 export async function POST(request) {
@@ -51,6 +52,7 @@ export async function POST(request) {
       const email = (row[CONFIG.EMAIL_COL] || '').toString().trim();
       const phone = (row[CONFIG.PHONE_COL] || '').toString().trim();
       const status = (row[CONFIG.STATUS_COL] || '').toString().trim();
+      const remark = (row[CONFIG.REMARK_COL] || '').toString().trim();
 
       // ข้ามแถวที่ข้อมูลเป็น #N/A (หมายความว่ายังไม่มีคนกรอกข้อมูลสำหรับศูนย์นี้)
       if (name === '#N/A' || phone === '#N/A' || email === '#N/A') continue;
@@ -63,7 +65,8 @@ export async function POST(request) {
       ) {
         foundData = {
           name: name,
-          status: status || 'รอดำเนินการ'
+          status: status || 'รอตรวจเอกสาร',
+          remark: remark // ส่งหมายเหตุไปด้วย
         };
         break; // เจอแล้วหยุดหา
       }

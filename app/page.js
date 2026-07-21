@@ -600,7 +600,9 @@ export default function Home() {
           {statusResult && (
             <div className={`mt-lg p-lg rounded-2xl border-l-4 animate-[fadeIn_0.3s_ease-out] ${statusResult.error ? 'bg-error-container text-on-error-container border-l-error' :
               !statusResult.found ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
+                statusResult.data?.status?.includes('ไม่อนุมัติ') ? 'bg-error-container text-on-error-container border-l-error' :
                 statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
+                statusResult.data?.status?.includes('รอตรวจ') ? 'bg-secondary-container text-on-secondary-container border-l-secondary' :
                   'bg-primary/10 text-primary border-l-primary'
               }`}>
               {statusResult.error ? (
@@ -615,16 +617,27 @@ export default function Home() {
                   <p className="font-body-md opacity-80 mt-1">โปรดตรวจสอบว่าพิมพ์ ชื่อ-นามสกุล, อีเมล หรือ เบอร์โทรศัพท์ ถูกต้อง 100%</p>
                 </div>
               ) : (
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-2 w-full">
                   <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    {statusResult.data.status.includes('สำรอง') ? 'hourglass_empty' : 'verified'}
+                    {statusResult.data.status.includes('ไม่อนุมัติ') ? 'cancel' : 
+                     statusResult.data.status.includes('สำรอง') ? 'hourglass_empty' : 
+                     statusResult.data.status.includes('รอตรวจ') ? 'pending_actions' : 'verified'}
                   </span>
                   <p className="font-body-lg text-on-surface-variant mb-1">
                     พบข้อมูลของคุณ: <span className="font-bold">{statusResult.data.name}</span>
                   </p>
-                  <p className="font-headline-xl text-[36px] font-bold">
+                  <p className={`font-headline-xl text-[36px] font-bold ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : ''}`}>
                     {statusResult.data.status}
                   </p>
+                  {statusResult.data.status.includes('ไม่อนุมัติ') && statusResult.data.remark && (
+                    <div className="mt-2 p-4 bg-surface-container-lowest border border-error/20 rounded-xl w-full max-w-md text-left shadow-sm" style={{ minWidth: 'min(100%, 400px)' }}>
+                      <p className="font-body-md text-error font-bold flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[18px]">info</span>
+                        หมายเหตุ:
+                      </p>
+                      <p className="font-body-md text-on-surface mt-1 pl-6 break-words">{statusResult.data.remark}</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
