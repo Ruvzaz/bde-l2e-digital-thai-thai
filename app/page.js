@@ -7,6 +7,177 @@ import Link from "next/link";
 // วางลิงก์ Google Form ของคุณที่นี่ 👇
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfnb_lfCQB87XVmLcqkdEprON7QNem1-4x_rhVFA0EcVxdB2Q/viewform?usp=dialog";
 
+const FAQ_DATA = [
+  {
+    category: "1. การสมัครและคุณสมบัติศูนย์",
+    items: [
+      {
+        q: "ศูนย์ทุกแห่งต้องเข้าร่วมอบรมหรือไม่?",
+        a: "โครงการส่งหนังสือเชิญไปทั้งหมด 2,222 ศูนย์ แต่รับเฉพาะศูนย์ที่ \"มีความพร้อม\" จำนวน 1,722 ศูนย์เท่านั้น (สมัครก่อนได้สิทธิ์ก่อน) ศูนย์ที่ไม่สะดวกสามารถไม่เข้าร่วมได้ และไม่จำเป็นต้องลงทะเบียน"
+      },
+      {
+        q: "\"ศูนย์ที่มีความพร้อม\" หมายถึงอะไร?",
+        a: "คือศูนย์ที่สามารถ (1) จัดหาผู้เข้าอบรมได้ไม่น้อยกว่า 10 คน (2) จัดหาอาหารกลางวัน อาหารว่างและเครื่องดื่ม และ (3) อำนวยความสะดวกระหว่างการอบรมได้"
+      },
+      {
+        q: "ศูนย์ที่มีเฉพาะผู้ดูแลศูนย์ ไม่มีผู้เข้าร่วมอบรมคนอื่น เข้าร่วมได้ไหม?",
+        a: "ไม่ได้ เพราะโครงการกำหนดให้ศูนย์ต้องเป็นทั้งผู้จัดอบรมและมีผู้เข้าร่วมอบรมด้วย"
+      },
+      {
+        q: "ลงทะเบียนได้ถึงวันไหน?",
+        a: "ลงทะเบียนและส่งแผนได้ถึงวันที่ 27 กรกฎาคม 2569"
+      },
+      {
+        q: "ถ้าหาผู้เข้าอบรมไม่ครบ 10 คน หรือหาไม่ได้เลย ต้องทำอย่างไร?",
+        a: "หากหาคนไม่ครบ 10 คน จะไม่ได้รับงบสนับสนุน และหากหาผู้เข้าอบรมไม่ได้เลย ไม่ต้องลงทะเบียนเข้าร่วมกิจกรรม"
+      }
+    ]
+  },
+  {
+    category: "2. รายชื่อผู้เข้าอบรม",
+    items: [
+      {
+        q: "ต้องส่งรายชื่อผู้เข้าอบรมกี่คน และนับรวมผู้ดูแลศูนย์หรือไม่?",
+        a: "ต้องส่งรายชื่อผู้เข้าอบรม 10 คน ไม่รวม ผู้ดูแลศูนย์"
+      },
+      {
+        q: "ผู้เข้าอบรมต้องเป็นประชาชนทั่วไปเท่านั้นหรือใช้นักเรียนได้?",
+        a: "เปิดกว้าง ใช้ได้ทั้งนักเรียน ครู หรือประชาชนทั่วไป"
+      },
+      {
+        q: "นักเรียนที่ไม่มีโทรศัพท์ หรือไม่มีบัตรประชาชน เข้าร่วมได้ไหม?",
+        a: "ได้ ไม่มีเบอร์โทรศัพท์หรือบัตรประชาชนสามารถข้ามข้อมูลนี้ไปได้ (ไม่บังคับ)"
+      },
+      {
+        q: "วันอบรมจริง สามารถเปลี่ยนตัวผู้เข้าอบรมจากรายชื่อที่ส่งไปได้ไหม?",
+        a: "ได้ สามารถเปลี่ยนแปลงตามข้อมูลจริงหน้างานได้ และให้ส่งใบลงชื่อ (เซ็นชื่อจริง) ตามที่เข้าร่วมจริงภายหลัง"
+      },
+      {
+        q: "หากมีผู้เข้าอบรมมากกว่า 10 คน ต้องทำอย่างไร?",
+        a: "เซ็นชื่อผู้เข้าอบรมได้ตามจริงทุกคน แต่งบประมาณและเกียรติบัตรฉบับจริงคำนวณที่ 10 คน"
+      }
+    ]
+  },
+  {
+    category: "3. เอกสารการเบิกจ่ายเงิน (ใบสำคัญรับเงิน)",
+    items: [
+      {
+        q: "งบสนับสนุนค่าอาหารเท่าไหร่?",
+        a: "1,500 บาท (อาหารกลางวัน 1 มื้อ + อาหารว่างและเครื่องดื่ม 2 มื้อ) สำหรับผู้เข้าอบรมไม่น้อยกว่า 10 คน"
+      },
+      {
+        q: "ศูนย์ที่ส่งใบสำคัญรับเงินอัตรา 1,200 บาทไปแล้ว ต้องส่งใหม่ไหม?",
+        a: "ไม่บังคับต้องอัปโหลดแผนใหม่ (ระบบอนุมัติแผนไปแล้ว) แต่ขอความร่วมมือให้จัดทำใบสำคัญรับเงินฉบับจริงในอัตราใหม่ 1,500 บาท พร้อมสำเนาบัตรประชาชน เพื่อนำส่งพร้อมใบลงชื่อผู้เข้าอบรมหลังการอบรมเสร็จสิ้น"
+      },
+      {
+        q: "ผู้รับเงินตามใบสำคัญรับเงินต้องเป็นใคร?",
+        a: "เป็น ผู้ดูแลศูนย์เพียงท่านเดียว ไม่ใช่บัญชีโรงเรียน (เพื่อความสะดวกในการบริหารจัดการ)"
+      },
+      {
+        q: "สำเนาบัตรประชาชนที่ต้องแนบ เป็นของใคร?",
+        a: "เป็นสำเนาบัตรประชาชนของ ผู้ดูแลศูนย์ ผู้เบิกเงินเท่านั้น ไม่ใช่ของผู้เข้าอบรม"
+      },
+      {
+        q: "ใบสำคัญรับเงินให้ลงวันที่เท่าไหร่?",
+        a: "ให้ลงวันที่ตรงกับวันจัดอบรมของภาคนั้น ๆ (เช่น ภาคตะวันออกเฉียงเหนือ ลงวันที่ 11 สิงหาคม 2569)"
+      },
+      {
+        q: "เอกสารฉบับจริงต้องส่งเมื่อไหร่?",
+        a: "ส่งฉบับจริงพร้อมใบลงชื่อผู้เข้าอบรม ภายหลัง การอบรมและการรายงานผลเสร็จสิ้น (ตอนส่งแผนแนบเป็นไฟล์ในระบบก่อน)"
+      },
+      {
+        q: "ลืมแนบสำเนาบัตรประชาชนตอนส่งแผน ทำอย่างไร?",
+        a: "แผนจะไม่ได้รับการอนุมัติ ต้องส่งเอกสารมาใหม่ให้ครบถ้วน"
+      }
+    ]
+  },
+  {
+    category: "4. วันและรูปแบบการอบรม",
+    items: [
+      {
+        q: "อบรมแต่ละภาควันไหน?",
+        a: "ภาคตะวันออกเฉียงเหนือ อบรมวันที่ 11 สิงหาคม 2569\nภาคกลาง วันที่ 10 สิงหาคม 2569\nภาคเหนือ วันที่ 3 สิงหาคม 2569\nภาคใต้ วันที่ 14 สิงหาคม 2569 (อบรม 1 วันเต็ม) ควรยึดตามหนังสือแจ้งจาก สดช. เป็นหลัก"
+      },
+      {
+        q: "หัวข้ออบรมแต่ละศูนย์ต้องเตรียมเองหรือไม่?",
+        a: "หัวข้ออบรมเป็นหัวข้อเดียวกันทั่วประเทศ (\"Digital Thai Thai\") ศูนย์มีหน้าที่จัดสถานที่ อำนวยความสะดวก และเปิดระบบออนไลน์ให้ผู้เข้าอบรมรับชมพร้อมกัน วิทยากรจะสอนเนื้อหาและเครื่องมือทำคอนเทนต์ให้ทั้งหมด"
+      },
+      {
+        q: "ศูนย์ในพื้นที่ภาคหนึ่ง แต่ติดกิจกรรมในวันอบรมของภาคตน สามารถเข้าร่วมกับภาคอื่นได้ไหม?",
+        a: "ได้ แต่แนะนำให้เข้าร่วมในพื้นที่ของตนเอง เนื่องจากเนื้อหาที่วิทยากรสอนจะแตกต่างกันตามแต่ละพื้นที่"
+      },
+      {
+        q: "วันที่ 31 กรกฎาคม 2569 คือกิจกรรมอะไร?",
+        a: "เป็นการประชุมชี้แจงขั้นตอนการเปิดระบบและการรายงานผล เวลา 09.00–12.00 น. รูปแบบออนไลน์ เฉพาะศูนย์ที่ได้รับคัดเลือกแล้ว"
+      }
+    ]
+  },
+  {
+    category: "5. การรายงานผลและผลงาน (คลิป/คอนเทนต์)",
+    items: [
+      {
+        q: "หลังอบรมต้องส่งอะไรบ้าง?",
+        a: "ต้องรายงานผลการอบรม ประกอบด้วย ใบลงชื่อผู้เข้าอบรม รูปภาพ/หลักฐานการจัดกิจกรรม (รวมอาหารและอาหารว่าง) และผลงานคลิปอัตลักษณ์ชุมชนอย่างน้อย 1 ชิ้นต่อศูนย์"
+      },
+      {
+        q: "ผลงานคลิปต้องเป็นผลงานของใคร?",
+        a: "เป็นผลงานของผู้เข้าร่วมอบรมหรือของผู้ดูแลศูนย์ก็ได้ อย่างน้อย 1 ชิ้นต่อศูนย์"
+      },
+      {
+        q: "หากไม่ส่งคลิปหลังอบรม จะมีผลอย่างไร?",
+        a: "จะไม่ได้รับสิทธิ์ในการรายงานผลครบถ้วน ซึ่งเป็นเงื่อนไขของการรับเกียรติบัตร เบิกจ่ายเงิน และสิทธิ์ลุ้นรางวัลต่าง ๆ"
+      },
+      {
+        q: "การประกวดชิงรางวัลคอนเทนต์ คืออะไร?",
+        a: "หลังอบรมเสร็จ จะเปิดรับผลงาน (ส่งในนามบุคคล) ผลงานที่ผ่านคัดเลือกประมาณ 30 ชิ้น จะถูกนำไปเผยแพร่ใน Facebook โครงการ และพิจารณาจากยอดวิว ไลก์ แชร์ ชิงรางวัลรวม 60,000 บาท"
+      }
+    ]
+  },
+  {
+    category: "6. เกียรติบัตรและรางวัล",
+    items: [
+      {
+        q: "ผู้เข้าอบรมทุกคนได้เกียรติบัตรหรือไม่?",
+        a: "ได้ทุกคนที่เข้าร่วม แต่รูปแบบต่างกัน:\n• 10 คนแรก ได้รับเกียรติบัตรฉบับจริง (พร้อมปก)\n• ส่วนที่เกินจาก 10 คน จะได้รับเป็น ไฟล์อิเล็กทรอนิกส์ (E-Cert) ให้ศูนย์นำไปจัดพิมพ์เอง"
+      },
+      {
+        q: "มีรางวัลอะไรอีกสำหรับศูนย์ที่เข้าร่วม?",
+        a: "ทุกศูนย์ที่เข้าร่วมกิจกรรมและส่งแผน/ผลงาน/เอกสารเบิกจ่ายครบถ้วน มีสิทธิ์ลุ้นรับรางวัล:\n\n• iPad ภาคละ 1 รางวัล\n• Huawei Watch Band 11 ภาคละ 25 รางวัล\n(รวมทั้งสิ้น 104 รางวัลทั่วประเทศ)\n\nจับรางวัลพร้อมกันแบบ Live โดยมีผู้อำนวยการกองดิจิทัลเพื่อสังคม สดช. เป็นประธาน (จะแจ้งกำหนดการอีกครั้ง)"
+      }
+    ]
+  },
+  {
+    category: "7. ช่องทางติดต่อ",
+    items: [
+      {
+        q: "ช่องทางติดต่อและติดตามข่าวสารโครงการ",
+        a: "• LINE OA (สอบถามข้อมูลส่วนบุคคล/ปัญหาการเข้าร่วมอบรม): https://lin.ee/UbholhU หรือ LINE ID: @303aelxe\n• เว็บไซต์โครงการ (ส่งแผน / ตรวจสอบสถานะ): https://www.l2e-dtt.online/\n• LINE OpenChat: สำหรับรับข่าวสารและประชาสัมพันธ์โครงการ"
+      }
+    ]
+  }
+];
+
+function renderAnswerWithLinks(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary font-bold underline hover:text-primary-container transition-colors break-all"
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 export default function Home() {
   const [applicantCount, setApplicantCount] = useState(null);
   const [reserveCount, setReserveCount] = useState(null);
@@ -27,6 +198,16 @@ export default function Home() {
   const [statusSearchKey, setStatusSearchKey] = useState("");
   const [statusResult, setStatusResult] = useState(null);
   const [checkingStatus, setCheckingStatus] = useState(false);
+
+  // FAQ State
+  const [openFaqs, setOpenFaqs] = useState({});
+
+  const toggleFaq = (key) => {
+    setOpenFaqs((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
 
   const handleCheckStatus = async (e) => {
     e.preventDefault();
@@ -126,8 +307,8 @@ export default function Home() {
               เช็คสถานะ
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
-            <Link href="#register" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
-              ช่องทางการสมัคร
+            <Link href="#faq" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+              คำถามที่พบบ่อย
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
           </div>
@@ -148,11 +329,11 @@ export default function Home() {
         </div>
 
         {/* Mobile Menu Dropdown */}
-        <div className={`lg:hidden absolute top-full left-0 w-full bg-surface-container-lowest border-b border-outline-variant/30 shadow-lg transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-[500px] py-6 opacity-100" : "max-h-0 py-0 opacity-0"} flex flex-col items-center gap-4`}>
+        <div className={`lg:hidden absolute top-full left-0 w-full bg-surface-container-lowest border-b border-outline-variant/30 shadow-lg transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-[600px] py-6 opacity-100" : "max-h-0 py-0 opacity-0"} flex flex-col items-center gap-4`}>
           <Link href="#schedule" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">กำหนดการ</Link>
           <Link href="#applicants" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">จำนวนผู้สมัคร</Link>
           <Link href="#check-status" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">เช็คสถานะ</Link>
-          <Link href="#register" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">ช่องทางการสมัคร</Link>
+          <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">คำถามที่พบบ่อย</Link>
 
           <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="bg-primary text-on-primary px-lg py-3 mt-2 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
             ลงทะเบียนเข้าร่วมโครงการ
@@ -764,7 +945,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="py-xl px-gutter max-w-container-max mx-auto w-full scroll-mt-24">
+        <div className="text-center mb-lg">
+          <h2 className="font-headline-lg text-headline-lg text-on-surface inline-block relative">
+            คำถามที่พบบ่อย (FAQ)
+            <div className="absolute -bottom-2 left-0 w-full h-1 bg-tertiary-fixed-dim rounded-full"></div>
+          </h2>
+          <p className="text-on-surface-variant font-body-lg mt-4 max-w-2xl mx-auto">
+            คำถามและคำตอบที่พบบ่อยเกี่ยวกับโครงการ Digital Thai Thai
+          </p>
+        </div>
 
+        <div className="flex flex-col gap-lg max-w-4xl mx-auto">
+          {FAQ_DATA.map((cat, catIdx) => (
+            <div key={catIdx} className="glass-card p-md md:p-lg rounded-2xl shadow-sm bg-surface-container-lowest border border-outline-variant/30">
+              <h3 className="font-headline-md text-[20px] md:text-[22px] text-primary border-b border-outline-variant/30 pb-sm mb-md flex items-center gap-2">
+                <span className="material-symbols-outlined text-[26px]">quiz</span>
+                {cat.category}
+              </h3>
+
+              <div className="flex flex-col gap-sm">
+                {cat.items.map((item, itemIdx) => {
+                  const faqKey = `${catIdx}-${itemIdx}`;
+                  const isOpen = openFaqs[faqKey];
+                  return (
+                    <div 
+                      key={itemIdx}
+                      className="border border-outline-variant/20 rounded-xl overflow-hidden bg-surface-container-low/30 transition-all"
+                    >
+                      <button
+                        onClick={() => toggleFaq(faqKey)}
+                        className="w-full p-4 text-left font-headline-md text-[16px] md:text-[18px] text-on-surface flex justify-between items-center gap-4 hover:bg-surface-container-high/40 transition-colors"
+                      >
+                        <span className="flex items-start gap-2.5">
+                          <span className="text-primary font-bold shrink-0">Q:</span>
+                          <span className="leading-snug">{item.q}</span>
+                        </span>
+                        <span className={`material-symbols-outlined text-primary transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}>
+                          keyboard_arrow_down
+                        </span>
+                      </button>
+
+                      {isOpen && (
+                        <div className="p-4 pt-3 border-t border-outline-variant/10 text-on-surface-variant font-body-md whitespace-pre-line bg-surface-container-lowest/90 leading-relaxed">
+                          <span className="text-tertiary font-bold mr-1.5">A:</span>
+                          {renderAnswerWithLinks(item.a)}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-surface-container-lowest full-width relative border-t border-outline-variant/30 mt-xl">
