@@ -812,9 +812,13 @@ export default function Home() {
                   <p className={`font-headline-xl text-[36px] font-bold ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : ''}`}>
                     {statusResult.data.status}
                   </p>
-                  {statusResult.data.status.includes('ไม่อนุมัติ') && statusResult.data.remark && (
-                    <div className="mt-2 p-4 bg-surface-container-lowest border border-error/20 rounded-xl w-full max-w-md text-left shadow-sm" style={{ minWidth: 'min(100%, 400px)' }}>
-                      <p className="font-body-md text-error font-bold flex items-center gap-1">
+                  {statusResult.data.remark && (
+                    <div className={`mt-2 p-4 bg-surface-container-lowest border rounded-xl w-full max-w-md text-left shadow-sm ${
+                      statusResult.data.status.includes('ไม่อนุมัติ') ? 'border-error/20' : 'border-primary/20'
+                    }`} style={{ minWidth: 'min(100%, 400px)' }}>
+                      <p className={`font-body-md font-bold flex items-center gap-1 ${
+                        statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : 'text-primary'
+                      }`}>
                         <span className="material-symbols-outlined text-[18px]">info</span>
                         หมายเหตุ:
                       </p>
