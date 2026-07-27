@@ -25,7 +25,7 @@ const FAQ_DATA = [
       },
       {
         q: "ลงทะเบียนได้ถึงวันไหน?",
-        a: "ลงทะเบียนและส่งแผนได้ถึงวันที่ 27 กรกฎาคม 2569"
+        a: "ลงทะเบียนและส่งแผนได้ถึงวันที่ 31 กรกฎาคม 2569"
       },
       {
         q: "ถ้าหาผู้เข้าอบรมไม่ครบ 10 คน หรือหาไม่ได้เลย ต้องทำอย่างไร?",
@@ -925,8 +925,14 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-sm text-on-primary/80 font-body-sm">เปิดรับสมัครตั้งแต่วันนี้ถึง</p>
-                <p className="font-bold text-[20px] text-tertiary-fixed-dim tracking-wide drop-shadow-sm">27 กรกฎาคม 2569</p>
+                <p className="font-bold text-[20px] text-tertiary-fixed-dim tracking-wide drop-shadow-sm">31 กรกฎาคม 2569</p>
               </div>
+            </div>
+            <div className="text-sm text-on-primary/90 bg-on-primary/10 p-3.5 rounded-xl border border-on-primary/20 flex items-start gap-2.5 backdrop-blur-md">
+              <span className="material-symbols-outlined text-tertiary-fixed-dim text-[20px] shrink-0 mt-0.5">info</span>
+              <p className="font-body-sm leading-relaxed">
+                <b>หมายเหตุ:</b> หาก ณ วันที่ 31 กรกฎาคม ยังหาผู้เข้าร่วมไม่ได้แต่สนใจกิจกรรม สามารถส่งแผนโดยไม่ต้องแนบรายชื่อก่อนได้ แต่วันอบรมต้องยืนยันว่าสามารถหาผู้เข้าร่วมได้
+              </p>
             </div>
             <div className="mt-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
               <a href={GOOGLE_FORM_URL} target="_blank" rel="noreferrer" className="bg-tertiary-fixed-dim text-on-tertiary-container px-8 py-3 rounded-full font-headline-md text-[20px] hover:bg-[#c8cc42] hover:-translate-y-1 transition-all shadow-lg flex items-center gap-2 group">
