@@ -7,6 +7,11 @@ import Link from "next/link";
 // วางลิงก์ Google Form ของคุณที่นี่ 👇
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfnb_lfCQB87XVmLcqkdEprON7QNem1-4x_rhVFA0EcVxdB2Q/viewform?usp=dialog";
 
+// ลิงก์สำหรับเมนูดรอปดาวน์ "รายงานผล" 👇
+const REPORT_ACTIVITY_URL = "#check-status"; // ลิงก์รายงานผลการจัดกิจกรรม
+const CONTEST_MEDIA_URL = "#"; // ลิงก์แบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)
+const DAILY_ACTIVITY_URL = "#"; // ลิงก์แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)
+
 const FAQ_DATA = [
   {
     category: "1. การสมัครและคุณสมบัติศูนย์",
@@ -178,6 +183,8 @@ function renderAnswerWithLinks(text) {
   });
 }
 
+const SHOW_ECERT_LINK = false; // Toggle to true when ready to show E-Cert in nav bar
+
 export default function Home() {
   const [applicantCount, setApplicantCount] = useState(null);
   const [reserveCount, setReserveCount] = useState(null);
@@ -282,7 +289,7 @@ export default function Home() {
     <main className="flex-grow">
       {/* Top Navigation */}
       <nav className="bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-xl docked full-width top-0 sticky border-b border-outline-variant/30 shadow-sm z-50">
-        <div className="flex justify-between items-center w-full px-gutter py-sm max-w-container-max mx-auto relative">
+        <div className="flex justify-between items-center w-full px-6 sm:px-10 lg:px-12 py-sm relative">
           <div className="flex items-center gap-md">
             <Link href="#" className="flex items-center gap-2 group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -307,11 +314,63 @@ export default function Home() {
               เช็คสถานะ
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
+            <Link href="#conditions" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+              รวมเอกสาร
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+
+            {/* Dropdown "รายงานผล" */}
+            <div className="relative group py-2">
+              <button className="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1 cursor-pointer">
+                รายงานผล
+                <span className="material-symbols-outlined text-[18px] transition-transform group-hover:rotate-180">expand_more</span>
+              </button>
+
+              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-1 w-[370px] hidden group-hover:block animate-fadeIn z-50 before:absolute before:-top-4 before:left-0 before:w-full before:h-6">
+                <div className="bg-white/95 dark:bg-surface-container-lowest/95 backdrop-blur-md rounded-2xl shadow-xl border border-outline-variant/30 py-2.5 overflow-hidden whitespace-nowrap">
+                  <Link
+                    href={REPORT_ACTIVITY_URL}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[20px] text-primary shrink-0">assessment</span>
+                    <span>รายงานผลการจัดกิจกรรม</span>
+                  </Link>
+
+                  <a
+                    href={CONTEST_MEDIA_URL}
+                    target={CONTEST_MEDIA_URL.startsWith("http") ? "_blank" : "_self"}
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[20px] text-amber-500 shrink-0">emoji_events</span>
+                    <span>เเบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)</span>
+                  </a>
+
+                  <a
+                    href={DAILY_ACTIVITY_URL}
+                    target={DAILY_ACTIVITY_URL.startsWith("http") ? "_blank" : "_self"}
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[20px] text-emerald-600 shrink-0">sports_esports</span>
+                    <span>เเบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
             <Link href="#faq" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
               คำถามที่พบบ่อย
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
+            {SHOW_ECERT_LINK && (
+              <Link href="/e-cert" className="group relative text-emerald-700 hover:text-emerald-900 font-bold transition-colors font-label-md text-label-md py-1 flex items-center gap-1 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200 shadow-sm hover:shadow">
+                <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
+                ออกใบประกาศ E-Cert
+              </Link>
+            )}
           </div>
+
           <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="hidden lg:flex bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-1 transition-all duration-300 shadow-sm items-center gap-2">
             ลงทะเบียนเข้าร่วมโครงการ
             <span className="material-symbols-outlined text-[18px]">open_in_new</span>
@@ -329,11 +388,35 @@ export default function Home() {
         </div>
 
         {/* Mobile Menu Dropdown */}
-        <div className={`lg:hidden absolute top-full left-0 w-full bg-surface-container-lowest border-b border-outline-variant/30 shadow-lg transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-[600px] py-6 opacity-100" : "max-h-0 py-0 opacity-0"} flex flex-col items-center gap-4`}>
+        <div className={`lg:hidden absolute top-full left-0 w-full bg-surface-container-lowest border-b border-outline-variant/30 shadow-lg transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-[750px] py-6 opacity-100" : "max-h-0 py-0 opacity-0"} flex flex-col items-center gap-3`}>
           <Link href="#schedule" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">กำหนดการ</Link>
           <Link href="#applicants" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">จำนวนผู้สมัคร</Link>
           <Link href="#check-status" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">เช็คสถานะ</Link>
+          <Link href="#conditions" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">รวมเอกสาร</Link>
+
+          <div className="w-4/5 border-t border-outline-variant/30 my-1"></div>
+          <span className="text-xs font-bold text-on-surface-variant/70 uppercase tracking-wider">รายงานผล</span>
+          <Link href={REPORT_ACTIVITY_URL} onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[15px] w-full text-center py-1.5 flex items-center justify-center gap-2">
+            <span className="material-symbols-outlined text-[18px] text-primary">assessment</span>
+            รายงานผลการจัดกิจกรรม
+          </Link>
+          <a href={CONTEST_MEDIA_URL} target={CONTEST_MEDIA_URL.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[15px] w-full text-center py-1.5 flex items-center justify-center gap-2 px-4">
+            <span className="material-symbols-outlined text-[18px] text-amber-500 shrink-0">emoji_events</span>
+            <span>เเบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)</span>
+          </a>
+          <a href={DAILY_ACTIVITY_URL} target={DAILY_ACTIVITY_URL.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[15px] w-full text-center py-1.5 flex items-center justify-center gap-2 px-4">
+            <span className="material-symbols-outlined text-[18px] text-emerald-600 shrink-0">sports_esports</span>
+            <span>เเบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)</span>
+          </a>
+          <div className="w-4/5 border-t border-outline-variant/30 my-1"></div>
+
           <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">คำถามที่พบบ่อย</Link>
+          {SHOW_ECERT_LINK && (
+            <Link href="/e-cert" onClick={() => setIsMenuOpen(false)} className="text-emerald-700 font-bold font-headline-md text-[17px] w-full text-center py-2 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-center gap-2">
+              <span className="material-symbols-outlined text-[20px] text-emerald-600">workspace_premium</span>
+              ออกใบประกาศ E-Cert
+            </Link>
+          )}
 
           <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="bg-primary text-on-primary px-lg py-3 mt-2 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
             ลงทะเบียนเข้าร่วมโครงการ
@@ -471,10 +554,15 @@ export default function Home() {
               <p className="text-on-surface-variant mt-2 font-body-sm leading-snug flex-grow">
                 จัดประชุมชี้แจงเจ้าหน้าที่ผู้ดูแลศูนย์ดิจิทัลชุมชน เพื่อแจ้งรายละเอียดกิจกรรม
               </p>
-              <p className="text-primary flex items-center gap-1 mt-3 font-body-md font-bold">
-                <span className="material-symbols-outlined text-[18px]">videocam</span>
-                จัด Online
-              </p>
+              <a
+                href="https://www.youtube.com/live/Nb5iE-Fw7rk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red-600 hover:text-red-700 dark:text-red-400 flex items-center gap-1 mt-3 font-body-md font-bold transition-colors w-fit group/replay"
+              >
+                <span className="material-symbols-outlined text-[18px] text-red-600 group-hover/replay:rotate-[-45deg] transition-transform">replay</span>
+                <span className="hover:underline">ดูย้อนหลัง</span>
+              </a>
             </div>
           </div>
 
@@ -782,10 +870,10 @@ export default function Home() {
             <div className={`mt-lg p-lg rounded-2xl border-l-4 animate-[fadeIn_0.3s_ease-out] ${statusResult.error ? 'bg-error-container text-on-error-container border-l-error' :
               !statusResult.found ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
                 statusResult.data?.status?.includes('ไม่อนุมัติ') ? 'bg-error-container text-on-error-container border-l-error' :
-                statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
-                statusResult.data?.status?.includes('รอตรวจ') ? 'bg-secondary-container text-on-secondary-container border-l-secondary' :
-                statusResult.data?.status?.includes('ยังไม่ส่งแผน') ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
-                  'bg-primary/10 text-primary border-l-primary'
+                  statusResult.data?.status?.includes('สำรอง') ? 'bg-tertiary-fixed text-on-tertiary-container border-l-tertiary-fixed-dim' :
+                    statusResult.data?.status?.includes('รอตรวจ') ? 'bg-secondary-container text-on-secondary-container border-l-secondary' :
+                      statusResult.data?.status?.includes('ยังไม่ส่งแผน') ? 'bg-surface-container-highest text-on-surface-variant border-l-outline' :
+                        'bg-primary/10 text-primary border-l-primary'
               }`}>
               {statusResult.error ? (
                 <div className="flex flex-col items-center gap-2">
@@ -801,10 +889,10 @@ export default function Home() {
               ) : (
                 <div className="flex flex-col items-center gap-2 w-full">
                   <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    {statusResult.data.status.includes('ไม่อนุมัติ') ? 'cancel' : 
-                     statusResult.data.status.includes('สำรอง') ? 'hourglass_empty' : 
-                     statusResult.data.status.includes('รอตรวจ') ? 'pending_actions' : 
-                     statusResult.data.status.includes('ยังไม่ส่งแผน') ? 'assignment_late' : 'verified'}
+                    {statusResult.data.status.includes('ไม่อนุมัติ') ? 'cancel' :
+                      statusResult.data.status.includes('สำรอง') ? 'hourglass_empty' :
+                        statusResult.data.status.includes('รอตรวจ') ? 'pending_actions' :
+                          statusResult.data.status.includes('ยังไม่ส่งแผน') ? 'assignment_late' : 'verified'}
                   </span>
                   <p className="font-body-lg text-on-surface-variant mb-1">
                     พบข้อมูลของคุณ: <span className="font-bold">{statusResult.data.name}</span>
@@ -813,12 +901,10 @@ export default function Home() {
                     {statusResult.data.status}
                   </p>
                   {statusResult.data.remark && (
-                    <div className={`mt-2 p-4 bg-surface-container-lowest border rounded-xl w-full max-w-md text-left shadow-sm ${
-                      statusResult.data.status.includes('ไม่อนุมัติ') ? 'border-error/20' : 'border-primary/20'
-                    }`} style={{ minWidth: 'min(100%, 400px)' }}>
-                      <p className={`font-body-md font-bold flex items-center gap-1 ${
-                        statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : 'text-primary'
-                      }`}>
+                    <div className={`mt-2 p-4 bg-surface-container-lowest border rounded-xl w-full max-w-md text-left shadow-sm ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'border-error/20' : 'border-primary/20'
+                      }`} style={{ minWidth: 'min(100%, 400px)' }}>
+                      <p className={`font-body-md font-bold flex items-center gap-1 ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : 'text-primary'
+                        }`}>
                         <span className="material-symbols-outlined text-[18px]">info</span>
                         หมายเหตุ:
                       </p>
@@ -955,6 +1041,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* E-Cert Banner Section (Hidden until SHOW_ECERT_LINK is enabled) */}
+      {SHOW_ECERT_LINK && (
+        <section className="py-md px-gutter max-w-container-max mx-auto w-full pt-8">
+          <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-500/30">
+            <div className="z-10 space-y-2 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 bg-emerald-500/30 border border-emerald-400/40 px-3 py-1 rounded-full text-xs font-bold text-emerald-200">
+                ✨ ใหม่! ระบบ Self-Service สำหรับผู้ดูแลศูนย์
+              </div>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-white">
+                ระบบออกใบประกาศนียบัตรอิเล็กทรอนิกส์ (E-Cert)
+              </h2>
+              <p className="text-emerald-100 text-sm md:text-base max-w-2xl">
+                ผู้ดูแลศูนย์สามารถออกใบประกาศพร้อม QR Code ยืนยันสิทธิ์สำหรับผู้เข้าร่วมอบรมได้ทันทีด้วยตนเอง
+              </p>
+            </div>
+            <Link
+              href="/e-cert"
+              className="z-10 shrink-0 bg-gradient-to-r from-emerald-400 to-teal-400 text-emerald-950 font-bold px-6 py-3.5 rounded-full hover:shadow-lg hover:scale-105 transition-all text-sm md:text-base inline-flex items-center gap-2 whitespace-nowrap"
+            >
+              ออกใบประกาศ E-Cert
+              <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* FAQ Section */}
       <section id="faq" className="py-xl px-gutter max-w-container-max mx-auto w-full scroll-mt-24">
         <div className="text-center mb-lg">
@@ -980,7 +1092,7 @@ export default function Home() {
                   const faqKey = `${catIdx}-${itemIdx}`;
                   const isOpen = openFaqs[faqKey];
                   return (
-                    <div 
+                    <div
                       key={itemIdx}
                       className="border border-outline-variant/20 rounded-xl overflow-hidden bg-surface-container-low/30 transition-all"
                     >
