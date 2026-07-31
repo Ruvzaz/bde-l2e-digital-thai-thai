@@ -20,19 +20,27 @@ export default function ECertCanvas({
 
   const {
     certCode = "L2E-2026-DEMO",
+    prefix = "",
     firstName = "",
     lastName = "",
-    fullName = "สมชาย ใจดี",
+    fullName = "นายสมชาย ใจดี",
     centerName = "ศูนย์ดิจิทัลชุมชนตัวอย่าง",
     centerCode = "0000",
     issueDate = "31 กรกฎาคม 2569",
     verifyLink = "",
   } = certData || {};
 
-  // Display Name WITHOUT prefix (คำนำหน้า)
-  const displayName = (firstName || lastName)
-    ? `${firstName} ${lastName}`.trim()
-    : fullName.replace(/^(นาย|นางสาว|นาง|เด็กชาย|เด็กหญิง|ด\.ช\.|ด\.ญ\.)\s*/, "").trim();
+  // Display Name WITH prefix attached directly to firstName without space (e.g. นายสมชาย ใจดี, Mr.John Smith)
+  const p = (prefix || "").trim();
+  const fn = (firstName || "").trim();
+  const ln = (lastName || "").trim();
+
+  let displayName = "";
+  if (p || fn || ln) {
+    displayName = `${p}${fn}${ln ? ' ' + ln : ''}`.trim();
+  } else {
+    displayName = (fullName || "").trim();
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -71,10 +79,10 @@ export default function ECertCanvas({
         // Draw the Official Template.png as the base image
         ctx.drawImage(templateImg, 0, 0, width, height);
 
-        // 1. Recipient Full Name without prefix (Positioned in white space under CERTIFICATE OF APPRECIATION)
+        // 1. Recipient Full Name with prefix attached to first name
         const nameY = 640; // Lowered Y position to avoid overlapping "OF APPRECIATION"
         ctx.textAlign = "center";
-        ctx.font = "bold 56px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.font = "bold 65px 'Be Vietnam Pro', 'Prompt', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(displayName, width / 2, nameY);
 
@@ -134,7 +142,7 @@ export default function ECertCanvas({
 
         // Recipient Name
         const nameY = 510;
-        ctx.font = "bold 64px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.font = "bold 74px 'Be Vietnam Pro', 'Prompt', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(displayName, width / 2, nameY);
 

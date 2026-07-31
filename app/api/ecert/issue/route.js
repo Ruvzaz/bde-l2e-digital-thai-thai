@@ -120,7 +120,7 @@ export async function POST(request) {
       const prefix = (item.prefix || '').trim();
       const firstName = (item.firstName || '').trim();
       const lastName = (item.lastName || '').trim();
-      const fullName = `${prefix}${prefix ? ' ' : ''}${firstName} ${lastName}`.trim();
+      const fullName = `${prefix}${firstName}${lastName ? ' ' + lastName : ''}`.trim();
 
       if (!firstName) continue;
 

@@ -7,7 +7,17 @@ import QRCode from "qrcode";
 
 import ECertCanvas from "@/components/ECertCanvas";
 
-const PREFIX_OPTIONS = ["นาย", "นาง", "นางสาว", "เด็กชาย", "เด็กหญิง", "อื่นๆ"];
+const PREFIX_OPTIONS = [
+  "นาย",
+  "นาง",
+  "นางสาว",
+  "เด็กชาย",
+  "เด็กหญิง",
+  "Mr.",
+  "Mrs.",
+  "Ms.",
+  "อื่นๆ",
+];
 
 const ACTIVITY_DATE_OPTIONS = [
   { value: "3 สิงหาคม 2569", label: "3 สิงหาคม 2569 (ครั้งที่ 1 - ภาคเหนือ)" },
@@ -114,7 +124,7 @@ export default function ECertPage() {
       if (qty > prev.length) {
         const next = [...prev];
         for (let i = prev.length + 1; i <= qty; i++) {
-          next.push({ id: i, prefix: "นาย", firstName: "", lastName: "" });
+          next.push({ id: i, prefix: "นาย", customPrefix: "", firstName: "", lastName: "" });
         }
         return next;
       } else {
@@ -133,7 +143,8 @@ export default function ECertPage() {
     const dups = [];
 
     next.forEach((item, idx) => {
-      const full = `${item.prefix}${item.prefix ? ' ' : ''}${item.firstName.trim()} ${item.lastName.trim()}`.trim();
+      const activePrefix = item.prefix === "อื่นๆ" ? (item.customPrefix || "").trim() : item.prefix;
+      const full = `${activePrefix}${activePrefix ? ' ' : ''}${item.firstName.trim()} ${item.lastName.trim()}`.trim();
       if (item.firstName.trim()) {
         if (nameCounts[full]) {
           dups.push(full);
@@ -148,8 +159,17 @@ export default function ECertPage() {
 
   // Step 2 Submission: Issue Certificates
   const handleIssueCertificates = async () => {
-    // Validate that at least first recipient has name
-    const validRecipients = recipients.filter((r) => r.firstName.trim() !== "");
+    // Validate that at least first recipient has name and resolve customPrefix if selected
+    const validRecipients = recipients
+      .filter((r) => r.firstName.trim() !== "")
+      .map((r) => {
+        const finalPrefix = r.prefix === "อื่นๆ" ? (r.customPrefix || "").trim() : r.prefix;
+        return {
+          ...r,
+          prefix: finalPrefix,
+        };
+      });
+
     if (validRecipients.length === 0) {
       setIssueError("กรุณากรอกชื่อและนามสกุลของผู้รับใบประกาศอย่างน้อย 1 ท่าน");
       return;
@@ -227,10 +247,17 @@ export default function ECertPage() {
       canvas.height = 1414;
       const ctx = canvas.getContext("2d");
 
-      // Extract display name without prefix
-      const displayName = (cert.firstName || cert.lastName)
-        ? `${cert.firstName || ""} ${cert.lastName || ""}`.trim()
-        : (cert.fullName || "").replace(/^(นาย|นางสาว|นาง|เด็กชาย|เด็กหญิง|ด\.ช\.|ด\.ญ\.)\s*/, "").trim();
+      // Extract display name with prefix attached directly to first name
+      const p = (cert.prefix || "").trim();
+      const fn = (cert.firstName || "").trim();
+      const ln = (cert.lastName || "").trim();
+
+      let displayName = "";
+      if (p || fn || ln) {
+        displayName = `${p}${fn}${ln ? ' ' + ln : ''}`.trim();
+      } else {
+        displayName = (cert.fullName || "").trim();
+      }
 
       // Extract day number
       const dayMatch = (cert.issueDate || "").match(/\d+/);
@@ -243,9 +270,9 @@ export default function ECertPage() {
         // Draw Template Image as background
         ctx.drawImage(templateImg, 0, 0, 2000, 1414);
 
-        // Recipient Name (No Prefix)
+        // Recipient Name (Font Size +15%: 56px -> 65px)
         ctx.textAlign = "center";
-        ctx.font = "bold 56px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.font = "bold 65px 'Be Vietnam Pro', 'Prompt', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(displayName, 1000, 640);
 
@@ -353,33 +380,30 @@ export default function ECertPage() {
         <div className="mb-10 bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-emerald-100 shadow-sm">
           <div className="grid grid-cols-3 gap-2 text-center text-sm font-semibold">
             <div
-              className={`py-2.5 rounded-xl transition-all ${
-                step === 1
-                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-200"
-                  : step > 1
+              className={`py-2.5 rounded-xl transition-all ${step === 1
+                ? "bg-emerald-600 text-white shadow-md shadow-emerald-200"
+                : step > 1
                   ? "bg-emerald-100 text-emerald-800"
                   : "bg-emerald-50/50 text-emerald-400"
-              }`}
+                }`}
             >
               1. ยืนยันสิทธิ์ผู้ดูแลศูนย์
             </div>
             <div
-              className={`py-2.5 rounded-xl transition-all ${
-                step === 2
-                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-200"
-                  : step > 2
+              className={`py-2.5 rounded-xl transition-all ${step === 2
+                ? "bg-emerald-600 text-white shadow-md shadow-emerald-200"
+                : step > 2
                   ? "bg-emerald-100 text-emerald-800"
                   : "bg-emerald-50/50 text-emerald-400"
-              }`}
+                }`}
             >
               2. กรอกรายชื่อผู้รับใบประกาศ
             </div>
             <div
-              className={`py-2.5 rounded-xl transition-all ${
-                step === 3
-                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-200"
-                  : "bg-emerald-50/50 text-emerald-400"
-              }`}
+              className={`py-2.5 rounded-xl transition-all ${step === 3
+                ? "bg-emerald-600 text-white shadow-md shadow-emerald-200"
+                : "bg-emerald-50/50 text-emerald-400"
+                }`}
             >
               3. รับใบประกาศ & ดาวน์โหลด
             </div>
@@ -451,11 +475,10 @@ export default function ECertPage() {
                   )}
 
                   {adminAuthError && (
-                    <div className={`p-3.5 rounded-xl text-sm font-medium border ${
-                      adminAuthError.startsWith('🔔') 
-                        ? 'bg-amber-50 text-amber-800 border-amber-200' 
-                        : 'bg-red-50 text-red-700 border-red-200'
-                    }`}>
+                    <div className={`p-3.5 rounded-xl text-sm font-medium border ${adminAuthError.startsWith('🔔')
+                      ? 'bg-amber-50 text-amber-800 border-amber-200'
+                      : 'bg-red-50 text-red-700 border-red-200'
+                      }`}>
                       {adminAuthError}
                     </div>
                   )}
@@ -468,8 +491,8 @@ export default function ECertPage() {
                     {isVerifyingAdmin
                       ? "กำลังตรวจสอบ..."
                       : showNameField
-                      ? "ยืนยันการลงทะเบียนชื่อและดึงข้อมูลศูนย์ →"
-                      : "ตรวจสอบสิทธิ์เข้าใช้งาน"}
+                        ? "ยืนยันการลงทะเบียนชื่อและดึงข้อมูลศูนย์ →"
+                        : "ตรวจสอบสิทธิ์เข้าใช้งาน"}
                   </button>
                 </form>
               ) : (
@@ -661,7 +684,7 @@ export default function ECertPage() {
                       {index + 1}
                     </div>
 
-                    <div className="w-full sm:w-32 shrink-0">
+                    <div className="w-full sm:w-36 shrink-0 flex flex-col gap-1.5">
                       <select
                         value={item.prefix}
                         onChange={(e) =>
@@ -675,6 +698,19 @@ export default function ECertPage() {
                           </option>
                         ))}
                       </select>
+
+                      {item.prefix === "อื่นๆ" && (
+                        <input
+                          type="text"
+                          placeholder="ระบุคำนำหน้า..."
+                          value={item.customPrefix || ""}
+                          onChange={(e) =>
+                            handleRecipientChange(index, "customPrefix", e.target.value)
+                          }
+                          className="w-full px-3 py-1.5 rounded-lg border border-emerald-300 bg-amber-50/50 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-500 animate-fadeIn"
+                          autoFocus
+                        />
+                      )}
                     </div>
 
                     <div className="flex-1">
