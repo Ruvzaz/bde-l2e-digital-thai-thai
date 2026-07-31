@@ -8,9 +8,9 @@ import Link from "next/link";
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfnb_lfCQB87XVmLcqkdEprON7QNem1-4x_rhVFA0EcVxdB2Q/viewform?usp=dialog";
 
 // ลิงก์สำหรับเมนูดรอปดาวน์ "รายงานผล" 👇
-const REPORT_ACTIVITY_URL = "#check-status"; // ลิงก์รายงานผลการจัดกิจกรรม
-const CONTEST_MEDIA_URL = "#"; // ลิงก์แบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)
-const DAILY_ACTIVITY_URL = "#"; // ลิงก์แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)
+const REPORT_ACTIVITY_URL = "https://forms.gle/L6wBEVgQcLBMGxh18"; // ลิงก์รายงานผลการจัดกิจกรรม
+const CONTEST_MEDIA_URL = "https://forms.gle/U8jrmGeXMS5oRqEq7"; // ลิงก์แบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)
+const DAILY_ACTIVITY_URL = "https://forms.gle/mxyKsMtcbhUVAVbk7"; // ลิงก์แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)
 
 const FAQ_DATA = [
   {
