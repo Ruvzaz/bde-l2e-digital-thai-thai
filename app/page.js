@@ -143,7 +143,7 @@ const FAQ_DATA = [
     items: [
       {
         q: "ผู้เข้าอบรมทุกคนได้เกียรติบัตรหรือไม่?",
-        a: "ได้ทุกคนที่เข้าร่วม แต่รูปแบบต่างกัน:\n• 10 คนแรก ได้รับเกียรติบัตรฉบับจริง (พร้อมปก)\n• ส่วนที่เกินจาก 10 คน จะได้รับเป็น ไฟล์อิเล็กทรอนิกส์ (E-Cert) ให้ศูนย์นำไปจัดพิมพ์เอง"
+        a: "ได้ทุกคนที่เข้าร่วม แต่รูปแบบต่างกัน:\n• 10 คนแรก ได้รับเกียรติบัตรฉบับจริง (พร้อมปก)\n• ส่วนที่เกินจาก 10 คน จะได้รับเป็น ไฟล์อิเล็กทรอนิกส์ (E-Cert) ที่ออกจากระบบ Self Service E-Cert\n ด้วยผู้ดูแลศูนย์ และให้ศูนย์นำไปจัดพิมพ์เอง"
       },
       {
         q: "มีรางวัลอะไรอีกสำหรับศูนย์ที่เข้าร่วม?",
@@ -157,6 +157,15 @@ const FAQ_DATA = [
       {
         q: "ช่องทางติดต่อและติดตามข่าวสารโครงการ",
         a: "• LINE OA (สอบถามข้อมูลส่วนบุคคล/ปัญหาการเข้าร่วมอบรม): https://lin.ee/UbholhU หรือ LINE ID: @303aelxe\n• เว็บไซต์โครงการ (ส่งแผน / ตรวจสอบสถานะ): https://www.l2e-dtt.online/\n• LINE OpenChat: สำหรับรับข่าวสารและประชาสัมพันธ์โครงการ"
+      }
+    ]
+  },
+  {
+    category: "8. ช่องทางการส่งเอกสาร",
+    items: [
+      {
+        q: "ส่งเอกสารได้ที่ไหนครับ ?",
+        a: "บริษัท ไพร์ม ดิจิทัล คอนซัลแทนท์ จำกัด 39/19 หมู่ที่ 6 ตำบลสามพราน อำเภอสามพราน จ.นครปฐม 73110\n โทร. 0829416199"
       }
     ]
   }
@@ -1011,13 +1020,13 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-sm text-on-primary/80 font-body-sm">เปิดรับสมัครตั้งแต่วันนี้ถึง</p>
-                <p className="font-bold text-[20px] text-tertiary-fixed-dim tracking-wide drop-shadow-sm">31 กรกฎาคม 2569</p>
+                <p className="font-bold text-[20px] text-tertiary-fixed-dim tracking-wide drop-shadow-sm">10 สิงหาคม 2569</p>
               </div>
             </div>
             <div className="text-sm text-on-primary/90 bg-on-primary/10 p-3.5 rounded-xl border border-on-primary/20 flex items-start gap-2.5 backdrop-blur-md">
               <span className="material-symbols-outlined text-tertiary-fixed-dim text-[20px] shrink-0 mt-0.5">info</span>
               <p className="font-body-sm leading-relaxed">
-                <b>หมายเหตุ:</b> หาก ณ วันที่ 31 กรกฎาคม ยังหาผู้เข้าร่วมไม่ได้แต่สนใจกิจกรรม สามารถส่งแผนโดยไม่ต้องแนบรายชื่อก่อนได้ แต่วันอบรมต้องยืนยันว่าสามารถหาผู้เข้าร่วมได้
+                <b>หมายเหตุ:</b> หากยังหาผู้เข้าร่วมไม่ได้แต่สนใจกิจกรรม สามารถส่งแผนโดย<br></br>ไม่ต้องแนบรายชื่อก่อนได้ แต่วันอบรมต้องยืนยันว่าสามารถหาผู้เข้าร่วมได้
               </p>
             </div>
             <div className="mt-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
