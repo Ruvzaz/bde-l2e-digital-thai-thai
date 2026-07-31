@@ -11,6 +11,7 @@ const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfnb_lfCQB87XV
 const REPORT_ACTIVITY_URL = "https://forms.gle/L6wBEVgQcLBMGxh18"; // ลิงก์รายงานผลการจัดกิจกรรม
 const CONTEST_MEDIA_URL = "https://forms.gle/U8jrmGeXMS5oRqEq7"; // ลิงก์แบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)
 const DAILY_ACTIVITY_URL = "https://forms.gle/mxyKsMtcbhUVAVbk7"; // ลิงก์แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)
+const DOCUMENTS_URL = "https://drive.google.com/drive/folders/1VaslNzay-6-0fn8rfFmbHxx0vpEWh1a4"; // ลิงก์รวมเอกสาร
 
 const FAQ_DATA = [
   {
@@ -323,10 +324,15 @@ export default function Home() {
               เช็คสถานะ
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
-            <Link href="#conditions" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+            <a
+              href={DOCUMENTS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1"
+            >
               รวมเอกสาร
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
+            </a>
 
             {/* Dropdown "รายงานผล" */}
             <div className="relative group py-2">
@@ -401,7 +407,15 @@ export default function Home() {
           <Link href="#schedule" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">กำหนดการ</Link>
           <Link href="#applicants" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">จำนวนผู้สมัคร</Link>
           <Link href="#check-status" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">เช็คสถานะ</Link>
-          <Link href="#conditions" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">รวมเอกสาร</Link>
+          <a
+            href={DOCUMENTS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsMenuOpen(false)}
+            className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2"
+          >
+            รวมเอกสาร
+          </a>
 
           <div className="w-4/5 border-t border-outline-variant/30 my-1"></div>
           <span className="text-xs font-bold text-on-surface-variant/70 uppercase tracking-wider">รายงานผล</span>
