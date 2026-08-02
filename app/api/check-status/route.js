@@ -12,6 +12,7 @@ const CONFIG = {
   EMAIL_COL: 6,    // คอลัมน์ G "Email"
   STATUS_COL: 9,   // คอลัมน์ J "สถานะการคัดเลือก"
   REMARK_COL: 10,  // คอลัมน์ K "หมายเหตุ"
+  TRANSFER_STATUS_COL: 19, // คอลัมน์ T "สถานะการโอน"
 };
 
 export async function POST(request) {
@@ -53,6 +54,8 @@ export async function POST(request) {
       const phone = (row[CONFIG.PHONE_COL] || '').toString().trim();
       const status = (row[CONFIG.STATUS_COL] || '').toString().trim();
       const remark = (row[CONFIG.REMARK_COL] || '').toString().trim();
+      const transferStatusRaw = (row[CONFIG.TRANSFER_STATUS_COL] || '').toString().trim();
+      const transferStatus = transferStatusRaw === '#N/A' ? '' : transferStatusRaw;
 
       // ข้ามแถวที่ข้อมูลเป็น #N/A (หมายความว่ายังไม่มีคนกรอกข้อมูลสำหรับศูนย์นี้)
       if (name === '#N/A' || phone === '#N/A' || email === '#N/A') continue;
@@ -66,7 +69,8 @@ export async function POST(request) {
         foundData = {
           name: name,
           status: status || 'ยังไม่ส่งแผน',
-          remark: remark // ส่งหมายเหตุไปด้วย
+          remark: remark, // ส่งหมายเหตุไปด้วย
+          transferStatus: transferStatus // สถานะการโอนจาก Column T
         };
         break; // เจอแล้วหยุดหา
       }

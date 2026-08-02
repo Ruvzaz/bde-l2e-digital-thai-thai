@@ -923,6 +923,25 @@ export default function Home() {
                   <p className={`font-headline-xl text-[36px] font-bold ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : ''}`}>
                     {statusResult.data.status}
                   </p>
+                  {statusResult.data.transferStatus && (
+                    <div className={`mt-3 p-4 border rounded-xl w-full max-w-md text-left shadow-sm ${
+                      statusResult.data.transferStatus.includes('โอนแล้ว')
+                        ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
+                        : 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
+                    }`} style={{ minWidth: 'min(100%, 400px)' }}>
+                      <p className="font-body-md font-bold flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[20px]">payments</span>
+                        สถานะการโอนเงิน:
+                      </p>
+                      <p className={`font-body-md font-bold mt-1 pl-6 break-words ${
+                        statusResult.data.transferStatus.includes('โอนแล้ว')
+                          ? 'text-emerald-950 dark:text-emerald-100'
+                          : 'text-amber-950 dark:text-amber-100'
+                      }`}>
+                        {statusResult.data.transferStatus}
+                      </p>
+                    </div>
+                  )}
                   {statusResult.data.remark && (
                     <div className={`mt-2 p-4 bg-surface-container-lowest border rounded-xl w-full max-w-md text-left shadow-sm ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'border-error/20' : 'border-primary/20'
                       }`} style={{ minWidth: 'min(100%, 400px)' }}>
