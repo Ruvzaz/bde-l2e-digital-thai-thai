@@ -270,21 +270,24 @@ export default function ECertPage() {
         // Draw Template Image as background
         ctx.drawImage(templateImg, 0, 0, 2000, 1414);
 
-        // Recipient Name
+        // Recipient Name (Method 4: Calculated Left Offset)
         const nameY = 640;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
         ctx.font = "bold 65px 'Prompt', sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
         ctx.fillStyle = "#151e15";
-        ctx.fillText(displayName, 1000, nameY);
+        const nameWidth = ctx.measureText(displayName).width;
+        const nameX = Math.round(1000 - (nameWidth / 2));
+        ctx.fillText(displayName, nameX, nameY);
 
         // Day Number
-        const dayX = 945;
         const dayY = 1006;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
         ctx.font = "bold 32px 'Prompt', sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
         ctx.fillStyle = "#151e15";
+        const dayWidth = ctx.measureText(dayNumber).width;
+        const dayX = Math.round(945 - (dayWidth / 2));
         ctx.fillText(dayNumber, dayX, dayY);
 
         // QR Code overlay

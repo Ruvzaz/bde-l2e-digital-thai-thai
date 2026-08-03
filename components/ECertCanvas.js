@@ -79,22 +79,25 @@ export default function ECertCanvas({
         // Draw the Official Template.png as the base image
         ctx.drawImage(templateImg, 0, 0, width, height);
 
-        // 1. Recipient Full Name with prefix attached to first name
+        // 1. Recipient Full Name (Method 4: Calculated Left Offset for 100% Cross-Platform Centering)
         const nameY = 640;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
         ctx.font = "bold 65px 'Prompt', sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
         ctx.fillStyle = "#151e15";
-        ctx.fillText(displayName, width / 2, nameY);
+        const nameWidth = ctx.measureText(displayName).width;
+        const nameX = Math.round(1000 - (nameWidth / 2));
+        ctx.fillText(displayName, nameX, nameY);
 
         // 2. Day Number only (Positioned in the blank gap of "ให้ ณ วันที่ [  ] สิงหาคม พ.ศ. 2569")
         const dayNumber = extractDayNumber(issueDate);
-        const dayX = 945;
         const dayY = 1006;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
         ctx.font = "bold 32px 'Prompt', sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
         ctx.fillStyle = "#151e15";
+        const dayWidth = ctx.measureText(dayNumber).width;
+        const dayX = Math.round(945 - (dayWidth / 2));
         ctx.fillText(dayNumber, dayX, dayY);
       } else {
         // -------------------------------------------------------------
