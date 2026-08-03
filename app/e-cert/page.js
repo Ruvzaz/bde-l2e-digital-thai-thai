@@ -280,17 +280,22 @@ export default function ECertPage() {
         // Draw Template Image as background
         ctx.drawImage(templateImg, 0, 0, 2000, 1414);
 
-        // Recipient Name (Font Size +15%: 56px -> 65px)
+        // Recipient Name
+        const nameY = 640;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', 'TH Sarabun New', sans-serif";
+        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif";
         ctx.fillStyle = "#151e15";
-        ctx.fillText(displayName, 1000, 640);
+        ctx.fillText(displayName, 1000, nameY);
 
         // Day Number
-        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'TH Sarabun New', sans-serif";
+        const dayX = 945;
+        const dayY = 1006;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif";
         ctx.fillStyle = "#151e15";
-        ctx.fillText(dayNumber, 945, 1006);
+        ctx.fillText(dayNumber, dayX, dayY);
 
         // QR Code overlay
         const qrTargetUrl =
