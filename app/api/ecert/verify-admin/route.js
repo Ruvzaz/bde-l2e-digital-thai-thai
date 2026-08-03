@@ -94,6 +94,43 @@ export async function POST(request) {
       );
     }
 
+    // 1.5 Check Approval Status in Sheet "Main BE" (Column J = Index 9)
+    let mainBeStatus = null;
+    let foundInMainBe = false;
+
+    try {
+      const mainBeRes = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: 'Main BE!A:Z',
+      });
+      const mainBeRows = mainBeRes.data.values || [];
+
+      for (let i = 1; i < mainBeRows.length; i++) {
+        const row = mainBeRows[i];
+        const status = (row[9] || '').toString().trim(); // Column J
+        const rowString = row.join(' ');
+
+        if (rowString.includes(cleanCenterCode)) {
+          foundInMainBe = true;
+          mainBeStatus = status;
+          break;
+        }
+      }
+    } catch (e) {
+      console.warn('Error reading Main BE status:', e.message);
+    }
+
+    if (foundInMainBe && mainBeStatus !== 'อนุมัติเข้าร่วมกิจกรรม') {
+      const currentStatusText = mainBeStatus || 'ยังไม่อนุมัติ';
+      return NextResponse.json(
+        {
+          valid: false,
+          error: `รหัสศูนย์ ${cleanCenterCode} ยังไม่ได้รับการอนุมัติเข้าร่วมกิจกรรม (สถานะปัจจุบัน: "${currentStatusText}") จึงยังไม่สามารถใช้งานระบบออกใบประกาศ E-Cert ได้`,
+        },
+        { status: 400 }
+      );
+    }
+
     // 2. Search for registered Email and existing Admin Name in "E-Cert Admin Logs" or "E-Cert Logs"
     const adminLogSheetName = 'E-Cert Admin Logs';
     let registeredEmail = null;
