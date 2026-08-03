@@ -65,7 +65,7 @@ export async function POST(request) {
         // Add headers
         await sheets.spreadsheets.values.update({
           spreadsheetId,
-          range: `${sheetName}!A1:K1`,
+          range: `${sheetName}!A1:L1`,
           valueInputOption: 'USER_ENTERED',
           requestBody: {
             values: [
@@ -81,6 +81,7 @@ export async function POST(request) {
                 'Full Name',
                 'Issue Date',
                 'Verify Link',
+                'Timestamp',
               ],
             ],
           },
@@ -95,7 +96,7 @@ export async function POST(request) {
     try {
       const res = await sheets.spreadsheets.values.get({
         spreadsheetId,
-        range: `${sheetName}!A:K`,
+        range: `${sheetName}!A:L`,
       });
       existingRows = res.data.values || [];
     } catch (e) {
@@ -115,6 +116,17 @@ export async function POST(request) {
     });
 
     const chosenIssueDate = (activityDate && activityDate.trim()) ? activityDate.trim() : nowStr;
+
+    // Generate accurate Creation Timestamp for Column L (Asia/Bangkok timezone)
+    const creationTimestamp = new Date().toLocaleString('th-TH', {
+      timeZone: 'Asia/Bangkok',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
 
     for (const item of recipients) {
       const prefix = (item.prefix || '').trim();
@@ -174,6 +186,7 @@ export async function POST(request) {
           fullName,
           chosenIssueDate,
           verifyLink,
+          creationTimestamp, // Column L: Creation Timestamp
         ];
 
         newRowsToAppend.push(rowArray);
@@ -191,6 +204,7 @@ export async function POST(request) {
           fullName,
           issueDate: chosenIssueDate,
           verifyLink,
+          timestamp: creationTimestamp,
           isReissued: false,
         });
       }
@@ -200,7 +214,7 @@ export async function POST(request) {
     if (newRowsToAppend.length > 0) {
       await sheets.spreadsheets.values.append({
         spreadsheetId,
-        range: `${sheetName}!A:K`,
+        range: `${sheetName}!A:L`,
         valueInputOption: 'USER_ENTERED',
         requestBody: {
           values: newRowsToAppend,

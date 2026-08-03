@@ -261,7 +261,7 @@ export async function POST(request) {
     try {
       const certsRes = await sheets.spreadsheets.values.get({
         spreadsheetId,
-        range: 'E-Cert Logs!A:K',
+        range: 'E-Cert Logs!A:L',
       });
       const certRows = certsRes.data.values || [];
 
@@ -282,6 +282,7 @@ export async function POST(request) {
             fullName: has11Cols ? row[8] || '' : row[7] || '',
             issueDate: has11Cols ? row[9] || '' : row[8] || '',
             verifyLink: has11Cols ? row[10] || '' : row[9] || '',
+            timestamp: row[11] || '',
           });
         }
       }

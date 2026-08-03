@@ -32,7 +32,7 @@ export async function GET(request) {
 
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: `${sheetName}!A:K`,
+      range: `${sheetName}!A:L`,
     });
 
     const rows = res.data.values || [];
@@ -44,7 +44,7 @@ export async function GET(request) {
       const certCode = (row[0] || '').toString().trim().toUpperCase();
 
       if (certCode === cleanCode) {
-        // If 11 columns used: [0:Cert, 1:CenterCode, 2:CenterName, 3:AdminName, 4:AdminEmail, 5:Prefix, 6:First, 7:Last, 8:Full, 9:Date, 10:Link]
+        // If 11+ columns used: [0:Cert, 1:CenterCode, 2:CenterName, 3:AdminName, 4:AdminEmail, 5:Prefix, 6:First, 7:Last, 8:Full, 9:Date, 10:Link, 11:Timestamp]
         const has11Cols = row.length >= 11 || (row[3] && !row[3].includes('@'));
         foundCert = {
           certCode: row[0] || '',
@@ -58,6 +58,7 @@ export async function GET(request) {
           fullName: has11Cols ? row[8] || '' : row[7] || '',
           issueDate: has11Cols ? row[9] || '' : row[8] || '',
           verifyLink: has11Cols ? row[10] || '' : row[9] || '',
+          timestamp: row[11] || '',
         };
         break;
       }
