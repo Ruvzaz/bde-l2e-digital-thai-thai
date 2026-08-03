@@ -193,7 +193,7 @@ function renderAnswerWithLinks(text) {
   });
 }
 
-const SHOW_ECERT_LINK = false; // Toggle to true when ready to show E-Cert in nav bar
+const SHOW_ECERT_LINK = true; // Toggle to true when ready to show E-Cert in nav bar
 
 export default function Home() {
   const [applicantCount, setApplicantCount] = useState(null);
