@@ -237,7 +237,31 @@ export default function ECertPage() {
     } finally {
       setIsZipping(false);
     }
-  };
+  function calculateThaiTextWidth(text, fontSize, ctx) {
+    if (!text) return 0;
+    if (ctx) {
+      const nativeWidth = ctx.measureText(text).width;
+      if (nativeWidth > 80) {
+        return nativeWidth;
+      }
+    }
+    let baseCharCount = 0;
+    let spaceCount = 0;
+    for (let i = 0; i < text.length; i++) {
+      const code = text.charCodeAt(i);
+      if (
+        (code >= 0x0e31 && code <= 0x0e3a) ||
+        (code >= 0x0e47 && code <= 0x0e4e)
+      ) {
+        continue;
+      } else if (code === 32) {
+        spaceCount++;
+      } else {
+        baseCharCount++;
+      }
+    }
+    return (baseCharCount * 0.575 * fontSize) + (spaceCount * 0.28 * fontSize);
+  }
 
   // Helper to generate canvas image programmatically for ZIP export
   const generateCanvasDataUrl = (cert) => {
@@ -280,32 +304,34 @@ export default function ECertPage() {
         // Draw Template Image as background
         ctx.drawImage(templateImg, 0, 0, 2000, 1414);
 
-        // Recipient Name (Auto-scale font size if name is long)
+        // Recipient Name (Calculated Left Alignment for 100% iOS WebKit Centering)
         const nameY = 640;
         let nameFontSize = 65;
         const maxNameWidth = 1150;
 
-        // CRITICAL FOR WEBKIT/SAFARI: Set textAlign = "center" BEFORE calling measureText or setting font
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "#151e15";
-
         ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
-        const measuredWidth = ctx.measureText(displayName).width;
+        let nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
 
-        if (measuredWidth > maxNameWidth) {
-          nameFontSize = Math.max(40, Math.floor(nameFontSize * (maxNameWidth / measuredWidth)));
+        if (nameWidth > maxNameWidth) {
+          nameFontSize = Math.max(40, Math.floor(nameFontSize * (maxNameWidth / nameWidth)));
           ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
+          nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
         }
 
-        ctx.fillText(displayName, 1000, nameY);
+        const nameX = Math.round(1000 - (nameWidth / 2));
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#151e15";
+        ctx.fillText(displayName, nameX, nameY);
 
         // Day Number
-        const dayX = 945;
         const dayY = 1006;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
         ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif";
+        const dayWidth = calculateThaiTextWidth(dayNumber, 32, ctx);
+        const dayX = Math.round(945 - (dayWidth / 2));
+
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, dayX, dayY);
 

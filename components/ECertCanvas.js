@@ -91,33 +91,35 @@ export default function ECertCanvas({
         // Draw the Official Template.png as the base image
         ctx.drawImage(templateImg, 0, 0, width, height);
 
-        // 1. Recipient Full Name with prefix attached to first name (Auto-scale font size if name is long)
+        // 1. Recipient Full Name (Calculated Left Alignment for 100% iOS WebKit Centering)
         const nameY = 640;
         let nameFontSize = 65;
         const maxNameWidth = 1150;
 
-        // CRITICAL FOR WEBKIT/SAFARI: Set textAlign = "center" BEFORE calling measureText or setting font
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "#151e15";
-
         ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
-        const measuredWidth = ctx.measureText(displayName).width;
+        let nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
 
-        if (measuredWidth > maxNameWidth) {
-          nameFontSize = Math.max(40, Math.floor(nameFontSize * (maxNameWidth / measuredWidth)));
+        if (nameWidth > maxNameWidth) {
+          nameFontSize = Math.max(40, Math.floor(nameFontSize * (maxNameWidth / nameWidth)));
           ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
+          nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
         }
 
-        ctx.fillText(displayName, 1000, nameY);
+        const nameX = Math.round(1000 - (nameWidth / 2));
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#151e15";
+        ctx.fillText(displayName, nameX, nameY);
 
         // 2. Day Number only (Positioned in the blank gap of "ให้ ณ วันที่ [  ] สิงหาคม พ.ศ. 2569")
         const dayNumber = extractDayNumber(issueDate);
-        const dayX = 945;
         const dayY = 1006;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
         ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif";
+        const dayWidth = calculateThaiTextWidth(dayNumber, 32, ctx);
+        const dayX = Math.round(945 - (dayWidth / 2));
+
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, dayX, dayY);
       } else {
