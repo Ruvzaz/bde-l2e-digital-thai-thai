@@ -81,35 +81,21 @@ export default function ECertCanvas({
         // Draw the Official Template.png as the base image
         ctx.drawImage(templateImg, 0, 0, width, height);
 
-        // 1. Recipient Full Name (Calculated Left Alignment for 100% iOS WebKit Centering)
+        // 1. Recipient Full Name with prefix attached to first name
         const nameY = 640;
-        let nameFontSize = 65;
-        const maxNameWidth = 1150;
-
-        ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
-        let nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
-
-        if (nameWidth > maxNameWidth) {
-          nameFontSize = Math.max(40, Math.floor(nameFontSize * (maxNameWidth / nameWidth)));
-          ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
-          nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
-        }
-
-        const nameX = Math.round(1000 - (nameWidth / 2));
-        ctx.textAlign = "left";
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', sans-serif";
         ctx.fillStyle = "#151e15";
-        ctx.fillText(displayName, nameX, nameY);
+        ctx.fillText(displayName, 1000, nameY);
 
         // 2. Day Number only (Positioned in the blank gap of "ให้ ณ วันที่ [  ] สิงหาคม พ.ศ. 2569")
         const dayNumber = extractDayNumber(issueDate);
+        const dayX = 945;
         const dayY = 1006;
-        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif";
-        const dayWidth = calculateThaiTextWidth(dayNumber, 32, ctx);
-        const dayX = Math.round(945 - (dayWidth / 2));
-
-        ctx.textAlign = "left";
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, dayX, dayY);
       } else {

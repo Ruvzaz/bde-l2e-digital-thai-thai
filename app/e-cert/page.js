@@ -239,32 +239,6 @@ export default function ECertPage() {
     }
   };
 
-  function calculateThaiTextWidth(text, fontSize, ctx) {
-    if (!text) return 0;
-    if (ctx) {
-      const nativeWidth = ctx.measureText(text).width;
-      if (nativeWidth > 80) {
-        return nativeWidth;
-      }
-    }
-    let baseCharCount = 0;
-    let spaceCount = 0;
-    for (let i = 0; i < text.length; i++) {
-      const code = text.charCodeAt(i);
-      if (
-        (code >= 0x0e31 && code <= 0x0e3a) ||
-        (code >= 0x0e47 && code <= 0x0e4e)
-      ) {
-        continue;
-      } else if (code === 32) {
-        spaceCount++;
-      } else {
-        baseCharCount++;
-      }
-    }
-    return (baseCharCount * 0.575 * fontSize) + (spaceCount * 0.28 * fontSize);
-  }
-
   // Helper to generate canvas image programmatically for ZIP export
   const generateCanvasDataUrl = (cert) => {
     return new Promise((resolve) => {
@@ -296,34 +270,20 @@ export default function ECertPage() {
         // Draw Template Image as background
         ctx.drawImage(templateImg, 0, 0, 2000, 1414);
 
-        // Recipient Name (Calculated Left Alignment for 100% iOS WebKit Centering)
+        // Recipient Name
         const nameY = 640;
-        let nameFontSize = 65;
-        const maxNameWidth = 1150;
-
-        ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
-        let nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
-
-        if (nameWidth > maxNameWidth) {
-          nameFontSize = Math.max(40, Math.floor(nameFontSize * (maxNameWidth / nameWidth)));
-          ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
-          nameWidth = calculateThaiTextWidth(displayName, nameFontSize, ctx);
-        }
-
-        const nameX = Math.round(1000 - (nameWidth / 2));
-        ctx.textAlign = "left";
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', sans-serif";
         ctx.fillStyle = "#151e15";
-        ctx.fillText(displayName, nameX, nameY);
+        ctx.fillText(displayName, 1000, nameY);
 
         // Day Number
+        const dayX = 945;
         const dayY = 1006;
-        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif";
-        const dayWidth = calculateThaiTextWidth(dayNumber, 32, ctx);
-        const dayX = Math.round(945 - (dayWidth / 2));
-
-        ctx.textAlign = "left";
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, dayX, dayY);
 
