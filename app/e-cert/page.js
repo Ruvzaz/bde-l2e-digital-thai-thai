@@ -267,17 +267,28 @@ export default function ECertPage() {
       templateImg.src = "/api/ecert/template";
 
       templateImg.onload = async () => {
+        // Ensure web fonts are fully loaded before drawing text
+        if (typeof document !== "undefined" && document.fonts) {
+          try {
+            await document.fonts.ready;
+            await document.fonts.load("bold 65px 'Prompt'");
+          } catch (e) {
+            // Continue if font load API is not available
+          }
+        }
+
         // Draw Template Image as background
         ctx.drawImage(templateImg, 0, 0, 2000, 1414);
 
         // Recipient Name (Font Size +15%: 56px -> 65px)
         ctx.textAlign = "center";
-        ctx.font = "bold 65px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', 'TH Sarabun New', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(displayName, 1000, 640);
 
         // Day Number
-        ctx.font = "bold 32px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'TH Sarabun New', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, 945, 1006);
 

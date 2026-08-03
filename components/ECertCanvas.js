@@ -72,6 +72,18 @@ export default function ECertCanvas({
         };
       });
 
+      // Ensure web fonts (Prompt / Be Vietnam Pro) are fully loaded before rendering text on Canvas
+      if (typeof document !== "undefined" && document.fonts) {
+        try {
+          await document.fonts.ready;
+          await document.fonts.load("bold 65px 'Prompt'");
+        } catch (e) {
+          // Continue if font load API is not available
+        }
+      }
+
+      if (!isMounted) return;
+
       if (hasTemplateImg && templateImg.width > 0) {
         // -------------------------------------------------------------
         // OPTION A: OFFICIAL TEMPLATE IMAGE MODE (Using Template.png)
@@ -82,7 +94,8 @@ export default function ECertCanvas({
         // 1. Recipient Full Name with prefix attached to first name
         const nameY = 640; // Lowered Y position to avoid overlapping "OF APPRECIATION"
         ctx.textAlign = "center";
-        ctx.font = "bold 65px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', 'TH Sarabun New', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(displayName, width / 2, nameY);
 
@@ -91,7 +104,8 @@ export default function ECertCanvas({
         const dayX = 945; // Positioned right between "ให้ ณ วันที่" and "สิงหาคม"
         const dayY = 1006;
         ctx.textAlign = "center";
-        ctx.font = "bold 32px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', 'TH Sarabun New', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, dayX, dayY);
       } else {
