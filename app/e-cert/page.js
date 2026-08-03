@@ -237,6 +237,8 @@ export default function ECertPage() {
     } finally {
       setIsZipping(false);
     }
+  };
+
   function calculateThaiTextWidth(text, fontSize, ctx) {
     if (!text) return 0;
     if (ctx) {
