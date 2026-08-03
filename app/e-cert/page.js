@@ -274,7 +274,7 @@ export default function ECertPage() {
         const nameY = 640;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', sans-serif";
+        ctx.font = "bold 65px 'Prompt', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(displayName, 1000, nameY);
 
@@ -283,7 +283,7 @@ export default function ECertPage() {
         const dayY = 1006;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', sans-serif";
+        ctx.font = "bold 32px 'Prompt', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, dayX, dayY);
 

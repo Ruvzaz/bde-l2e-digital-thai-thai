@@ -72,8 +72,6 @@ export default function ECertCanvas({
         };
       });
 
-      if (!isMounted) return;
-
       if (hasTemplateImg && templateImg.width > 0) {
         // -------------------------------------------------------------
         // OPTION A: OFFICIAL TEMPLATE IMAGE MODE (Using Template.png)
@@ -85,9 +83,9 @@ export default function ECertCanvas({
         const nameY = 640;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', sans-serif";
+        ctx.font = "bold 65px 'Prompt', sans-serif";
         ctx.fillStyle = "#151e15";
-        ctx.fillText(displayName, 1000, nameY);
+        ctx.fillText(displayName, width / 2, nameY);
 
         // 2. Day Number only (Positioned in the blank gap of "ให้ ณ วันที่ [  ] สิงหาคม พ.ศ. 2569")
         const dayNumber = extractDayNumber(issueDate);
@@ -95,7 +93,7 @@ export default function ECertCanvas({
         const dayY = 1006;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 32px 'Prompt', 'Be Vietnam Pro', sans-serif";
+        ctx.font = "bold 32px 'Prompt', sans-serif";
         ctx.fillStyle = "#151e15";
         ctx.fillText(dayNumber, dayX, dayY);
       } else {
@@ -118,61 +116,68 @@ export default function ECertCanvas({
         ctx.strokeStyle = "#006e2a";
         ctx.strokeRect(55, 55, width - 110, height - 110);
 
-        // Certificate Title
-        ctx.font = "bold 84px 'Prompt', sans-serif";
-        ctx.fillStyle = "#006e2a";
+        // Header Texts
         ctx.textAlign = "center";
-        ctx.fillText("ใบประกาศนียบัตร", width / 2, 260);
+        ctx.font = "600 32px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.fillStyle = "#1b6b50";
+        ctx.fillText(
+          "โครงการส่งเสริมการเรียนรู้ดิจิทัล (Digital Thai-Thai / Learn to Earn)",
+          width / 2,
+          155
+        );
 
-        ctx.font = "600 38px 'Prompt', sans-serif";
-        ctx.fillStyle = "#003913";
-        ctx.fillText("โครงการส่งเสริมและพัฒนาดิจิทัลชุมชน", width / 2, 340);
-
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = "#cbab00";
-        ctx.beginPath();
-        ctx.moveTo(width / 2 - 350, 380);
-        ctx.lineTo(width / 2 + 350, 380);
-        ctx.stroke();
-
-        ctx.font = "400 36px 'Prompt', sans-serif";
+        ctx.font = "400 24px 'Be Vietnam Pro', 'Prompt', sans-serif";
         ctx.fillStyle = "#3c4a3c";
-        ctx.fillText("ขอมอบใบประกาศนียบัตรนี้เพื่อแสดงว่า", width / 2, 490);
+        ctx.fillText(
+          "สำนักงานคณะกรรมการดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งชาติ (สดช.)",
+          width / 2,
+          200
+        );
 
-        // Recipient Name (Fallback Mode)
-        ctx.font = "bold 74px 'Prompt', sans-serif";
-        ctx.fillStyle = "#002106";
-        ctx.fillText(displayName, width / 2, 600);
-
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "#006e2a";
-        ctx.beginPath();
-        ctx.moveTo(width / 2 - 450, 645);
-        ctx.lineTo(width / 2 + 450, 645);
-        ctx.stroke();
-
-        ctx.font = "400 34px 'Prompt', sans-serif";
-        ctx.fillStyle = "#3c4a3c";
-        ctx.fillText("ได้ผ่านการอบรมเชิงปฏิบัติการ การสร้างทักษะดิจิทัลเพื่อชุมชน", width / 2, 730);
-
-        ctx.font = "500 32px 'Prompt', sans-serif";
+        ctx.font = "bold 72px 'Be Vietnam Pro', 'Prompt', sans-serif";
         ctx.fillStyle = "#006e2a";
-        ctx.fillText(`ณ ${centerName}`, width / 2, 800);
+        ctx.fillText("ใบประกาศนียบัตร", width / 2, 310);
 
-        ctx.font = "400 30px 'Prompt', sans-serif";
-        ctx.fillStyle = "#414941";
-        ctx.fillText(`ให้ไว้ ณ วันที่ ${issueDate || '31 สิงหาคม พ.ศ. 2569'}`, width / 2, 870);
+        ctx.font = "500 28px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.fillStyle = "#6c7b6a";
+        ctx.fillText("มอบให้ไว้เพื่อแสดงว่า", width / 2, 385);
+
+        // Recipient Name
+        const nameY = 510;
+        ctx.font = "bold 74px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.fillStyle = "#151e15";
+        ctx.fillText(displayName, width / 2, nameY);
+
+        // Course Description
+        ctx.font = "400 30px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.fillStyle = "#1b6b50";
+        ctx.fillText(
+          "ได้ผ่านการเข้าร่วมกิจกรรมการอบรมเชิงปฏิบัติการพัฒนาทักษะดิจิทัลชุมชน",
+          width / 2,
+          640
+        );
+
+        ctx.font = "600 32px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.fillStyle = "#006e2a";
+        ctx.fillText(
+          `จัดโดย: ${centerName} (รหัสศูนย์: ${centerCode})`,
+          width / 2,
+          715
+        );
+
+        ctx.font = "500 26px 'Be Vietnam Pro', 'Prompt', sans-serif";
+        ctx.fillStyle = "#151e15";
+        ctx.fillText(`ให้ไว้ ณ วันที่ ${issueDate}`, width / 2, 960);
       }
 
       // -------------------------------------------------------------
       // QR CODE & VERIFICATION CODE OVERLAY (Applied to both Modes)
       // -------------------------------------------------------------
-      const certCodeToUse = certCode || "PREVIEW";
       const qrTargetUrl =
         verifyLink ||
         (typeof window !== "undefined"
-          ? `${window.location.origin}/verify/${certCodeToUse}`
-          : `https://digital-thai-thai.com/verify/${certCodeToUse}`);
+          ? `${window.location.origin}/verify/${certCode}`
+          : `https://digital-thai-thai.com/verify/${certCode}`);
 
       try {
         const qrCanvas = document.createElement("canvas");
@@ -210,6 +215,8 @@ export default function ECertCanvas({
       } catch (err) {
         console.error("QR Render Error:", err);
       }
+
+
 
       if (isMounted) {
         setIsRendering(false);
