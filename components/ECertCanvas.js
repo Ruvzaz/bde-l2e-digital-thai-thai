@@ -91,12 +91,24 @@ export default function ECertCanvas({
         // Draw the Official Template.png as the base image
         ctx.drawImage(templateImg, 0, 0, width, height);
 
-        // 1. Recipient Full Name with prefix attached to first name
+        // 1. Recipient Full Name with prefix attached to first name (Auto-scale font size if name is long)
         const nameY = 640;
+        let nameFontSize = 65;
+        const maxNameWidth = 1150;
+
+        // CRITICAL FOR WEBKIT/SAFARI: Set textAlign = "center" BEFORE calling measureText or setting font
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 65px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif";
         ctx.fillStyle = "#151e15";
+
+        ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
+        const measuredWidth = ctx.measureText(displayName).width;
+
+        if (measuredWidth > maxNameWidth) {
+          nameFontSize = Math.max(40, Math.floor(nameFontSize * (maxNameWidth / measuredWidth)));
+          ctx.font = `bold ${nameFontSize}px 'Prompt', 'Be Vietnam Pro', 'Sarabun', sans-serif`;
+        }
+
         ctx.fillText(displayName, 1000, nameY);
 
         // 2. Day Number only (Positioned in the blank gap of "ให้ ณ วันที่ [  ] สิงหาคม พ.ศ. 2569")
