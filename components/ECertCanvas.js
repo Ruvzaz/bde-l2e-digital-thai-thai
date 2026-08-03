@@ -72,16 +72,6 @@ export default function ECertCanvas({
         };
       });
 
-      // Ensure web fonts (Prompt / Be Vietnam Pro) are fully loaded before rendering text on Canvas
-      if (typeof document !== "undefined" && document.fonts) {
-        try {
-          await document.fonts.ready;
-          await document.fonts.load("bold 65px 'Prompt'");
-        } catch (e) {
-          // Continue if font load API is not available
-        }
-      }
-
       if (!isMounted) return;
 
       if (hasTemplateImg && templateImg.width > 0) {

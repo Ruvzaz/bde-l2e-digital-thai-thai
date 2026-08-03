@@ -293,16 +293,6 @@ export default function ECertPage() {
       templateImg.src = "/api/ecert/template";
 
       templateImg.onload = async () => {
-        // Ensure web fonts are fully loaded before drawing text
-        if (typeof document !== "undefined" && document.fonts) {
-          try {
-            await document.fonts.ready;
-            await document.fonts.load("bold 65px 'Prompt'");
-          } catch (e) {
-            // Continue if font load API is not available
-          }
-        }
-
         // Draw Template Image as background
         ctx.drawImage(templateImg, 0, 0, 2000, 1414);
 
