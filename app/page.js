@@ -497,49 +497,49 @@ export default function Home() {
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-transparent bg-cover bg-center"></div>
       </section>
 
-      {/* Full-Screen High-Impact Report & Submission Hero Section */}
-      <section id="report-section" className="w-full min-h-[calc(100vh-80px)] flex flex-col justify-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950 text-white relative overflow-hidden py-16 lg:py-24 border-b border-emerald-500/20 shadow-2xl">
+      {/* High-Impact Report & Submission Hero Section */}
+      <section id="report-section" className="w-full min-h-[calc(100vh-80px)] flex flex-col justify-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950 text-white relative overflow-hidden py-12 sm:py-16 lg:py-20 border-b border-emerald-500/20 shadow-2xl scroll-mt-[80px]">
         {/* Glowing Background Orbs & Ambient Mesh */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/15 rounded-full blur-[140px] pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-400/15 rounded-full blur-[140px] pointer-events-none"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-emerald-600/10 rounded-full blur-[160px] pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 w-full relative z-10 flex flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 w-full relative z-10 flex flex-col justify-center my-auto">
           {/* Header Badge & Title */}
-          <div className="text-center max-w-4xl mx-auto mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 text-white-200 px-5 py-2 rounded-full font-bold text-sm sm:text-base mb-5 backdrop-blur-md shadow-inner">
-              <span className="material-symbols-outlined text-[22px] text-white-400">analytics</span>
+          <div className="text-center max-w-4xl mx-auto mb-8 lg:mb-10">
+            <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 px-4.5 py-1.5 rounded-full font-bold text-xs sm:text-sm mb-3.5 backdrop-blur-md shadow-inner">
+              <span className="material-symbols-outlined text-[20px] text-emerald-400">analytics</span>
               <span>ช่องทางรายงานผลของโครงการ</span>
             </div>
-            <h2 className="font-headline-lg text-[32px] sm:text-[44px] lg:text-[52px] font-bold text-white mb-4 leading-tight tracking-tight">
+            <h2 className="font-headline-lg text-[28px] sm:text-[38px] lg:text-[46px] font-bold text-white mb-3 leading-tight tracking-tight">
               ส่งรายงานผลการจัดกิจกรรม <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent">และส่งผลงานประกวดสื่อสร้างสรรค์</span>
             </h2>
-            <p className="text-emerald-100/90 font-body-lg text-base sm:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
+            <p className="text-emerald-100/90 font-body-lg text-sm sm:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed">
               ช่องทางทางการสำหรับศูนย์ดิจิทัลชุมชนที่จัดกิจกรรมเสร็จสิ้นในการส่งเอกสารเบิกจ่ายงบประมาณ และส่งคลิปวิดีโอเข้าประกวดสื่อลุ้นรับรางวัล
             </p>
           </div>
 
           {/* 3 Responsive Hero Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7 items-stretch">
             {/* Card 1: รายงานผลการจัดกิจกรรม (MOST IMPORTANT - ULTIMATE GOLD HIGHLIGHT HERO CARD) */}
-            <div className="bg-gradient-to-b from-amber-500/30 via-amber-900/45 to-emerald-950/95 backdrop-blur-xl border-2 border-amber-400/90 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-amber-300 hover:from-amber-500/40 transition-all duration-300 group hover:-translate-y-2.5 shadow-2xl shadow-amber-500/20 relative overflow-hidden ring-4 ring-amber-400/20">
+            <div className="bg-gradient-to-b from-amber-500/25 via-amber-900/45 to-emerald-950/95 backdrop-blur-xl border-2 border-amber-400/90 rounded-3xl p-6 sm:p-7 lg:p-8 flex flex-col justify-between hover:border-amber-300 hover:from-amber-500/35 transition-all duration-300 group hover:-translate-y-2 shadow-2xl shadow-amber-500/20 relative overflow-hidden ring-4 ring-amber-400/20">
               <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 text-xs font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-lg flex items-center gap-1.5 animate-pulse">
                 <span className="material-symbols-outlined text-[16px]">stars</span>
                 <span>สำคัญที่สุด (ต้องส่งทุกคน)</span>
               </div>
               <div>
-                <div className="w-16 h-16 bg-amber-400/25 border-2 border-amber-400/60 rounded-2xl flex items-center justify-center text-amber-300 mb-6 group-hover:scale-110 transition-transform shadow-inner">
-                  <span className="material-symbols-outlined text-[38px]">assignment_turned_in</span>
+                <div className="w-14 h-14 lg:w-16 lg:h-16 bg-amber-400/25 border-2 border-amber-400/60 rounded-2xl flex items-center justify-center text-amber-300 mb-5 group-hover:scale-105 transition-transform shadow-inner">
+                  <span className="material-symbols-outlined text-[36px]">assignment_turned_in</span>
                 </div>
-                <div className="inline-block bg-amber-400/20 text-white-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-amber-400/40">
+                <div className="inline-block bg-amber-400/20 text-amber-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-amber-400/40">
                   สำหรับศูนย์ที่จัดอบรมเสร็จแล้ว
                 </div>
-                <h3 className="font-headline-md text-2xl lg:text-3xl font-extrabold text-white-200 mb-3">
+                <h3 className="font-headline-md text-2xl lg:text-3xl font-extrabold text-amber-200 mb-2.5">
                   รายงานผลการจัดกิจกรรม
                 </h3>
-                <p className="text-white-100/95 text-sm sm:text-base mb-8 leading-relaxed font-medium">
-                  ส่งใบลงชื่อผู้เข้าอบรม 10 คน, ภาพถ่ายกิจกรรมระหว่างอบรม และใบสำคัญรับเงินสำหรับเบิกจ่ายงบประมาณโครงการ <b className="text-amber-300"> <br></br>(ต้องส่งทุกคนเมื่ออบรมจบ)</b>
+                <p className="text-white/90 text-sm sm:text-base mb-6 lg:mb-8 leading-relaxed font-medium">
+                  ส่งใบลงชื่อผู้เข้าอบรม 10 คน, ภาพถ่ายกิจกรรมระหว่างอบรม และใบสำคัญรับเงินสำหรับเบิกจ่ายงบประมาณโครงการ <b className="text-amber-300 block mt-1">(ต้องส่งทุกคนเมื่ออบรมจบ)</b>
                 </p>
               </div>
               <a
@@ -554,21 +554,21 @@ export default function Home() {
             </div>
 
             {/* Card 2: แบบฟอร์มประกวดสื่อสร้างสรรค์ (Secondary Emerald Card) */}
-            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-emerald-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-7 lg:p-8 flex flex-col justify-between hover:border-emerald-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1">
                 <span>🏆 ลุ้น 104 รางวัล</span>
               </div>
               <div>
-                <div className="w-16 h-16 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl flex items-center justify-center text-emerald-300 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+                <div className="w-14 h-14 lg:w-16 lg:h-16 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl flex items-center justify-center text-emerald-300 mb-5 group-hover:scale-105 transition-transform shadow-inner">
                   <span className="material-symbols-outlined text-[36px]">emoji_events</span>
                 </div>
                 <div className="inline-block bg-emerald-400/20 text-emerald-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-emerald-400/30">
                   ประกวดคลิปวิดีโอ (ลุ้นรางวัล)
                 </div>
-                <h3 className="font-headline-md text-2xl font-bold text-white mb-3">
+                <h3 className="font-headline-md text-2xl lg:text-3xl font-bold text-white mb-2.5">
                   ประกวดสื่อสร้างสรรค์ <br></br>(ลุ้นรางวัล)
                 </h3>
-                <p className="text-emerald-100/85 text-sm sm:text-base mb-8 leading-relaxed">
+                <p className="text-emerald-100/85 text-sm sm:text-base mb-6 lg:mb-8 leading-relaxed">
                   ส่งคลิปวิดีโออัตลักษณ์ชุมชน ลุ้นรับ iPad ภาคละ 1 รางวัล และ Huawei Watch Band 11 ภาคละ 25 รางวัล (รวม 104 รางวัล)
                 </p>
               </div>
@@ -584,21 +584,21 @@ export default function Home() {
             </div>
 
             {/* Card 3: แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน) */}
-            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-teal-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-7 lg:p-8 flex flex-col justify-between hover:border-teal-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1">
                 <span>ผลงานร่วมสนุกระหว่างอบรม</span>
               </div>
               <div>
-                <div className="w-16 h-16 bg-teal-500/20 border border-teal-400/40 rounded-2xl flex items-center justify-center text-teal-300 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+                <div className="w-14 h-14 lg:w-16 lg:h-16 bg-teal-500/20 border border-teal-400/40 rounded-2xl flex items-center justify-center text-teal-300 mb-5 group-hover:scale-105 transition-transform shadow-inner">
                   <span className="material-symbols-outlined text-[36px]">sports_esports</span>
                 </div>
                 <div className="inline-block bg-teal-400/20 text-teal-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-400/30">
                   กิจกรรมเสริมระหว่างวัน
                 </div>
-                <h3 className="font-headline-md text-2xl font-bold text-white mb-3">
+                <h3 className="font-headline-md text-2xl lg:text-3xl font-bold text-white mb-2.5">
                   ส่งผลงานกิจกรรมระหว่างวัน
                 </h3>
-                <p className="text-emerald-100/85 text-sm sm:text-base mb-8 leading-relaxed">
+                <p className="text-emerald-100/85 text-sm sm:text-base mb-6 lg:mb-8 leading-relaxed">
                   ส่งแบบทดสอบและผลงานการร่วมสนุกกิจกรรมเสริมระหว่างวันอบรม เพื่อสะสมคะแนนและความรู้ตลอดหลักสูตร
                 </p>
               </div>

@@ -1,132 +1,167 @@
-# สคริปต์จัดการสถานะผู้สมัคร (Google Apps Script)
+# สคริปต์จัดการสถานะและชื่อไฟล์เมื่อส่ง Google Form (Google Apps Script)
 
-สคริปต์นี้จะทำงานอัตโนมัติเมื่อมีคนกดส่ง Google Form โดยจะเช็คเงื่อนไขที่คุณต้องการ:
-1. ต้องอยู่ในโควตา **1722 คนแรก**
-2. **เลขศูนย์ต้องไม่ซ้ำ** กับคนที่ได้สิทธิ์ไปแล้ว
-3. เลขศูนย์ **ต้องอยู่ในรายชื่อศูนย์ที่กำหนดไว้**
-
----
-
-## 🛠️ วิธีติดตั้ง Script ใน Google Sheet
-
-1. เปิด Google Sheet ที่รับข้อมูลจากฟอร์ม
-2. ไปที่เมนู **ส่วนขยาย (Extensions)** -> **Apps Script**
-3. ลบโค้ดเดิมทั้งหมด แล้ว **คัดลอกโค้ดด้านล่างนี้ไปวาง**
-4. แก้ไขตัวแปรด้านบนของโค้ดให้ตรงกับ Column ใน Sheet ของคุณ
-5. กดปุ่ม **บันทึก (Save)** 💾
-6. ไปที่เมนู **ทริกเกอร์ (Triggers)** (ไอคอนรูปนาฬิกาด้านซ้าย) -> กด **+ เพิ่มทริกเกอร์ (+ Add Trigger)**
-   - เลือกฟังก์ชันที่ให้ทำงาน: `onFormSubmit`
-   - เลือกประเภทเหตุการณ์: **เมื่อส่งฟอร์ม (On form submit)**
-   - กดบันทึกและกดยอมรับสิทธิ์ (Allow)
+สคริปต์นี้จะทำงานอัตโนมัติเมื่อมีผู้เข้าร่วมกดส่ง Google Form โดยมีเงื่อนไขดังนี้:
+1. **เปลี่ยนชื่อไฟล์อัปโหลด** ให้เป็นรูปแบบ `[รหัสศูนย์]-[ชื่อศูนย์]-[ประเภทเอกสาร]`
+2. **อัปเดตสถานะการคัดเลือก (Column J)** ในชีท `Main BE`:
+   - หากสถานะเดิมอยู่ในกลุ่ม **ยกเว้น** 3 สถานะนี้ -> **ข้าม ไม่เปลี่ยนสถานะ** (คงเดิมไว้):
+     1. `"อนุมัติเข้าร่วมกิจกรรม"`
+     2. `"อนุมัติเข้าร่วมกิจกรรม (ลำดับสำรอง)"`
+     3. `"ยืนยันไม่เข้าร่วมกิจกรรม"`
+   - หากสถานะเดิมเป็นอย่างอื่น เช่น **"ไม่อนุมัติ เอกสารไม่ครบถ้วน"**, **"ยังไม่ส่งแผน"**, หรือ **ช่องว่าง** -> **ปรับสถานะเป็น "รอตรวจเอกสาร"** เพื่อให้ Staff มาตรวจเอกสารรอบใหม่อีกครั้ง
 
 ---
 
-## 💻 โค้ด Apps Script
+## 💻 โค้ด Apps Script ฉบับปรับปรุงใหม่ล่าสุด (เพิ่ม 3 สถานะยกเว้น)
 
 ```javascript
-// ==========================================
-// ⚙️ ตั้งค่าคอลัมน์และชื่อชีต (แก้ไขให้ตรงกับของจริง)
-// ==========================================
-const CONFIG = {
-  MAIN_SHEET_NAME: "Form Responses 1", // ชื่อชีตที่รับข้อมูลฟอร์ม
-  CENTER_LIST_SHEET_NAME: "รายชื่อศูนย์", // ชื่อชีตที่มีรายชื่อศูนย์ที่อนุญาต
-  
-  // ตำแหน่งคอลัมน์ (นับจากซ้าย A=1, B=2, C=3, ...)
-  CENTER_CODE_COL: 3,        // คอลัมน์ที่ผู้สมัครกรอก "เลขศูนย์"
-  STATUS_COL: 5,             // คอลัมน์ใหม่ที่จะให้สคริปต์เติมคำว่า "ผู้สมัครหลัก/สำรอง" (ต้องสร้างคอลัมน์นี้เตรียมไว้)
-  
-  // ตำแหน่งคอลัมน์ในชีต "รายชื่อศูนย์"
-  ALLOWED_CENTER_COL: 1,     // คอลัมน์ที่มีเลขศูนย์ที่ถูกต้องเรียงกันอยู่
-  
-  MAX_MAIN_APPLICANTS: 1722  // โควตาสูงสุด
-};
-
+/**
+ * ฟังก์ชันนี้จะทำงานอัตโนมัติเมื่อมีคนส่ง Google Form
+ * ทำหน้าที่:
+ * 1. เปลี่ยนชื่อไฟล์อัปโหลดเป็น [รหัสศูนย์]-[ชื่อศูนย์]-[ชื่อเอกสาร]
+ * 2. อัปเดตสถานะใน Main BE เป็น "รอตรวจเอกสาร"
+ *    (ยกเว้น 3 สถานะ: อนุมัติเข้าร่วมกิจกรรม, อนุมัติเข้าร่วมกิจกรรม (ลำดับสำรอง), ยืนยันไม่เข้าร่วมกิจกรรม)
+ */
 function onFormSubmit(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.MAIN_SHEET_NAME);
-  const row = e.range.getRow(); // แถวล่าสุดที่เพิ่งส่งฟอร์มเข้ามา
-  
-  processRow(sheet, row);
-}
+  // Guard Clause: ป้องกัน Error เวลาเผลอกด Run ใน Apps Script Editor
+  if (!e || !e.range) {
+    console.log("ฟังก์ชันนี้ทำงานผ่าน Trigger การส่ง Google Form เท่านั้น");
+    return;
+  }
 
-// ฟังก์ชันหลักสำหรับประมวลผล (สามารถกด Run เพื่อทดสอบแถวที่กำหนดได้)
-function processRow(sheet, targetRow) {
-  // 1. ดึงข้อมูลเลขศูนย์ที่เพิ่งสมัครเข้ามา
-  const centerCode = sheet.getRange(targetRow, CONFIG.CENTER_CODE_COL).getValue().toString().trim();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sourceSheet = ss.getSheetByName("#1 ส่งแผน") || e.range.getSheet(); 
+  var mainBeSheet = ss.getSheetByName("Main BE");
   
-  if (!centerCode) return; // ถ้าไม่มีเลขศูนย์ ให้ข้ามไป
-  
-  // 2. เช็คว่า "เลขศูนย์" นี้ อยู่ในรายชื่อที่กำหนดหรือไม่?
-  const isAllowed = checkAllowedCenter(centerCode);
-  
-  if (!isAllowed) {
-    sheet.getRange(targetRow, CONFIG.STATUS_COL).setValue("ผู้สมัครสำรอง (ไม่อยู่ในรายชื่อศูนย์)");
+  if (!mainBeSheet) {
+    console.log("Error: ไม่พบชีท Main BE");
     return;
   }
   
-  // 3. ดึงข้อมูลผู้สมัครทั้งหมดที่ผ่านมา เพื่อเช็ค "จำนวน 1722" และ "ศูนย์ซ้ำ"
-  const allData = sheet.getRange(2, 1, Math.max(1, targetRow - 2), sheet.getLastColumn()).getValues();
+  var range = e.range;
+  var row = range.getRow();
   
-  let currentMainCount = 0;
-  let isCenterDuplicated = false;
+  // -----------------------------------------
+  // 1. ดึงข้อมูลจาก Form Responses 1
+  // -----------------------------------------
+  var lastCol = sourceSheet.getLastColumn();
+  var headers = sourceSheet.getRange(1, 1, 1, lastCol).getValues()[0];
+  var rowValues = sourceSheet.getRange(row, 1, 1, lastCol).getValues()[0];
   
-  for (let i = 0; i < allData.length; i++) {
-    const status = allData[i][CONFIG.STATUS_COL - 1]; // -1 เพราะ array เริ่มที่ 0
-    const existingCenter = allData[i][CONFIG.CENTER_CODE_COL - 1]?.toString().trim();
+  var centerCode = "";
+  var centerName = "";
+  var participantFileUrl = "";
+  var financeFileUrl = "";
+  
+  // หาคอลัมน์ใน Form Responses 1
+  for (var i = 0; i < headers.length; i++) {
+    var headerText = headers[i].toString().trim();
+    if (headerText === "รหัสศูนย์ดิจิทัลชุมชน") {
+      centerCode = rowValues[i];
+    } else if (headerText === "ชื่อศูนย์ดิจิทัลชุมชน") {
+      centerName = rowValues[i];
+    } else if (headerText.indexOf("ไฟล์รายชื่อผู้เข้าร่วมอบรม") !== -1) {
+      participantFileUrl = rowValues[i];
+    } else if (headerText.indexOf("อัพโหลดใบสำคัญรับเงิน") !== -1 || headerText.indexOf("ใบสำคัญรับเงิน") !== -1) {
+      financeFileUrl = rowValues[i];
+    }
+  }
+  
+  if (!centerCode) return; // ถ้ารหัสว่างเปล่า ไม่ทำต่อ
+  
+  // -----------------------------------------
+  // 2. เปลี่ยนชื่อไฟล์ที่อัปโหลด
+  // -----------------------------------------
+  renameFiles(participantFileUrl, centerCode, centerName, "ไฟล์รายชื่อเข้าร่วม");
+  renameFiles(financeFileUrl, centerCode, centerName, "เอกสารการเงิน");
+  
+  // -----------------------------------------
+  // 3. อัปเดตสถานะใน Main BE เป็น "รอตรวจเอกสาร"
+  // -----------------------------------------
+  var mainLastCol = mainBeSheet.getLastColumn();
+  var mainLastRow = mainBeSheet.getLastRow();
+  if (mainLastCol < 1 || mainLastRow < 2) return;
+  
+  var mainHeaders = mainBeSheet.getRange(1, 1, 1, mainLastCol).getValues()[0];
+  var mainCodeCol = -1;
+  var mainStatusCol = -1;
+  
+  // หาคอลัมน์ รหัส และ สถานะ ใน Main BE
+  for (var m = 0; m < mainHeaders.length; m++) {
+    var mText = mainHeaders[m].toString().trim();
+    if (mText === "รหัส" || mText === "รหัสศูนย์") {
+      mainCodeCol = m + 1;
+    } else if (mText === "สถานะการคัดเลือก" || mText === "สถานะ") {
+      mainStatusCol = m + 1;
+    }
+  }
+  
+  if (mainCodeCol !== -1 && mainStatusCol !== -1) {
+    var codeValues = mainBeSheet.getRange(2, mainCodeCol, mainLastRow - 1, 1).getValues();
     
-    if (status === "ผู้สมัครหลัก") {
-      currentMainCount++;
-      // เช็คว่าศูนย์นี้เคยได้สิทธิ์ "ผู้สมัครหลัก" ไปแล้วหรือยัง
-      if (existingCenter === centerCode) {
-        isCenterDuplicated = true;
+    for (var r = 0; r < codeValues.length; r++) {
+      if (codeValues[r][0].toString().trim() === centerCode.toString().trim()) {
+        var targetRow = r + 2; // คำนวณแถวที่พบใน Main BE
+        
+        // 🔹 ดึงค่าสถานะปัจจุบันมาเช็ค
+        var currentStatusCell = mainBeSheet.getRange(targetRow, mainStatusCol);
+        var currentStatus = currentStatusCell.getValue().toString().trim();
+        
+        // 🔹 [ปรับแก้ใหม่]: เพิ่ม 3 สถานะยกเว้นที่ไม่ต้องเปลี่ยนกลับเป็น "รอตรวจเอกสาร"
+        var isProtected = (
+          currentStatus === "อนุมัติเข้าร่วมกิจกรรม" ||
+          currentStatus === "อนุมัติเข้าร่วมกิจกรรม (ลำดับสำรอง)" ||
+          currentStatus === "ยืนยันไม่เข้าร่วมกิจกรรม"
+        );
+        
+        if (!isProtected) {
+          currentStatusCell.setValue("รอตรวจเอกสาร");
+          console.log("อัปเดตศูนย์ " + centerCode + " เป็น 'รอตรวจเอกสาร' สำเร็จ (สถานะเดิม: '" + currentStatus + "')");
+        } else {
+          console.log("ข้ามการอัปเดตศูนย์ " + centerCode + " เนื่องจากอยู่ในสถานะยกเว้น: '" + currentStatus + "'");
+        }
+        
+        break; // ทำแค่ 1 ศูนย์ที่เจออันแรก แล้วหยุดหา
       }
     }
   }
-  
-  // 4. ตัดสินใจสถานะ
-  let finalStatus = "";
-  
-  if (isCenterDuplicated) {
-    finalStatus = "ผู้สมัครสำรอง (ศูนย์ซ้ำ)";
-  } else if (currentMainCount >= CONFIG.MAX_MAIN_APPLICANTS) {
-    finalStatus = "ผู้สมัครสำรอง (โควตาเต็ม)";
-  } else {
-    finalStatus = "ผู้สมัครหลัก";
-  }
-  
-  // 5. บันทึกผลลงไปในคอลัมน์สถานะ
-  sheet.getRange(targetRow, CONFIG.STATUS_COL).setValue(finalStatus);
 }
 
-// ฟังก์ชันสำหรับเช็คว่าเลขศูนย์อยู่ในชีต "รายชื่อศูนย์" หรือไม่
-function checkAllowedCenter(centerCode) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const allowedSheet = ss.getSheetByName(CONFIG.CENTER_LIST_SHEET_NAME);
+/**
+ * ฟังก์ชันสำหรับเปลี่ยนชื่อไฟล์ให้เป็นรูปแบบที่กำหนด
+ */
+function renameFiles(fileUrls, centerCode, centerName, suffixName) {
+  if (!fileUrls || fileUrls.toString().trim() === "") return;
   
-  if (!allowedSheet) {
-    // ถ้าหาชีตไม่เจอ อนุโลมให้ผ่าน (หรือจะ return false ก็ได้)
-    return true; 
-  }
-  
-  const lastRow = allowedSheet.getLastRow();
-  if (lastRow < 2) return false;
-  
-  const allowedCenters = allowedSheet.getRange(2, CONFIG.ALLOWED_CENTER_COL, lastRow - 1, 1).getValues();
-  
-  // ตรวจสอบว่ามีเลขศูนย์ตรงกันไหม
-  for (let i = 0; i < allowedCenters.length; i++) {
-    if (allowedCenters[i][0].toString().trim() === centerCode) {
-      return true;
+  try {
+    var urls = fileUrls.toString().split(",");
+    
+    for (var u = 0; u < urls.length; u++) {
+      var url = urls[u].trim();
+      var fileId = "";
+      
+      if (url.indexOf("id=") !== -1) {
+        fileId = url.split("id=")[1].split("&")[0];
+      } else if (url.indexOf("/d/") !== -1) {
+        fileId = url.split("/d/")[1].split("/")[0];
+      }
+      
+      if (fileId) {
+        var file = DriveApp.getFileById(fileId);
+        var originalName = file.getName();
+        var extension = "";
+        var lastDotIndex = originalName.lastIndexOf(".");
+        if (lastDotIndex > -1) {
+          extension = originalName.substring(lastDotIndex);
+        }
+        
+        var newFileName = centerCode + "-" + centerName + "-" + suffixName;
+        if (urls.length > 1) newFileName += " (" + (u + 1) + ")";
+        
+        file.setName(newFileName + extension);
+      }
     }
+  } catch (e) {
+    console.log("Error renaming file: " + e.message);
   }
-  
-  return false;
 }
 ```
-
----
-
-## 📝 คำแนะนำเพิ่มเติม (สำหรับเว็บ Next.js ของคุณ)
-
-ตอนนี้ระบบฝั่ง Next.js (`app/api/applicants/route.js`) ดึงข้อมูลการนับแถวทั้งหมด `(rows.length - 1)` มาโชว์เป็น "ผู้สมัครทั้งหมด"
-
-ถ้าในอนาคตคุณอยากให้เว็บ **แยกโชว์** ว่ามี "ผู้สมัครหลัก" กี่คน และ "ผู้สมัครสำรอง" กี่คน เราสามารถแก้โค้ด API ให้ไปนับเฉพาะคำว่า "ผู้สมัครหลัก" จากคอลัมน์สถานะได้เลยครับ ถ้าต้องการให้ผมปรับ API ให้รองรับ แจ้งได้เลยนะครับ!
