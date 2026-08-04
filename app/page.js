@@ -585,7 +585,9 @@ export default function Home() {
 
             {/* Card 3: แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน) */}
             <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-teal-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-bl-full pointer-events-none"></div>
+              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                <span>ผลงานร่วมสนุกระหว่างอบรม</span>
+              </div>
               <div>
                 <div className="w-16 h-16 bg-teal-500/20 border border-teal-400/40 rounded-2xl flex items-center justify-center text-teal-300 mb-6 group-hover:scale-110 transition-transform shadow-inner">
                   <span className="material-symbols-outlined text-[36px]">sports_esports</span>
