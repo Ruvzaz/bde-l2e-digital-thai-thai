@@ -315,7 +315,7 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav Links */}
           <div className="hidden lg:flex gap-lg items-center">
             <Link href="#schedule" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
               กำหนดการ
@@ -339,14 +339,31 @@ export default function Home() {
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </a>
 
+            <Link href="#faq" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+              FAQ
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+
+            {SHOW_ECERT_LINK && (
+              <Link href="/e-cert" className="group relative text-emerald-800 hover:text-emerald-950 font-bold transition-colors font-label-md text-label-md py-1 flex items-center gap-1">
+                <span className="material-symbols-outlined text-[18px] text-emerald-700">workspace_premium</span>
+                <span>ระบบ E-Cert</span>
+                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              </Link>
+            )}
+          </div>
+
+          {/* Right Action Cluster: รายงานผล + ลงทะเบียน */}
+          <div className="hidden lg:flex items-center gap-3">
             {/* Dropdown "รายงานผล" */}
-            <div className="relative group py-2">
-              <button className="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1 cursor-pointer">
-                รายงานผล
-                <span className="material-symbols-outlined text-[18px] transition-transform group-hover:rotate-180">expand_more</span>
+            <div className="relative group py-1">
+              <button className="flex items-center gap-1.5 text-emerald-900 bg-emerald-50/90 hover:bg-emerald-100/90 border border-emerald-200/80 font-bold font-label-md text-label-md px-4 py-2 rounded-full transition-all shadow-sm hover:shadow cursor-pointer">
+                <span className="material-symbols-outlined text-[19px] text-emerald-700">analytics</span>
+                <span>รายงานผล</span>
+                <span className="material-symbols-outlined text-[18px] transition-transform group-hover:rotate-180 text-emerald-700">expand_more</span>
               </button>
 
-              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-1 w-[370px] hidden group-hover:block animate-fadeIn z-50 before:absolute before:-top-4 before:left-0 before:w-full before:h-6">
+              <div className="absolute right-0 top-full pt-1.5 w-[380px] hidden group-hover:block animate-fadeIn z-50 before:absolute before:-top-4 before:left-0 before:w-full before:h-6">
                 <div className="bg-white/95 dark:bg-surface-container-lowest/95 backdrop-blur-md rounded-2xl shadow-xl border border-outline-variant/30 py-2.5 overflow-hidden whitespace-nowrap">
                   <Link
                     href={REPORT_ACTIVITY_URL}
@@ -379,22 +396,12 @@ export default function Home() {
               </div>
             </div>
 
-            <Link href="#faq" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
-              คำถามที่พบบ่อย
-              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
-            {SHOW_ECERT_LINK && (
-              <Link href="/e-cert" className="group relative text-emerald-700 hover:text-emerald-900 font-bold transition-colors font-label-md text-label-md py-1 flex items-center gap-1 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200 shadow-sm hover:shadow">
-                <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
-                ออกใบประกาศ E-Cert
-              </Link>
-            )}
+            {/* Button "ลงทะเบียนเข้าร่วมโครงการ" */}
+            <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="bg-primary text-on-primary px-5 py-2 rounded-full font-label-md text-label-md font-bold hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 shadow-sm flex items-center gap-2">
+              <span>ลงทะเบียนเข้าร่วมโครงการ</span>
+              <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+            </a>
           </div>
-
-          <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="hidden lg:flex bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-1 transition-all duration-300 shadow-sm items-center gap-2">
-            ลงทะเบียนเข้าร่วมโครงการ
-            <span className="material-symbols-outlined text-[18px]">open_in_new</span>
-          </a>
 
           {/* Mobile Toggle Button */}
           <button
@@ -943,6 +950,12 @@ export default function Home() {
                         }`}>
                         {statusResult.data.transferStatus}
                       </p>
+                      {statusResult.data.transferDate && (
+                        <p className="font-body-sm text-sm mt-2.5 pl-6 pt-2 border-t border-current/15 flex items-center gap-1.5 font-semibold opacity-95">
+                          <span className="material-symbols-outlined text-[16px]">calendar_today</span>
+                          <span>วันที่จะได้รับเงิน : {statusResult.data.transferDate}</span>
+                        </p>
+                      )}
                     </div>
                   )}
                   {statusResult.data.remark && (

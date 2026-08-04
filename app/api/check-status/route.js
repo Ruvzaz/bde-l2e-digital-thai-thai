@@ -57,6 +57,9 @@ export async function POST(request) {
       const transferStatusRaw = (row[CONFIG.TRANSFER_STATUS_COL] || '').toString().trim();
       const transferStatus = transferStatusRaw === '#N/A' ? '' : transferStatusRaw;
 
+      const transferDateRaw = (row[20] || '').toString().trim(); // Column U "วันที่โอน"
+      const transferDate = transferDateRaw === '#N/A' ? '' : transferDateRaw;
+
       // ข้ามแถวที่ข้อมูลเป็น #N/A (หมายความว่ายังไม่มีคนกรอกข้อมูลสำหรับศูนย์นี้)
       if (name === '#N/A' || phone === '#N/A' || email === '#N/A') continue;
 
@@ -70,7 +73,8 @@ export async function POST(request) {
           name: name,
           status: status || 'ยังไม่ส่งแผน',
           remark: remark, // ส่งหมายเหตุไปด้วย
-          transferStatus: transferStatus // สถานะการโอนจาก Column T
+          transferStatus: transferStatus, // สถานะการโอนจาก Column T
+          transferDate: transferDate // วันที่โอนจาก Column U
         };
         break; // เจอแล้วหยุดหา
       }
