@@ -474,15 +474,19 @@ export default function Home() {
               โครงการพัฒนาแพลตฟอร์มภาครัฐเพื่อรองรับการพัฒนาทักษะดิจิทัล<br></br>
               เรียนรู้มีรายได้เรียนรู้ง่ายตลอดชีวิต ผ่านรูปแบบ Learn to Earn
             </p>
-            <div className="mt-sm flex flex-col items-center md:items-start gap-3">
+            <div className="mt-sm flex flex-col sm:flex-row items-center md:items-start gap-3 flex-wrap">
               <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary text-on-primary px-lg py-sm rounded-full font-headline-md text-[18px] md:text-[20px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-md hover:shadow-lg text-center">
                 ลงทะเบียนศูนย์ดิจิทัลชุมชนเข้าร่วมโครงการ
                 <span className="material-symbols-outlined">arrow_forward</span>
               </a>
-              <p className="text-on-surface-variant font-body-sm text-center md:text-left bg-surface-container-high px-3 py-1 rounded-full w-fit">
-                * สำหรับศูนย์ดิจิทัลชุมชน <b>เพื่อเป็นหน่วยจัดอบรมออนไลน์ให้สมาชิก 10 คน</b>
-              </p>
+              <a href="#report-section" className="inline-flex items-center gap-2 bg-emerald-800 text-white border border-emerald-600/80 px-5 py-sm rounded-full font-headline-md text-[17px] hover:bg-emerald-700 transition-all shadow-md hover:shadow-lg text-center">
+                <span className="material-symbols-outlined text-[20px] text-emerald-300">analytics</span>
+                <span>ส่งรายงานผล & ผลงาน</span>
+              </a>
             </div>
+            <p className="text-on-surface-variant font-body-sm text-center md:text-left bg-surface-container-high px-3 py-1 rounded-full w-fit mt-1">
+              * สำหรับศูนย์ดิจิทัลชุมชน <b>เพื่อเป็นหน่วยจัดอบรมออนไลน์ให้สมาชิก 10 คน</b>
+            </p>
           </div>
           <div className="relative z-10 flex justify-center order-1 md:order-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -491,6 +495,123 @@ export default function Home() {
         </div>
         {/* Decorative Elements - Background image removed to fix Next.js build error */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-transparent bg-cover bg-center"></div>
+      </section>
+
+      {/* Full-Screen High-Impact Report & Submission Hero Section */}
+      <section id="report-section" className="w-full min-h-[calc(100vh-80px)] flex flex-col justify-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950 text-white relative overflow-hidden py-16 lg:py-24 border-b border-emerald-500/20 shadow-2xl">
+        {/* Glowing Background Orbs & Ambient Mesh */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-400/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-emerald-600/10 rounded-full blur-[160px] pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 w-full relative z-10 flex flex-col justify-center">
+          {/* Header Badge & Title */}
+          <div className="text-center max-w-4xl mx-auto mb-12 lg:mb-16">
+            <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 text-white-200 px-5 py-2 rounded-full font-bold text-sm sm:text-base mb-5 backdrop-blur-md shadow-inner">
+              <span className="material-symbols-outlined text-[22px] text-white-400">analytics</span>
+              <span>ช่องทางรายงานผลของโครงการ</span>
+            </div>
+            <h2 className="font-headline-lg text-[32px] sm:text-[44px] lg:text-[52px] font-bold text-white mb-4 leading-tight tracking-tight">
+              ส่งรายงานผลการจัดกิจกรรม <br className="hidden sm:inline" />
+              <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent">และส่งผลงานประกวดสื่อสร้างสรรค์</span>
+            </h2>
+            <p className="text-emerald-100/90 font-body-lg text-base sm:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
+              ช่องทางทางการสำหรับศูนย์ดิจิทัลชุมชนที่จัดกิจกรรมเสร็จสิ้นในการส่งเอกสารเบิกจ่ายงบประมาณ และส่งคลิปวิดีโอเข้าประกวดสื่อลุ้นรับรางวัล
+            </p>
+          </div>
+
+          {/* 3 Responsive Hero Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {/* Card 1: รายงานผลการจัดกิจกรรม (MOST IMPORTANT - ULTIMATE GOLD HIGHLIGHT HERO CARD) */}
+            <div className="bg-gradient-to-b from-amber-500/30 via-amber-900/45 to-emerald-950/95 backdrop-blur-xl border-2 border-amber-400/90 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-amber-300 hover:from-amber-500/40 transition-all duration-300 group hover:-translate-y-2.5 shadow-2xl shadow-amber-500/20 relative overflow-hidden ring-4 ring-amber-400/20">
+              <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 text-xs font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-lg flex items-center gap-1.5 animate-pulse">
+                <span className="material-symbols-outlined text-[16px]">stars</span>
+                <span>สำคัญที่สุด (ต้องส่งทุกคน)</span>
+              </div>
+              <div>
+                <div className="w-16 h-16 bg-amber-400/25 border-2 border-amber-400/60 rounded-2xl flex items-center justify-center text-amber-300 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+                  <span className="material-symbols-outlined text-[38px]">assignment_turned_in</span>
+                </div>
+                <div className="inline-block bg-amber-400/20 text-white-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-amber-400/40">
+                  สำหรับศูนย์ที่จัดอบรมเสร็จแล้ว
+                </div>
+                <h3 className="font-headline-md text-2xl lg:text-3xl font-extrabold text-white-200 mb-3">
+                  รายงานผลการจัดกิจกรรม
+                </h3>
+                <p className="text-white-100/95 text-sm sm:text-base mb-8 leading-relaxed font-medium">
+                  ส่งใบลงชื่อผู้เข้าอบรม 10 คน, ภาพถ่ายกิจกรรมระหว่างอบรม และใบสำคัญรับเงินสำหรับเบิกจ่ายงบประมาณโครงการ <b className="text-amber-300"> <br></br>(ต้องส่งทุกคนเมื่ออบรมจบ)</b>
+                </p>
+              </div>
+              <a
+                href={REPORT_ACTIVITY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-amber-950 font-extrabold py-4 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-xl shadow-amber-500/35 text-base sm:text-lg hover:scale-[1.02]"
+              >
+                <span>ส่งรายงานผลการจัดกิจกรรม</span>
+                <span className="material-symbols-outlined text-[22px]">open_in_new</span>
+              </a>
+            </div>
+
+            {/* Card 2: แบบฟอร์มประกวดสื่อสร้างสรรค์ (Secondary Emerald Card) */}
+            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-emerald-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                <span>🏆 ลุ้น 104 รางวัล</span>
+              </div>
+              <div>
+                <div className="w-16 h-16 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl flex items-center justify-center text-emerald-300 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+                  <span className="material-symbols-outlined text-[36px]">emoji_events</span>
+                </div>
+                <div className="inline-block bg-emerald-400/20 text-emerald-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-emerald-400/30">
+                  ประกวดคลิปวิดีโอ (ลุ้นรางวัล)
+                </div>
+                <h3 className="font-headline-md text-2xl font-bold text-white mb-3">
+                  ประกวดสื่อสร้างสรรค์ <br></br>(ลุ้นรางวัล)
+                </h3>
+                <p className="text-emerald-100/85 text-sm sm:text-base mb-8 leading-relaxed">
+                  ส่งคลิปวิดีโออัตลักษณ์ชุมชน ลุ้นรับ iPad ภาคละ 1 รางวัล และ Huawei Watch Band 11 ภาคละ 25 รางวัล (รวม 104 รางวัล)
+                </p>
+              </div>
+              <a
+                href={CONTEST_MEDIA_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-500/20 group-hover:shadow-emerald-500/40 text-base"
+              >
+                <span>ส่งคลิปประกวดสื่อ (ลุ้นรางวัล)</span>
+                <span className="material-symbols-outlined text-[20px]">open_in_new</span>
+              </a>
+            </div>
+
+            {/* Card 3: แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน) */}
+            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-teal-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-bl-full pointer-events-none"></div>
+              <div>
+                <div className="w-16 h-16 bg-teal-500/20 border border-teal-400/40 rounded-2xl flex items-center justify-center text-teal-300 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+                  <span className="material-symbols-outlined text-[36px]">sports_esports</span>
+                </div>
+                <div className="inline-block bg-teal-400/20 text-teal-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-400/30">
+                  กิจกรรมเสริมระหว่างวัน
+                </div>
+                <h3 className="font-headline-md text-2xl font-bold text-white mb-3">
+                  ส่งผลงานกิจกรรมระหว่างวัน
+                </h3>
+                <p className="text-emerald-100/85 text-sm sm:text-base mb-8 leading-relaxed">
+                  ส่งแบบทดสอบและผลงานการร่วมสนุกกิจกรรมเสริมระหว่างวันอบรม เพื่อสะสมคะแนนและความรู้ตลอดหลักสูตร
+                </p>
+              </div>
+              <a
+                href={DAILY_ACTIVITY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-teal-500 hover:bg-teal-400 text-teal-950 font-bold py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-teal-500/20 group-hover:shadow-teal-500/40 text-base"
+              >
+                <span>ส่งผลงานกิจกรรมระหว่างวัน</span>
+                <span className="material-symbols-outlined text-[20px]">open_in_new</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Target Audience Section */}

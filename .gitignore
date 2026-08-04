@@ -43,4 +43,5 @@ yarn-error.log*
 next-env.d.ts
 
 DESIGN.md
+google_apps_script.md
 app/canvas-test/
