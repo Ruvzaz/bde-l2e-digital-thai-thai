@@ -168,6 +168,11 @@ const FAQ_DATA = [
         q: "ส่งเอกสารได้ที่ไหนครับ ?",
         a: "บริษัท ไพร์ม ดิจิทัล คอนซัลแทนท์ จำกัด 39/19 หมู่ที่ 6 ตำบลสามพราน อำเภอสามพราน จ.นครปฐม 73110\n โทร. 0829416199"
       }
+      ,
+      {
+        q: "ส่งเอกสารอะไรบ้างครับ ?",
+        a: "สิ่งที่ต้องส่ง: \n\n1.ใบสำคัญรับเงินตัวจริง พร้อมแนบสำเนาบัตรประชาชน\n 2.ใบรับของตัวจริง (พร้อมลงนาม)\n 3.ใบเซ็นชื่อ ผู้เข้าร่วมตัวจริง จำนวนไม่น้อยกว่า 11 คน (รวมผู้ดูแลศูนย์)"
+      }
     ]
   }
 ];
@@ -924,20 +929,18 @@ export default function Home() {
                     {statusResult.data.status}
                   </p>
                   {statusResult.data.transferStatus && (
-                    <div className={`mt-3 p-4 border rounded-xl w-full max-w-md text-left shadow-sm ${
-                      statusResult.data.transferStatus.includes('โอนแล้ว')
-                        ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
-                        : 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
-                    }`} style={{ minWidth: 'min(100%, 400px)' }}>
+                    <div className={`mt-3 p-4 border rounded-xl w-full max-w-md text-left shadow-sm ${statusResult.data.transferStatus.includes('โอนแล้ว')
+                      ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
+                      : 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
+                      }`} style={{ minWidth: 'min(100%, 400px)' }}>
                       <p className="font-body-md font-bold flex items-center gap-1.5">
                         <span className="material-symbols-outlined text-[20px]">payments</span>
                         สถานะการโอนเงิน:
                       </p>
-                      <p className={`font-body-md font-bold mt-1 pl-6 break-words ${
-                        statusResult.data.transferStatus.includes('โอนแล้ว')
-                          ? 'text-emerald-950 dark:text-emerald-100'
-                          : 'text-amber-950 dark:text-amber-100'
-                      }`}>
+                      <p className={`font-body-md font-bold mt-1 pl-6 break-words ${statusResult.data.transferStatus.includes('โอนแล้ว')
+                        ? 'text-emerald-950 dark:text-emerald-100'
+                        : 'text-amber-950 dark:text-amber-100'
+                        }`}>
                         {statusResult.data.transferStatus}
                       </p>
                     </div>
