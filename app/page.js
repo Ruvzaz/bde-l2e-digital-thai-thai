@@ -569,7 +569,7 @@ export default function Home() {
                   ประกวดสื่อสร้างสรรค์ <br></br>(ลุ้นรางวัล)
                 </h3>
                 <p className="text-emerald-100/85 text-sm sm:text-base mb-6 lg:mb-8 leading-relaxed">
-                  ส่งคลิปวิดีโออัตลักษณ์ชุมชน ลุ้นรับ iPad ภาคละ 1 รางวัล และ Huawei Watch Band 11 ภาคละ 25 รางวัล (รวม 104 รางวัล)
+                  ส่งคลิปวิดีโออัตลักษณ์ชุมชน ลุ้นรับ iPad <br></br>ภาคละ 1 รางวัล และ Huawei Watch Band 11 ภาคละ 25 รางวัล (รวม 104 รางวัล)
                 </p>
               </div>
               <a
