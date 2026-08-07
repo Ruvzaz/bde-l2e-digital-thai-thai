@@ -1092,6 +1092,18 @@ export default function Home() {
                       <p className="font-body-md text-on-surface mt-1 pl-6 break-words">{statusResult.data.remark}</p>
                     </div>
                   )}
+
+                  {statusResult.data.certTracking && (
+                    <div className="mt-2 p-4 bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/80 rounded-xl w-full max-w-md text-left shadow-sm" style={{ minWidth: 'min(100%, 400px)' }}>
+                      <p className="font-body-md font-bold flex items-center gap-1.5 text-emerald-900 dark:text-emerald-200">
+                        <span className="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400">local_shipping</span>
+                        เลข Tracking ใบประกาศนียบัตร:
+                      </p>
+                      <p className="font-headline-md text-lg font-extrabold text-emerald-950 dark:text-emerald-100 mt-1 pl-6 break-words tracking-wider">
+                        {statusResult.data.certTracking}
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

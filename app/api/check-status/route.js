@@ -13,6 +13,7 @@ const CONFIG = {
   STATUS_COL: 9,   // คอลัมน์ J "สถานะการคัดเลือก"
   REMARK_COL: 10,  // คอลัมน์ K "หมายเหตุ"
   TRANSFER_STATUS_COL: 19, // คอลัมน์ T "สถานะการโอน"
+  CERT_TRACKING_COL: 23,  // คอลัมน์ X "เลข Tracking ใบประกาศ"
 };
 
 export async function POST(request) {
@@ -60,6 +61,9 @@ export async function POST(request) {
       const transferDateRaw = (row[20] || '').toString().trim(); // Column U "วันที่โอน"
       const transferDate = transferDateRaw === '#N/A' ? '' : transferDateRaw;
 
+      const certTrackingRaw = (row[CONFIG.CERT_TRACKING_COL] || '').toString().trim(); // Column X "เลข Tracking ใบประกาศ"
+      const certTracking = (certTrackingRaw === '#N/A' || certTrackingRaw === '-') ? '' : certTrackingRaw;
+
       // ข้ามแถวที่ข้อมูลเป็น #N/A (หมายความว่ายังไม่มีคนกรอกข้อมูลสำหรับศูนย์นี้)
       if (name === '#N/A' || phone === '#N/A' || email === '#N/A') continue;
 
@@ -74,7 +78,8 @@ export async function POST(request) {
           status: status || 'ยังไม่ส่งแผน',
           remark: remark, // ส่งหมายเหตุไปด้วย
           transferStatus: transferStatus, // สถานะการโอนจาก Column T
-          transferDate: transferDate // วันที่โอนจาก Column U
+          transferDate: transferDate, // วันที่โอนจาก Column U
+          certTracking: certTracking, // เลข Tracking ใบประกาศจาก Column X
         };
         break; // เจอแล้วหยุดหา
       }
