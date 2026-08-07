@@ -316,16 +316,16 @@ export default function Home() {
           </div>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex gap-lg items-center">
-            <Link href="#schedule" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+          <div className="hidden xl:flex gap-4 xl:gap-5 items-center text-sm font-medium">
+            <Link href="#schedule" className="group relative text-on-surface-variant hover:text-primary transition-colors py-1">
               กำหนดการ
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
-            <Link href="#applicants" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
-              จำนวนผู้สมัคร
+            <Link href="#applicants" className="group relative text-on-surface-variant hover:text-primary transition-colors py-1">
+              ผู้สมัคร
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
-            <Link href="#check-status" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+            <Link href="#check-status" className="group relative text-on-surface-variant hover:text-primary transition-colors py-1">
               เช็คสถานะ
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
@@ -333,128 +333,151 @@ export default function Home() {
               href={DOCUMENTS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1"
+              className="group relative text-on-surface-variant hover:text-primary transition-colors py-1"
             >
               รวมเอกสาร
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </a>
-
-            <Link href="#faq" className="group relative text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md py-1">
+            <Link href="#faq" className="group relative text-on-surface-variant hover:text-primary transition-colors py-1">
               FAQ
               <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
 
+            <a
+              href={CONTEST_MEDIA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative text-emerald-800 hover:text-emerald-950 font-bold transition-colors py-1 flex items-center gap-1"
+            >
+              <span className="material-symbols-outlined text-[17px] text-emerald-700">emoji_events</span>
+              <span>ประกวดสื่อสร้างสรรค์</span>
+              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-emerald-600 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </a>
+
             {SHOW_ECERT_LINK && (
-              <Link href="/e-cert" className="group relative text-emerald-800 hover:text-emerald-950 font-bold transition-colors font-label-md text-label-md py-1 flex items-center gap-1">
-                <span className="material-symbols-outlined text-[18px] text-emerald-700">workspace_premium</span>
+              <Link href="/e-cert" className="group relative text-emerald-800 hover:text-emerald-950 font-bold transition-colors py-1 flex items-center gap-1">
+                <span className="material-symbols-outlined text-[17px] text-emerald-700">workspace_premium</span>
                 <span>ระบบ E-Cert</span>
-                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-emerald-600 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
               </Link>
             )}
           </div>
 
           {/* Right Action Cluster: รายงานผล + ลงทะเบียน */}
-          <div className="hidden lg:flex items-center gap-3">
-            {/* Dropdown "รายงานผล" */}
-            <div className="relative group py-1">
-              <button className="flex items-center gap-1.5 text-emerald-900 bg-emerald-50/90 hover:bg-emerald-100/90 border border-emerald-200/80 font-bold font-label-md text-label-md px-4 py-2 rounded-full transition-all shadow-sm hover:shadow cursor-pointer">
-                <span className="material-symbols-outlined text-[19px] text-emerald-700">analytics</span>
-                <span>รายงานผล</span>
-                <span className="material-symbols-outlined text-[18px] transition-transform group-hover:rotate-180 text-emerald-700">expand_more</span>
-              </button>
-
-              <div className="absolute right-0 top-full pt-1.5 w-[380px] hidden group-hover:block animate-fadeIn z-50 before:absolute before:-top-4 before:left-0 before:w-full before:h-6">
-                <div className="bg-white/95 dark:bg-surface-container-lowest/95 backdrop-blur-md rounded-2xl shadow-xl border border-outline-variant/30 py-2.5 overflow-hidden whitespace-nowrap">
-                  <Link
-                    href={REPORT_ACTIVITY_URL}
-                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[20px] text-primary shrink-0">assessment</span>
-                    <span>รายงานผลการจัดกิจกรรม</span>
-                  </Link>
-
-                  <a
-                    href={CONTEST_MEDIA_URL}
-                    target={CONTEST_MEDIA_URL.startsWith("http") ? "_blank" : "_self"}
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[20px] text-amber-500 shrink-0">emoji_events</span>
-                    <span>เเบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)</span>
-                  </a>
-
-                  <a
-                    href={DAILY_ACTIVITY_URL}
-                    target={DAILY_ACTIVITY_URL.startsWith("http") ? "_blank" : "_self"}
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[20px] text-emerald-600 shrink-0">sports_esports</span>
-                    <span>เเบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)</span>
-                  </a>
-                </div>
-              </div>
-            </div>
+          <div className="hidden lg:flex items-center gap-2.5">
+            {/* Direct Button "รายงานผลการจัดกิจกรรม" (Direct Link to Form) */}
+            <a
+              href={REPORT_ACTIVITY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-emerald-950 bg-emerald-100/90 hover:bg-emerald-200/90 border border-emerald-300/80 font-bold text-xs sm:text-sm px-3.5 py-2 rounded-full transition-all shadow-sm hover:shadow hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+            >
+              <span className="material-symbols-outlined text-[18px] text-emerald-700">assessment</span>
+              <span>รายงานผลการจัดกิจกรรม</span>
+              <span className="material-symbols-outlined text-[15px] text-emerald-800">open_in_new</span>
+            </a>
 
             {/* Button "ลงทะเบียนเข้าร่วมโครงการ" */}
-            <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="bg-primary text-on-primary px-5 py-2 rounded-full font-label-md text-label-md font-bold hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 shadow-sm flex items-center gap-2">
-              <span>ลงทะเบียนเข้าร่วมโครงการ</span>
-              <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+            <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" className="bg-primary text-on-primary px-4 py-2 rounded-full text-xs sm:text-sm font-bold hover:bg-primary-container hover:text-on-primary-container hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 shadow-sm flex items-center gap-1.5 whitespace-nowrap">
+              <span>ลงทะเบียนโครงการ</span>
+              <span className="material-symbols-outlined text-[16px]">open_in_new</span>
             </a>
           </div>
 
           {/* Mobile Toggle Button */}
           <button
-            className="lg:hidden flex items-center text-primary p-2 focus:outline-none"
+            className="xl:hidden flex items-center text-primary p-2 focus:outline-none rounded-xl hover:bg-surface-container-high transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Navigation Menu"
           >
-            <span className="material-symbols-outlined text-[32px]">
+            <span className="material-symbols-outlined text-[30px]">
               {isMenuOpen ? "close" : "menu"}
             </span>
           </button>
         </div>
 
-        {/* Mobile Menu Dropdown */}
-        <div className={`lg:hidden absolute top-full left-0 w-full bg-surface-container-lowest border-b border-outline-variant/30 shadow-lg transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-[750px] py-6 opacity-100" : "max-h-0 py-0 opacity-0"} flex flex-col items-center gap-3`}>
-          <Link href="#schedule" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">กำหนดการ</Link>
-          <Link href="#applicants" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">จำนวนผู้สมัคร</Link>
-          <Link href="#check-status" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">เช็คสถานะ</Link>
+        {/* Mobile Menu Drawer */}
+        <div className={`xl:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-surface-container-lowest/95 backdrop-blur-xl border-b border-outline-variant/30 shadow-2xl transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-[850px] py-5 px-6 opacity-100" : "max-h-0 py-0 px-6 opacity-0"} flex flex-col gap-4 z-50`}>
+          {/* Quick Nav Links Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <Link href="#schedule" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-1.5 bg-surface-container-high/80 hover:bg-primary/10 text-on-surface font-semibold text-sm py-2.5 px-3 rounded-xl transition-all border border-outline-variant/20">
+              <span className="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+              <span>กำหนดการ</span>
+            </Link>
+            <Link href="#applicants" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-1.5 bg-surface-container-high/80 hover:bg-primary/10 text-on-surface font-semibold text-sm py-2.5 px-3 rounded-xl transition-all border border-outline-variant/20">
+              <span className="material-symbols-outlined text-[18px] text-primary">groups</span>
+              <span>ผู้สมัคร</span>
+            </Link>
+            <Link href="#check-status" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-1.5 bg-surface-container-high/80 hover:bg-primary/10 text-on-surface font-semibold text-sm py-2.5 px-3 rounded-xl transition-all border border-outline-variant/20">
+              <span className="material-symbols-outlined text-[18px] text-primary">manage_search</span>
+              <span>เช็คสถานะ</span>
+            </Link>
+            <a href={DOCUMENTS_URL} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-1.5 bg-surface-container-high/80 hover:bg-primary/10 text-on-surface font-semibold text-sm py-2.5 px-3 rounded-xl transition-all border border-outline-variant/20">
+              <span className="material-symbols-outlined text-[18px] text-primary">folder_open</span>
+              <span>รวมเอกสาร</span>
+            </a>
+            <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-1.5 bg-surface-container-high/80 hover:bg-primary/10 text-on-surface font-semibold text-sm py-2.5 px-3 rounded-xl transition-all border border-outline-variant/20 col-span-2 sm:col-span-1">
+              <span className="material-symbols-outlined text-[18px] text-primary">help</span>
+              <span>FAQ</span>
+            </Link>
+          </div>
+
+          <div className="border-t border-outline-variant/30 my-0.5"></div>
+
+          {/* Highlight Action Cards */}
+          <div className="flex flex-col gap-2.5">
+            <a
+              href={REPORT_ACTIVITY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/40 border border-emerald-300 dark:border-emerald-700/60 text-emerald-950 dark:text-emerald-200 font-bold text-sm py-3 px-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow transition-all"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="material-symbols-outlined text-[22px] text-emerald-600">assessment</span>
+                <span>รายงานผลการจัดกิจกรรม</span>
+              </div>
+              <span className="material-symbols-outlined text-[18px] opacity-70">open_in_new</span>
+            </a>
+
+            <a
+              href={CONTEST_MEDIA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-gradient-to-r from-emerald-100/90 to-emerald-50 dark:from-emerald-900/40 dark:to-teal-900/30 border border-emerald-400 dark:border-emerald-600/60 text-emerald-950 dark:text-emerald-100 font-bold text-sm py-3 px-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow transition-all"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="material-symbols-outlined text-[22px] text-emerald-700">emoji_events</span>
+                <span>ประกวดสื่อสร้างสรรค์</span>
+              </div>
+              <span className="material-symbols-outlined text-[18px] text-emerald-700 opacity-80">open_in_new</span>
+            </a>
+
+            {SHOW_ECERT_LINK && (
+              <Link
+                href="/e-cert"
+                onClick={() => setIsMenuOpen(false)}
+                className="bg-gradient-to-r from-emerald-100/90 to-emerald-50 dark:from-emerald-900/40 dark:to-teal-900/30 border border-emerald-400 dark:border-emerald-600/60 text-emerald-950 dark:text-emerald-100 font-bold text-sm py-3 px-4 rounded-2xl flex items-center justify-between shadow-sm hover:shadow transition-all"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="material-symbols-outlined text-[22px] text-emerald-700">workspace_premium</span>
+                  <span>ระบบออกใบประกาศ E-Cert</span>
+                </div>
+                <span className="material-symbols-outlined text-[18px] text-emerald-700">arrow_forward</span>
+              </Link>
+            )}
+          </div>
+
+          {/* Primary CTA */}
           <a
-            href={DOCUMENTS_URL}
+            href={GOOGLE_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setIsMenuOpen(false)}
-            className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2"
+            className="w-full bg-primary text-on-primary font-bold text-base py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 shadow-lg hover:bg-primary-container hover:text-on-primary-container transition-all mt-1 text-center"
           >
-            รวมเอกสาร
-          </a>
-
-          <div className="w-4/5 border-t border-outline-variant/30 my-1"></div>
-          <span className="text-xs font-bold text-on-surface-variant/70 uppercase tracking-wider">รายงานผล</span>
-          <Link href={REPORT_ACTIVITY_URL} onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[15px] w-full text-center py-1.5 flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-[18px] text-primary">assessment</span>
-            รายงานผลการจัดกิจกรรม
-          </Link>
-          <a href={CONTEST_MEDIA_URL} target={CONTEST_MEDIA_URL.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[15px] w-full text-center py-1.5 flex items-center justify-center gap-2 px-4">
-            <span className="material-symbols-outlined text-[18px] text-amber-500 shrink-0">emoji_events</span>
-            <span>เเบบฟอร์มประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)</span>
-          </a>
-          <a href={DAILY_ACTIVITY_URL} target={DAILY_ACTIVITY_URL.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[15px] w-full text-center py-1.5 flex items-center justify-center gap-2 px-4">
-            <span className="material-symbols-outlined text-[18px] text-emerald-600 shrink-0">sports_esports</span>
-            <span>เเบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน)</span>
-          </a>
-          <div className="w-4/5 border-t border-outline-variant/30 my-1"></div>
-
-          <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-on-surface-variant hover:text-primary font-headline-md text-[18px] w-full text-center py-2">คำถามที่พบบ่อย</Link>
-          {SHOW_ECERT_LINK && (
-            <Link href="/e-cert" onClick={() => setIsMenuOpen(false)} className="text-emerald-700 font-bold font-headline-md text-[17px] w-full text-center py-2 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-center gap-2">
-              <span className="material-symbols-outlined text-[20px] text-emerald-600">workspace_premium</span>
-              ออกใบประกาศ E-Cert
-            </Link>
-          )}
-
-          <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="bg-primary text-on-primary px-lg py-3 mt-2 rounded-full font-headline-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm flex items-center gap-2">
-            ลงทะเบียนเข้าร่วมโครงการ
+            <span>ลงทะเบียนเข้าร่วมโครงการ</span>
             <span className="material-symbols-outlined text-[20px]">open_in_new</span>
           </a>
         </div>
@@ -481,7 +504,7 @@ export default function Home() {
               </a>
               <a href="#report-section" className="inline-flex items-center gap-2 bg-emerald-800 text-white border border-emerald-600/80 px-5 py-sm rounded-full font-headline-md text-[17px] hover:bg-emerald-700 transition-all shadow-md hover:shadow-lg text-center">
                 <span className="material-symbols-outlined text-[20px] text-emerald-300">analytics</span>
-                <span>ส่งรายงานผล & ผลงาน</span>
+                <span>ส่งรายงานผล</span>
               </a>
             </div>
             <p className="text-on-surface-variant font-body-sm text-center md:text-left bg-surface-container-high px-3 py-1 rounded-full w-fit mt-1">
@@ -515,13 +538,10 @@ export default function Home() {
               ส่งรายงานผลการจัดกิจกรรม <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent">และส่งผลงานประกวดสื่อสร้างสรรค์</span>
             </h2>
-            <p className="text-emerald-100/90 font-body-lg text-sm sm:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed">
-              ช่องทางทางการสำหรับศูนย์ดิจิทัลชุมชนที่จัดกิจกรรมเสร็จสิ้นในการส่งเอกสารเบิกจ่ายงบประมาณ และส่งคลิปวิดีโอเข้าประกวดสื่อลุ้นรับรางวัล
-            </p>
           </div>
 
           {/* 3 Responsive Hero Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5 lg:gap-7 items-stretch">
             {/* Card 1: รายงานผลการจัดกิจกรรม (MOST IMPORTANT - ULTIMATE GOLD HIGHLIGHT HERO CARD) */}
             <div className="bg-gradient-to-b from-amber-500/25 via-amber-900/45 to-emerald-950/95 backdrop-blur-xl border-2 border-amber-400/90 rounded-3xl p-6 sm:p-7 lg:p-8 flex flex-col justify-between hover:border-amber-300 hover:from-amber-500/35 transition-all duration-300 group hover:-translate-y-2 shadow-2xl shadow-amber-500/20 relative overflow-hidden ring-4 ring-amber-400/20">
               <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 text-xs font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-lg flex items-center gap-1.5 animate-pulse">
@@ -538,9 +558,57 @@ export default function Home() {
                 <h3 className="font-headline-md text-2xl lg:text-3xl font-extrabold text-amber-200 mb-2.5">
                   รายงานผลการจัดกิจกรรม
                 </h3>
-                <p className="text-white/90 text-sm sm:text-base mb-6 lg:mb-8 leading-relaxed font-medium">
-                  ส่งใบลงชื่อผู้เข้าอบรม 10 คน, ภาพถ่ายกิจกรรมระหว่างอบรม และใบสำคัญรับเงินสำหรับเบิกจ่ายงบประมาณโครงการ <b className="text-amber-300 block mt-1">(ต้องส่งทุกคนเมื่ออบรมจบ)</b>
-                </p>
+
+                {/* Structured 2-Column Requirements Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                  {/* Group 1: สิ่งที่ต้องนำมารายงานผล (ระบบออนไลน์) */}
+                  <div className="bg-amber-950/50 border border-amber-400/35 rounded-2xl p-4.5 sm:p-5 backdrop-blur-md flex flex-col gap-3 shadow-inner">
+                    <div className="font-bold text-amber-300 text-sm sm:text-base flex items-center gap-2 border-b border-amber-400/25 pb-2.5">
+                      <span className="material-symbols-outlined text-[20px] text-amber-400">cloud_upload</span>
+                      <span>สิ่งที่ต้องนำมารายงานผล (ออนไลน์)</span>
+                    </div>
+                    <ul className="flex flex-col gap-2.5 text-xs sm:text-sm text-white-100/90 font-medium">
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-amber-400/25 border border-amber-400/40 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <span>กรอกรายชื่อผู้เข้าอบรมรวม ผดศ. ไม่น้อยกว่า 11 คน (ให้ตรงกับใบลงทะเบียน)</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-amber-400/25 border border-amber-400/40 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <span>อัปโหลดภาพระหว่างอบรม, อาหาร, อาหารว่างและเครื่องดื่ม และคลิปบรรยากาศการอบรม</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-amber-400/25 border border-amber-400/40 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <span>อัปโหลดไฟล์สแกนใบรับของ (ใบประกาศและปก)</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-amber-400/25 border border-amber-400/40 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                        <span>อัปโหลดไฟล์สแกนใบลงชื่อ</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Group 2: เมื่อรายงานผลแล้ว สิ่งที่ต้องส่งกลับบริษัท (เอกสารจริง) */}
+                  <div className="bg-emerald-950/50 border border-emerald-400/35 rounded-2xl p-4.5 sm:p-5 backdrop-blur-md flex flex-col gap-3 shadow-inner">
+                    <div className="font-bold text-emerald-300 text-sm sm:text-base flex items-center gap-2 border-b border-emerald-400/25 pb-2.5">
+                      <span className="material-symbols-outlined text-[20px] text-emerald-400">markunread_mailbox</span>
+                      <span>เมื่อรายงานผลแล้ว สิ่งที่ต้องส่งกลับบริษัท</span>
+                    </div>
+                    <ul className="flex flex-col gap-2.5 text-xs sm:text-sm text-white-100/90 font-medium">
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-400/25 border border-emerald-400/40 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <span>ใบสำคัญรับเงิน และสำเนาบัตรประชาชน <b className="text-white font-bold">(1,500 บาท)</b></span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-400/25 border border-emerald-400/40 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <span>ใบรับของ (ฉบับจริง)</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-400/25 border border-emerald-400/40 text-emerald-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <span>ใบลงชื่อผู้เข้าอบรม (ฉบับจริง)</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
               <a
                 href={REPORT_ACTIVITY_URL}
@@ -553,65 +621,8 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Card 2: แบบฟอร์มประกวดสื่อสร้างสรรค์ (Secondary Emerald Card) */}
-            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-7 lg:p-8 flex flex-col justify-between hover:border-emerald-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1">
-                <span>🏆 ลุ้น 104 รางวัล</span>
-              </div>
-              <div>
-                <div className="w-14 h-14 lg:w-16 lg:h-16 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl flex items-center justify-center text-emerald-300 mb-5 group-hover:scale-105 transition-transform shadow-inner">
-                  <span className="material-symbols-outlined text-[36px]">emoji_events</span>
-                </div>
-                <div className="inline-block bg-emerald-400/20 text-emerald-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-emerald-400/30">
-                  ประกวดคลิปวิดีโอ (ลุ้นรางวัล)
-                </div>
-                <h3 className="font-headline-md text-2xl lg:text-3xl font-bold text-white mb-2.5">
-                  ประกวดสื่อสร้างสรรค์ <br></br>(ลุ้นรางวัล)
-                </h3>
-                <p className="text-emerald-100/85 text-sm sm:text-base mb-6 lg:mb-8 leading-relaxed">
-                  ส่งคลิปวิดีโออัตลักษณ์ชุมชน ลุ้นรับ iPad <br></br>ภาคละ 1 รางวัล และ Huawei Watch Band 11 ภาคละ 25 รางวัล (รวม 104 รางวัล)
-                </p>
-              </div>
-              <a
-                href={CONTEST_MEDIA_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-500/20 group-hover:shadow-emerald-500/40 text-base"
-              >
-                <span>ส่งคลิปประกวดสื่อ (ลุ้นรางวัล)</span>
-                <span className="material-symbols-outlined text-[20px]">open_in_new</span>
-              </a>
-            </div>
 
-            {/* Card 3: แบบฟอร์มส่งผลงานเล่นกิจกรรม (ระหว่างวัน) */}
-            <div className="bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-7 lg:p-8 flex flex-col justify-between hover:border-teal-400/70 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-4 right-4 bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1">
-                <span>ผลงานร่วมสนุกระหว่างอบรม</span>
-              </div>
-              <div>
-                <div className="w-14 h-14 lg:w-16 lg:h-16 bg-teal-500/20 border border-teal-400/40 rounded-2xl flex items-center justify-center text-teal-300 mb-5 group-hover:scale-105 transition-transform shadow-inner">
-                  <span className="material-symbols-outlined text-[36px]">sports_esports</span>
-                </div>
-                <div className="inline-block bg-teal-400/20 text-teal-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-400/30">
-                  กิจกรรมเสริมระหว่างวัน
-                </div>
-                <h3 className="font-headline-md text-2xl lg:text-3xl font-bold text-white mb-2.5">
-                  ส่งผลงานกิจกรรมระหว่างวัน
-                </h3>
-                <p className="text-emerald-100/85 text-sm sm:text-base mb-6 lg:mb-8 leading-relaxed">
-                  ส่งแบบทดสอบและผลงานการร่วมสนุกกิจกรรมเสริมระหว่างวันอบรม เพื่อสะสมคะแนนและความรู้ตลอดหลักสูตร
-                </p>
-              </div>
-              <a
-                href={DAILY_ACTIVITY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-teal-500 hover:bg-teal-400 text-teal-950 font-bold py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-teal-500/20 group-hover:shadow-teal-500/40 text-base"
-              >
-                <span>ส่งผลงานกิจกรรมระหว่างวัน</span>
-                <span className="material-symbols-outlined text-[20px]">open_in_new</span>
-              </a>
-            </div>
+
           </div>
         </div>
       </section>
@@ -924,6 +935,19 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Action Button to Submit Creative Media Contest */}
+        <div className="mt-10 flex justify-center">
+          <a
+            href={CONTEST_MEDIA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-emerald-800 hover:bg-emerald-700 text-white font-extrabold px-8 py-3.5 rounded-full text-base sm:text-lg border border-emerald-600/80 shadow-lg shadow-emerald-900/20 hover:shadow-xl hover:shadow-emerald-900/35 hover:-translate-y-0.5 transition-all duration-300 group text-center"
+          >
+            <span className="material-symbols-outlined text-[24px] text-amber-300">emoji_events</span>
+            <span>ส่งคลิปประกวดสื่อสร้างสรรค์ (ลุ้นรางวัล)</span>
+          </a>
         </div>
       </section>
 
