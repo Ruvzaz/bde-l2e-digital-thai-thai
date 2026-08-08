@@ -401,7 +401,7 @@ export default function AdminDashboardPage() {
               title: `${label} (รูปที่ ${safeIndex + 1} / ${urls.length})`,
             })
           }
-          className="relative w-full h-[320px] sm:h-[400px] rounded-2xl overflow-hidden bg-slate-950/90 border border-outline-variant/20 group flex items-center justify-center cursor-pointer shadow-md select-none"
+          className="relative w-full h-[170px] sm:h-[190px] rounded-2xl overflow-hidden bg-slate-950/90 border border-outline-variant/20 group flex items-center justify-center cursor-pointer shadow-md select-none"
           title="คลิกเพื่อดูภาพขยายใหญ่เต็มหน้าจอ"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -510,14 +510,33 @@ export default function AdminDashboardPage() {
               <span className="material-symbols-outlined text-[15px]">open_in_new</span>
             </a>
           </div>
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg bg-black border border-outline-variant/20 min-h-[280px]">
-            <iframe
-              src={`https://www.youtube.com/embed/${ytId}`}
-              title={label}
-              className="w-full h-full border-0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+          <div
+            onClick={() =>
+              setActiveImagePreview({
+                type: 'video_yt',
+                src: firstUrl,
+                ytId,
+                title: label,
+              })
+            }
+            className="relative w-full h-[170px] sm:h-[190px] rounded-2xl overflow-hidden shadow-lg bg-black border border-outline-variant/20 cursor-pointer group flex items-center justify-center"
+            title="คลิกเพื่อเล่นวิดีโอเต็มหน้าจอ"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://img.youtube.com/vi/${ytId}/hqdefault.jpg`}
+              alt={label}
+              className="w-full h-full object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105 opacity-80 group-hover:opacity-90"
+            />
+            <div className="absolute z-10 w-12 h-12 rounded-full bg-rose-600/90 group-hover:bg-rose-600 text-white flex items-center justify-center shadow-xl backdrop-blur-sm transition-transform group-hover:scale-110">
+              <span className="material-symbols-outlined text-[28px] translate-x-0.5">play_arrow</span>
+            </div>
+            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-3 text-white font-bold text-xs backdrop-blur-[1px]">
+              <span className="flex items-center gap-1 bg-black/60 px-3 py-1 rounded-full border border-white/20">
+                <span className="material-symbols-outlined text-[18px]">fullscreen</span>
+                <span>คลิกเพื่อดูเต็มหน้าจอ</span>
+              </span>
+            </div>
           </div>
         </div>
       );
@@ -539,17 +558,37 @@ export default function AdminDashboardPage() {
               <span className="material-symbols-outlined text-[15px]">open_in_new</span>
             </a>
           </div>
-          <video
-            src={firstUrl}
-            controls
-            className="w-full rounded-2xl min-h-[280px] max-h-[450px] object-contain shadow-lg bg-black border border-outline-variant/20"
-          ></video>
+          <div
+            onClick={() =>
+              setActiveImagePreview({
+                type: 'video_mp4',
+                src: firstUrl,
+                title: label,
+              })
+            }
+            className="relative w-full h-[170px] sm:h-[190px] rounded-2xl overflow-hidden shadow-lg bg-black border border-outline-variant/20 cursor-pointer group flex items-center justify-center"
+            title="คลิกเพื่อเล่นวิดีโอเต็มหน้าจอ"
+          >
+            <video
+              src={firstUrl}
+              className="w-full h-full object-cover rounded-2xl opacity-70 group-hover:opacity-85 transition-opacity"
+            />
+            <div className="absolute z-10 w-12 h-12 rounded-full bg-primary/90 group-hover:bg-primary text-on-primary flex items-center justify-center shadow-xl backdrop-blur-sm transition-transform group-hover:scale-110">
+              <span className="material-symbols-outlined text-[28px] translate-x-0.5">play_arrow</span>
+            </div>
+            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-3 text-white font-bold text-xs backdrop-blur-[1px]">
+              <span className="flex items-center gap-1 bg-black/60 px-3 py-1 rounded-full border border-white/20">
+                <span className="material-symbols-outlined text-[18px]">fullscreen</span>
+                <span>คลิกเพื่อดูเต็มหน้าจอ</span>
+              </span>
+            </div>
+          </div>
         </div>
       );
     }
 
     // Embedded Google Drive Video or PDF Viewer
-    if (driveId && (isVideo || isPdf)) {
+    if (driveId && isVideo) {
       return (
         <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-3 border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm">
           <div className="flex items-center justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
@@ -564,7 +603,59 @@ export default function AdminDashboardPage() {
               <span className="material-symbols-outlined text-[15px]">open_in_new</span>
             </a>
           </div>
-          <div className="relative w-full h-[360px] sm:h-[450px] rounded-2xl overflow-hidden shadow-lg bg-slate-900 border border-outline-variant/20">
+          <div
+            onClick={() =>
+              setActiveImagePreview({
+                type: 'video_drive',
+                src: firstUrl,
+                driveId,
+                title: label,
+              })
+            }
+            className="relative w-full h-[170px] sm:h-[190px] rounded-2xl overflow-hidden shadow-lg bg-slate-900 border border-outline-variant/20 cursor-pointer group flex items-center justify-center"
+            title="คลิกเพื่อเล่นวิดีโอเต็มหน้าจอ"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`}
+              alt={label}
+              className="w-full h-full object-cover rounded-2xl opacity-75 group-hover:opacity-90 transition-opacity"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = `https://lh3.googleusercontent.com/d/${driveId}`;
+              }}
+            />
+            <div className="absolute z-10 w-12 h-12 rounded-full bg-emerald-600/90 group-hover:bg-emerald-600 text-white flex items-center justify-center shadow-xl backdrop-blur-sm transition-transform group-hover:scale-110">
+              <span className="material-symbols-outlined text-[28px] translate-x-0.5">play_arrow</span>
+            </div>
+            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-3 text-white font-bold text-xs backdrop-blur-[1px]">
+              <span className="flex items-center gap-1 bg-black/60 px-3 py-1 rounded-full border border-white/20">
+                <span className="material-symbols-outlined text-[18px]">fullscreen</span>
+                <span>คลิกเพื่อดูเต็มหน้าจอ</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // PDF Viewer (Inline Preview Frame)
+    if (driveId && isPdf) {
+      return (
+        <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-3 border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm">
+          <div className="flex items-center justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
+            <p className="text-sm font-bold text-on-surface truncate">{label}</p>
+            <a
+              href={firstUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary font-bold hover:underline flex items-center gap-1 shrink-0 bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 transition-all hover:bg-primary/20"
+            >
+              <span>เปิดลิงก์ต้นฉบับ</span>
+              <span className="material-symbols-outlined text-[15px]">open_in_new</span>
+            </a>
+          </div>
+          <div className="relative w-full h-[180px] sm:h-[200px] rounded-2xl overflow-hidden shadow-lg bg-slate-900 border border-outline-variant/20">
             <iframe
               src={`https://drive.google.com/file/d/${driveId}/preview`}
               title={label}
@@ -1079,7 +1170,7 @@ export default function AdminDashboardPage() {
 
               {/* TAB 2: FILES */}
               {activeTab === 'FILES' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                   {renderMediaPreviewCard('ใบเซ็นชื่อผู้เข้าร่วมอบรม (PDF)', getVal(selectedRow, 'ใบเซ็นชื่อ'), false, true)}
                   {renderMediaPreviewCard('ภาพรวมการจัดกิจกรรม (2 ภาพ)', getVal(selectedRow, 'ภาพรวมการจัดกิจกรรม'))}
                   {renderMediaPreviewCard('ภาพบรรยากาศอบรม (4 ภาพ)', getVal(selectedRow, 'บรรยากาศอบรม'))}
@@ -1156,20 +1247,25 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* Fullscreen Lightbox Image Modal */}
+      {/* Fullscreen Lightbox Media & Video Modal */}
       {activeImagePreview && (
         <div
           className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-8 animate-fade-in"
           onClick={() => setActiveImagePreview(null)}
         >
           <div
-            className="relative max-w-6xl w-full max-h-[90vh] flex flex-col items-center justify-center gap-4"
+            className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center justify-center gap-4"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-full flex items-center justify-between px-2 text-white">
-              <h4 className="text-base sm:text-lg font-bold truncate max-w-xl">
-                {activeImagePreview.title}
-              </h4>
+              <div className="flex items-center gap-2 truncate max-w-xl">
+                <span className="material-symbols-outlined text-[24px]">
+                  {activeImagePreview.type?.startsWith('video') ? 'play_circle' : 'image'}
+                </span>
+                <h4 className="text-base sm:text-lg font-bold truncate">
+                  {activeImagePreview.title}
+                </h4>
+              </div>
               <div className="flex items-center gap-3">
                 <a
                   href={activeImagePreview.src}
@@ -1189,13 +1285,42 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="relative w-full max-h-[80vh] flex items-center justify-center overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-black/50">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={activeImagePreview.src}
-                alt={activeImagePreview.title}
-                className="max-h-[80vh] max-w-full object-contain rounded-2xl"
-              />
+            <div className="relative w-full max-h-[82vh] flex items-center justify-center overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-black/90">
+              {activeImagePreview.type === 'video_yt' ? (
+                <div className="w-full aspect-video max-h-[80vh]">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${activeImagePreview.ytId}?autoplay=1`}
+                    title={activeImagePreview.title}
+                    className="w-full h-full border-0 rounded-2xl"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : activeImagePreview.type === 'video_mp4' ? (
+                <video
+                  src={activeImagePreview.src}
+                  controls
+                  autoPlay
+                  className="w-full max-h-[80vh] aspect-video object-contain rounded-2xl bg-black"
+                ></video>
+              ) : activeImagePreview.type === 'video_drive' ? (
+                <div className="w-full h-[78vh] rounded-2xl overflow-hidden bg-slate-900">
+                  <iframe
+                    src={`https://drive.google.com/file/d/${activeImagePreview.driveId}/preview`}
+                    title={activeImagePreview.title}
+                    className="w-full h-full border-0 rounded-2xl"
+                    allow="autoplay"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={activeImagePreview.src}
+                  alt={activeImagePreview.title}
+                  className="max-h-[80vh] max-w-full object-contain rounded-2xl"
+                />
+              )}
             </div>
           </div>
         </div>
