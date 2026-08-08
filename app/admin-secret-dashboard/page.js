@@ -336,6 +336,144 @@ export default function AdminDashboardPage() {
       </div>
     );
   };
+  // Multi-Image Preview Card with Prev/Next Sliding Navigation
+  const MultiImageCard = ({ label, rawUrl }) => {
+    const urls = (rawUrl || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) => s.startsWith('http://') || s.startsWith('https://'));
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    if (urls.length === 0) {
+      return (
+        <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-2 border border-outline-variant/30">
+          <p className="text-sm font-bold text-on-surface-variant">{label}</p>
+          <div className="flex items-center justify-center p-8 border border-dashed border-outline-variant/40 rounded-2xl bg-surface-container-high/20 text-on-surface-variant/50 text-xs font-medium gap-1.5 min-h-[200px]">
+            <span className="material-symbols-outlined text-[24px]">cloud_off</span>
+            <span>ยังไม่มีไฟล์</span>
+          </div>
+        </div>
+      );
+    }
+
+    const safeIndex = Math.min(Math.max(0, currentIndex), urls.length - 1);
+    const currentUrl = urls[safeIndex] || urls[0];
+    const driveId = getDriveFileId(currentUrl);
+    const imgSrc = driveId ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w1600` : currentUrl;
+
+    const handleNext = (e) => {
+      e.stopPropagation();
+      setCurrentIndex((prev) => (prev + 1) % urls.length);
+    };
+
+    const handlePrev = (e) => {
+      e.stopPropagation();
+      setCurrentIndex((prev) => (prev - 1 + urls.length) % urls.length);
+    };
+
+    return (
+      <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-3 border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm">
+        <div className="flex items-center justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
+          <div className="flex items-center gap-2 truncate">
+            <p className="text-sm font-bold text-on-surface truncate">{label}</p>
+            {urls.length > 1 && (
+              <span className="bg-primary/10 text-primary text-xs font-bold font-mono px-2.5 py-0.5 rounded-full border border-primary/20 shrink-0">
+                {safeIndex + 1} / {urls.length}
+              </span>
+            )}
+          </div>
+          <a
+            href={currentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-primary font-bold hover:underline flex items-center gap-1 shrink-0 bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 transition-all hover:bg-primary/20"
+          >
+            <span>เปิดลิงก์รูปนี้</span>
+            <span className="material-symbols-outlined text-[15px]">open_in_new</span>
+          </a>
+        </div>
+
+        <div
+          onClick={() =>
+            setActiveImagePreview({
+              src: imgSrc,
+              title: `${label} (รูปที่ ${safeIndex + 1} / ${urls.length})`,
+            })
+          }
+          className="relative w-full h-[320px] sm:h-[400px] rounded-2xl overflow-hidden bg-slate-950/90 border border-outline-variant/20 group flex items-center justify-center cursor-pointer shadow-md select-none"
+          title="คลิกเพื่อดูภาพขยายใหญ่เต็มหน้าจอ"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            key={imgSrc}
+            src={imgSrc}
+            alt={`${label} ${safeIndex + 1}`}
+            className="w-full h-full object-contain rounded-2xl transition-transform duration-300 group-hover:scale-[1.01]"
+            onError={(e) => {
+              if (driveId) {
+                e.target.onerror = null;
+                e.target.src = `https://lh3.googleusercontent.com/d/${driveId}`;
+              }
+            }}
+          />
+
+          {/* Previous Arrow Button */}
+          {urls.length > 1 && (
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white p-2.5 rounded-full backdrop-blur-md border border-white/20 transition-all shadow-lg flex items-center justify-center opacity-85 hover:opacity-100 hover:scale-110 active:scale-95"
+              title="ดูรูปก่อนหน้า"
+            >
+              <span className="material-symbols-outlined text-[24px]">chevron_left</span>
+            </button>
+          )}
+
+          {/* Next Arrow Button */}
+          {urls.length > 1 && (
+            <button
+              type="button"
+              onClick={handleNext}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white p-2.5 rounded-full backdrop-blur-md border border-white/20 transition-all shadow-lg flex items-center justify-center opacity-85 hover:opacity-100 hover:scale-110 active:scale-95"
+              title="ดูรูปถัดไป"
+            >
+              <span className="material-symbols-outlined text-[24px]">chevron_right</span>
+            </button>
+          )}
+
+          {/* Dot Indicators */}
+          {urls.length > 1 && (
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/10">
+              {urls.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex(idx);
+                  }}
+                  className={`h-2 rounded-full transition-all ${
+                    safeIndex === idx
+                      ? 'bg-emerald-400 w-5'
+                      : 'bg-white/40 hover:bg-white/80 w-2'
+                  }`}
+                  title={`ไปยังรูปที่ ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Hover Zoom Overlay */}
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-xs backdrop-blur-[1px] pointer-events-none">
+            <span className="material-symbols-outlined text-[20px]">fullscreen</span>
+            <span>คลิกเพื่อดูเต็มหน้าจอ</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Media Preview Card Helper (Large, Un-cropped, High-Res Previews)
   const renderMediaPreviewCard = (label, url, isVideo = false, isPdf = false) => {
     if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
@@ -350,28 +488,28 @@ export default function AdminDashboardPage() {
       );
     }
 
-    const driveId = getDriveFileId(url);
-    const ytId = getYouTubeVideoId(url);
-    const isDirectImage = /\.(jpeg|jpg|gif|png|webp)($|\?)/i.test(url) || url.includes('googleusercontent.com');
-    const isDirectVideo = /\.(mp4|webm|mov)($|\?)/i.test(url);
+    // Extract first URL for type check
+    const firstUrl = url.split(',')[0].trim();
+    const driveId = getDriveFileId(firstUrl);
+    const ytId = getYouTubeVideoId(firstUrl);
+    const isDirectVideo = /\.(mp4|webm|mov)($|\?)/i.test(firstUrl);
 
-    return (
-      <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-3 border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm">
-        <div className="flex items-center justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
-          <p className="text-sm font-bold text-on-surface truncate">{label}</p>
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-primary font-bold hover:underline flex items-center gap-1 shrink-0 bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 transition-all hover:bg-primary/20"
-          >
-            <span>เปิดลิงก์ต้นฉบับ</span>
-            <span className="material-symbols-outlined text-[15px]">open_in_new</span>
-          </a>
-        </div>
-
-        {/* Embedded Video (YouTube) */}
-        {ytId && (
+    // Embedded Video (YouTube)
+    if (ytId) {
+      return (
+        <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-3 border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm">
+          <div className="flex items-center justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
+            <p className="text-sm font-bold text-on-surface truncate">{label}</p>
+            <a
+              href={firstUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary font-bold hover:underline flex items-center gap-1 shrink-0 bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 transition-all hover:bg-primary/20"
+            >
+              <span>เปิดลิงก์ต้นฉบับ</span>
+              <span className="material-symbols-outlined text-[15px]">open_in_new</span>
+            </a>
+          </div>
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg bg-black border border-outline-variant/20 min-h-[280px]">
             <iframe
               src={`https://www.youtube.com/embed/${ytId}`}
@@ -381,19 +519,51 @@ export default function AdminDashboardPage() {
               allowFullScreen
             ></iframe>
           </div>
-        )}
+        </div>
+      );
+    }
 
-        {/* Direct Video (.mp4 / .webm) */}
-        {!ytId && isDirectVideo && (
+    // Direct Video (.mp4 / .webm)
+    if (isDirectVideo) {
+      return (
+        <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-3 border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm">
+          <div className="flex items-center justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
+            <p className="text-sm font-bold text-on-surface truncate">{label}</p>
+            <a
+              href={firstUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary font-bold hover:underline flex items-center gap-1 shrink-0 bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 transition-all hover:bg-primary/20"
+            >
+              <span>เปิดลิงก์ต้นฉบับ</span>
+              <span className="material-symbols-outlined text-[15px]">open_in_new</span>
+            </a>
+          </div>
           <video
-            src={url}
+            src={firstUrl}
             controls
             className="w-full rounded-2xl min-h-[280px] max-h-[450px] object-contain shadow-lg bg-black border border-outline-variant/20"
           ></video>
-        )}
+        </div>
+      );
+    }
 
-        {/* Embedded Google Drive Video or PDF Viewer (Large height) */}
-        {!ytId && !isDirectVideo && driveId && (isVideo || isPdf) && (
+    // Embedded Google Drive Video or PDF Viewer
+    if (driveId && (isVideo || isPdf)) {
+      return (
+        <div className="glass-card p-5 rounded-3xl bg-surface-container-high/30 flex flex-col gap-3 border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm">
+          <div className="flex items-center justify-between gap-2 border-b border-outline-variant/20 pb-2.5">
+            <p className="text-sm font-bold text-on-surface truncate">{label}</p>
+            <a
+              href={firstUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary font-bold hover:underline flex items-center gap-1 shrink-0 bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 transition-all hover:bg-primary/20"
+            >
+              <span>เปิดลิงก์ต้นฉบับ</span>
+              <span className="material-symbols-outlined text-[15px]">open_in_new</span>
+            </a>
+          </div>
           <div className="relative w-full h-[360px] sm:h-[450px] rounded-2xl overflow-hidden shadow-lg bg-slate-900 border border-outline-variant/20">
             <iframe
               src={`https://drive.google.com/file/d/${driveId}/preview`}
@@ -402,57 +572,12 @@ export default function AdminDashboardPage() {
               allow="autoplay"
             ></iframe>
           </div>
-        )}
+        </div>
+      );
+    }
 
-        {/* Image Preview (Uncropped, Full Image View, Large Container) */}
-        {!ytId && !isDirectVideo && !isVideo && !isPdf && (
-          <div
-            onClick={() =>
-              setActiveImagePreview({
-                src: driveId ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w1600` : url,
-                title: label,
-              })
-            }
-            className="relative w-full h-[320px] sm:h-[400px] rounded-2xl overflow-hidden bg-slate-950/80 border border-outline-variant/20 group flex items-center justify-center cursor-pointer shadow-md"
-            title="คลิกเพื่อดูภาพขยายใหญ่เต็มหน้าจอ"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={driveId ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w1600` : url}
-              alt={label}
-              className="w-full h-full object-contain rounded-2xl transition-transform duration-300 group-hover:scale-[1.02]"
-              onError={(e) => {
-                if (driveId) {
-                  e.target.onerror = null;
-                  e.target.src = `https://lh3.googleusercontent.com/d/${driveId}`;
-                }
-              }}
-            />
-            {/* Hover Zoom Overlay */}
-            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-bold text-sm backdrop-blur-[2px]">
-              <span className="material-symbols-outlined text-[24px]">fullscreen</span>
-              <span>คลิกเพื่อดูเต็มหน้าจอ</span>
-            </div>
-          </div>
-        )}
-
-        {/* Generic Fallback Link Card if no preview match */}
-        {!ytId && !isDirectVideo && !driveId && !isDirectImage && (
-          <div className="p-4 bg-surface-container-high/60 rounded-2xl flex items-center justify-between gap-3 border border-outline-variant/30">
-            <span className="text-xs font-mono text-on-surface-variant truncate">{url}</span>
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-primary text-on-primary text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1 shrink-0"
-            >
-              <span>เปิดดู</span>
-              <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-            </a>
-          </div>
-        )}
-      </div>
-    );
+    // Standard / Multi-Image Card
+    return <MultiImageCard label={label} rawUrl={url} />;
   };
 
   return (
