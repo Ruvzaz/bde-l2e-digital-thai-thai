@@ -535,8 +535,7 @@ export default function Home() {
               <span>ช่องทางรายงานผลของโครงการ</span>
             </div>
             <h2 className="font-headline-lg text-[28px] sm:text-[38px] lg:text-[46px] font-bold text-white mb-3 leading-tight tracking-tight">
-              ส่งรายงานผลการจัดกิจกรรม <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent">และส่งผลงานประกวดสื่อสร้างสรรค์</span>
+              <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent">ส่งรายงานผลการจัดกิจกรรม</span>
             </h2>
           </div>
 
