@@ -38,10 +38,11 @@ export async function POST(request) {
     // ดึงข้อมูลทั้งหมดจาก Main BE
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: `${CONFIG.SHEET_NAME}!A:Z`,
+      range: `${CONFIG.SHEET_NAME}!A:AZ`,
     });
 
     const rows = response.data.values || [];
+    const headers = rows[0] || [];
     const query = searchKey.toString().trim();
 
     // ค้นหาข้อมูลแบบ Exact Match
@@ -64,6 +65,19 @@ export async function POST(request) {
       const certTrackingRaw = (row[CONFIG.CERT_TRACKING_COL] || '').toString().trim(); // Column X "เลข Tracking ใบประกาศ"
       const certTracking = (certTrackingRaw === '#N/A' || certTrackingRaw === '-') ? '' : certTrackingRaw;
 
+      const reportStatusRaw = (row[25] || '').toString().trim(); // Column Z "สถานะรายงานผล"
+      const hasReported = reportStatusRaw.includes('รายงานผลแล้ว');
+
+      const colAARaw = hasReported ? (row[26] || '').toString().trim() : '';
+      const colABRaw = hasReported ? (row[27] || '').toString().trim() : '';
+      const colACRaw = hasReported ? (row[28] || '').toString().trim() : '';
+      const colADRaw = hasReported ? (row[29] || '').toString().trim() : '';
+
+      const colAA = (colAARaw === '#N/A' || colAARaw === '-') ? '' : colAARaw;
+      const colAB = (colABRaw === '#N/A' || colABRaw === '-') ? '' : colABRaw;
+      const colAC = (colACRaw === '#N/A' || colACRaw === '-') ? '' : colACRaw;
+      const colAD = (colADRaw === '#N/A' || colADRaw === '-') ? '' : colADRaw;
+
       // ข้ามแถวที่ข้อมูลเป็น #N/A (หมายความว่ายังไม่มีคนกรอกข้อมูลสำหรับศูนย์นี้)
       if (name === '#N/A' || phone === '#N/A' || email === '#N/A') continue;
 
@@ -80,6 +94,18 @@ export async function POST(request) {
           transferStatus: transferStatus, // สถานะการโอนจาก Column T
           transferDate: transferDate, // วันที่โอนจาก Column U
           certTracking: certTracking, // เลข Tracking ใบประกาศจาก Column X
+          reportStatus: reportStatusRaw, // Column Z
+          hasReported: hasReported,
+          traineeCount: colAA,
+          preTestCount: colAB,
+          postTestCount: colAC,
+          satisfactionCount: colAD,
+          extraCols: {
+            aa: { label: headers[26] || 'จำนวนผู้อบรม', value: colAA },
+            ab: { label: headers[27] || 'Pre-Test', value: colAB },
+            ac: { label: headers[28] || 'Post-Test', value: colAC },
+            ad: { label: headers[29] || 'ความพึงพอใจ', value: colAD },
+          }
         };
         break; // เจอแล้วหยุดหา
       }

@@ -1078,55 +1078,131 @@ export default function Home() {
                   <p className="font-body-lg text-on-surface-variant mb-1">
                     พบข้อมูลของคุณ: <span className="font-bold">{statusResult.data.name}</span>
                   </p>
-                  <p className={`font-headline-xl text-[36px] font-bold ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : ''}`}>
+                  <p className={`font-headline-xl text-[32px] sm:text-[40px] font-bold ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : ''}`}>
                     {statusResult.data.status}
                   </p>
-                  {statusResult.data.transferStatus && (
-                    <div className={`mt-3 p-4 border rounded-xl w-full max-w-md text-left shadow-sm ${statusResult.data.transferStatus.includes('โอนแล้ว')
-                      ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
-                      : 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
-                      }`} style={{ minWidth: 'min(100%, 400px)' }}>
-                      <p className="font-body-md font-bold flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[20px]">payments</span>
-                        สถานะการโอนเงิน:
-                      </p>
-                      <p className={`font-body-md font-bold mt-1 pl-6 break-words ${statusResult.data.transferStatus.includes('โอนแล้ว')
-                        ? 'text-emerald-950 dark:text-emerald-100'
-                        : 'text-amber-950 dark:text-amber-100'
-                        }`}>
-                        {statusResult.data.transferStatus}
-                      </p>
-                      {statusResult.data.transferDate && (
-                        <p className="font-body-sm text-sm mt-2.5 pl-6 pt-2 border-t border-current/15 flex items-center gap-1.5 font-semibold opacity-95">
-                          <span className="material-symbols-outlined text-[16px]">calendar_today</span>
-                          <span>วันที่จะได้รับเงิน : {statusResult.data.transferDate}</span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {statusResult.data.remark && (
-                    <div className={`mt-2 p-4 bg-surface-container-lowest border rounded-xl w-full max-w-md text-left shadow-sm ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'border-error/20' : 'border-primary/20'
-                      }`} style={{ minWidth: 'min(100%, 400px)' }}>
-                      <p className={`font-body-md font-bold flex items-center gap-1 ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : 'text-primary'
-                        }`}>
-                        <span className="material-symbols-outlined text-[18px]">info</span>
-                        หมายเหตุ:
-                      </p>
-                      <p className="font-body-md text-on-surface mt-1 pl-6 break-words">{statusResult.data.remark}</p>
-                    </div>
-                  )}
 
-                  {statusResult.data.certTracking && (
-                    <div className="mt-2 p-4 bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/80 rounded-xl w-full max-w-md text-left shadow-sm" style={{ minWidth: 'min(100%, 400px)' }}>
-                      <p className="font-body-md font-bold flex items-center gap-1.5 text-emerald-900 dark:text-emerald-200">
-                        <span className="material-symbols-outlined text-[20px] text-emerald-600 dark:text-emerald-400">local_shipping</span>
-                        เลข Tracking ใบประกาศนียบัตร:
-                      </p>
-                      <p className="font-headline-md text-lg font-extrabold text-emerald-950 dark:text-emerald-100 mt-1 pl-6 break-words tracking-wider">
-                        {statusResult.data.certTracking}
-                      </p>
-                    </div>
-                  )}
+                  <div className="w-full max-w-4xl mt-6 flex flex-col gap-3.5 text-left">
+                    {/* Top Status Pair Grid on PC (Transfer Status & Cert Tracking) */}
+                    {(statusResult.data.transferStatus || statusResult.data.certTracking) && (
+                      <div className={`grid gap-3.5 w-full ${(statusResult.data.transferStatus && statusResult.data.certTracking) ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
+                        {/* Transfer Status */}
+                        {statusResult.data.transferStatus && (
+                          <div className={`p-4 sm:p-5 border rounded-2xl w-full shadow-sm flex flex-col justify-between ${statusResult.data.transferStatus.includes('โอนแล้ว')
+                            ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
+                            : 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
+                            }`}>
+                            <div>
+                              <p className="font-body-md font-bold flex items-center gap-1.5 text-sm sm:text-base">
+                                <span className="material-symbols-outlined text-[22px]">payments</span>
+                                <span>สถานะการโอนเงิน:</span>
+                              </p>
+                              <p className={`font-headline-md text-lg sm:text-xl font-extrabold mt-1.5 break-words ${statusResult.data.transferStatus.includes('โอนแล้ว')
+                                ? 'text-emerald-950 dark:text-emerald-100'
+                                : 'text-amber-950 dark:text-amber-100'
+                                }`}>
+                                {statusResult.data.transferStatus}
+                              </p>
+                            </div>
+                            {statusResult.data.transferDate && (
+                              <p className="font-body-sm text-xs sm:text-sm mt-3 pt-2.5 border-t border-current/15 flex items-center gap-1.5 font-semibold opacity-95">
+                                <span className="material-symbols-outlined text-[16px]">calendar_today</span>
+                                <span>วันที่จะได้รับเงิน : {statusResult.data.transferDate}</span>
+                              </p>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Cert Tracking */}
+                        {statusResult.data.certTracking && (
+                          <div className="p-4 sm:p-5 bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/80 rounded-2xl w-full shadow-sm flex flex-col justify-between">
+                            <div>
+                              <p className="font-body-md font-bold flex items-center gap-1.5 text-emerald-900 dark:text-emerald-200 text-sm sm:text-base">
+                                <span className="material-symbols-outlined text-[22px] text-emerald-600 dark:text-emerald-400">local_shipping</span>
+                                <span>เลข Tracking ใบประกาศนียบัตร:</span>
+                              </p>
+                              <p className="font-headline-md text-lg sm:text-xl font-extrabold text-emerald-950 dark:text-emerald-100 mt-1.5 break-words tracking-wider font-mono">
+                                {statusResult.data.certTracking}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Remark Card (Full Width) */}
+                    {statusResult.data.remark && (
+                      <div className={`p-4 sm:p-5 bg-surface-container-lowest border rounded-2xl w-full shadow-sm ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'border-error/30' : 'border-primary/30'
+                        }`}>
+                        <p className={`font-body-md font-bold flex items-center gap-1.5 text-sm sm:text-base ${statusResult.data.status.includes('ไม่อนุมัติ') ? 'text-error' : 'text-primary'
+                          }`}>
+                          <span className="material-symbols-outlined text-[20px]">info</span>
+                          <span>หมายเหตุ:</span>
+                        </p>
+                        <p className="font-body-md text-on-surface mt-1.5 pl-6 break-words leading-relaxed">{statusResult.data.remark}</p>
+                      </div>
+                    )}
+
+                    {/* 📊 4-Grid Metrics Dashboard (Full Width on Desktop) */}
+                    {statusResult.data.hasReported && (
+                      <div className="w-full bg-surface-container-lowest/90 dark:bg-surface-container-lowest/60 backdrop-blur-md border border-outline-variant/30 rounded-2xl p-4 sm:p-6 shadow-sm">
+                        <p className="text-xs sm:text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-4 flex items-center justify-center gap-2 text-primary">
+                          <span className="material-symbols-outlined text-[20px]">equalizer</span>
+                          <span>สรุปข้อมูลการอบรม & การประเมินผล</span>
+                        </p>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                          {/* 1. จำนวนผู้อบรม (AA) */}
+                          <div className="bg-emerald-500/10 dark:bg-emerald-950/40 border border-emerald-500/20 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-transform hover:scale-105 shadow-xs">
+                            <div className="bg-emerald-500/20 p-2.5 rounded-full text-emerald-700 dark:text-emerald-300 mb-2">
+                              <span className="material-symbols-outlined text-[26px]">groups</span>
+                            </div>
+                            <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300">จำนวนผู้อบรม</span>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-950 dark:text-emerald-100 font-mono mt-1">
+                              {statusResult.data.traineeCount || '-'}
+                            </span>
+                            <span className="text-xs text-emerald-700/80 dark:text-emerald-400/80 font-medium">ท่าน</span>
+                          </div>
+
+                          {/* 2. Pre-Test (AB) */}
+                          <div className="bg-sky-500/10 dark:bg-sky-950/40 border border-sky-500/20 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-transform hover:scale-105 shadow-xs">
+                            <div className="bg-sky-500/20 p-2.5 rounded-full text-sky-700 dark:text-sky-300 mb-2">
+                              <span className="material-symbols-outlined text-[26px]">quiz</span>
+                            </div>
+                            <span className="text-xs font-bold text-sky-800 dark:text-sky-300">Pre-Test</span>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-sky-950 dark:text-sky-100 font-mono mt-1">
+                              {statusResult.data.preTestCount || '-'}
+                            </span>
+                            <span className="text-xs text-sky-700/80 dark:text-sky-400/80 font-medium">ชุด</span>
+                          </div>
+
+                          {/* 3. Post-Test (AC) */}
+                          <div className="bg-indigo-500/10 dark:bg-indigo-950/40 border border-indigo-500/20 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-transform hover:scale-105 shadow-xs">
+                            <div className="bg-indigo-500/20 p-2.5 rounded-full text-indigo-700 dark:text-indigo-300 mb-2">
+                              <span className="material-symbols-outlined text-[26px]">fact_check</span>
+                            </div>
+                            <span className="text-xs font-bold text-indigo-800 dark:text-indigo-300">Post-Test</span>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-indigo-950 dark:text-indigo-100 font-mono mt-1">
+                              {statusResult.data.postTestCount || '-'}
+                            </span>
+                            <span className="text-xs text-indigo-700/80 dark:text-indigo-400/80 font-medium">ชุด</span>
+                          </div>
+
+                          {/* 4. ความพึงพอใจ (AD) */}
+                          <div className="bg-amber-500/10 dark:bg-amber-950/40 border border-amber-500/20 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition-transform hover:scale-105 shadow-xs">
+                            <div className="bg-amber-500/20 p-2.5 rounded-full text-amber-700 dark:text-amber-300 mb-2">
+                              <span className="material-symbols-outlined text-[26px]">sentiment_very_satisfied</span>
+                            </div>
+                            <span className="text-xs font-bold text-amber-800 dark:text-amber-300">ความพึงพอใจ</span>
+                            <span className="text-2xl sm:text-3xl font-extrabold text-amber-950 dark:text-amber-100 font-mono mt-1">
+                              {statusResult.data.satisfactionCount || '-'}
+                            </span>
+                            <span className="text-xs text-amber-700/80 dark:text-amber-400/80 font-medium">ชุด</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
