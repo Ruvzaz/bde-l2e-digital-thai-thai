@@ -66,7 +66,8 @@ export async function POST(request) {
       const certTracking = (certTrackingRaw === '#N/A' || certTrackingRaw === '-') ? '' : certTrackingRaw;
 
       const reportStatusRaw = (row[25] || '').toString().trim(); // Column Z "สถานะรายงานผล"
-      const hasReported = reportStatusRaw.includes('รายงานผลแล้ว');
+      const reportStatus = (reportStatusRaw === '#N/A' || !reportStatusRaw) ? 'ยังไม่รายงาน' : reportStatusRaw;
+      const hasReported = reportStatus.includes('รายงานผลแล้ว');
 
       const colAARaw = hasReported ? (row[26] || '').toString().trim() : '';
       const colABRaw = hasReported ? (row[27] || '').toString().trim() : '';
@@ -94,7 +95,7 @@ export async function POST(request) {
           transferStatus: transferStatus, // สถานะการโอนจาก Column T
           transferDate: transferDate, // วันที่โอนจาก Column U
           certTracking: certTracking, // เลข Tracking ใบประกาศจาก Column X
-          reportStatus: reportStatusRaw, // Column Z
+          reportStatus: reportStatus, // Column Z
           hasReported: hasReported,
           traineeCount: colAA,
           preTestCount: colAB,

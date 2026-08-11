@@ -1083,10 +1083,16 @@ export default function Home() {
                   </p>
 
                   <div className="w-full max-w-4xl mt-6 flex flex-col gap-3.5 text-left">
-                    {/* Top Status Pair Grid on PC (Transfer Status & Cert Tracking) */}
-                    {(statusResult.data.transferStatus || statusResult.data.certTracking) && (
-                      <div className={`grid gap-3.5 w-full ${(statusResult.data.transferStatus && statusResult.data.certTracking) ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
-                        {/* Transfer Status */}
+                    {/* Top Status Cards Grid on PC (Report Status, Transfer Status & Cert Tracking) */}
+                    {(statusResult.data.reportStatus || statusResult.data.transferStatus || statusResult.data.certTracking) && (
+                      <div className={`grid gap-3.5 w-full ${
+                        ((statusResult.data.reportStatus ? 1 : 0) + (statusResult.data.transferStatus ? 1 : 0) + (statusResult.data.certTracking ? 1 : 0)) === 3
+                          ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                          : ((statusResult.data.reportStatus ? 1 : 0) + (statusResult.data.transferStatus ? 1 : 0) + (statusResult.data.certTracking ? 1 : 0)) === 2
+                          ? 'grid-cols-1 md:grid-cols-2'
+                          : 'grid-cols-1'
+                      }`}>
+                        {/* 1. Transfer Status (Column T & U) */}
                         {statusResult.data.transferStatus && (
                           <div className={`p-4 sm:p-5 border rounded-2xl w-full shadow-sm flex flex-col justify-between ${statusResult.data.transferStatus.includes('โอนแล้ว')
                             ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
@@ -1113,7 +1119,7 @@ export default function Home() {
                           </div>
                         )}
 
-                        {/* Cert Tracking */}
+                        {/* 2. Cert Tracking (Column X) */}
                         {statusResult.data.certTracking && (
                           <div className="p-4 sm:p-5 bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/80 rounded-2xl w-full shadow-sm flex flex-col justify-between">
                             <div>
@@ -1123,6 +1129,29 @@ export default function Home() {
                               </p>
                               <p className="font-headline-md text-lg sm:text-xl font-extrabold text-emerald-950 dark:text-emerald-100 mt-1.5 break-words tracking-wider font-mono">
                                 {statusResult.data.certTracking}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 3. Report Status (Column Z) */}
+                        {statusResult.data.reportStatus && (
+                          <div className={`p-4 sm:p-5 border rounded-2xl w-full shadow-sm flex flex-col justify-between ${statusResult.data.hasReported
+                            ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
+                            : 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300'
+                            }`}>
+                            <div>
+                              <p className="font-body-md font-bold flex items-center gap-1.5 text-sm sm:text-base">
+                                <span className="material-symbols-outlined text-[22px]">
+                                  {statusResult.data.hasReported ? 'assignment_turned_in' : 'pending_actions'}
+                                </span>
+                                <span>สถานะรายงานผล:</span>
+                              </p>
+                              <p className={`font-headline-md text-lg sm:text-xl font-extrabold mt-1.5 break-words ${statusResult.data.hasReported
+                                ? 'text-emerald-950 dark:text-emerald-100'
+                                : 'text-amber-950 dark:text-amber-100'
+                                }`}>
+                                {statusResult.data.reportStatus}
                               </p>
                             </div>
                           </div>
