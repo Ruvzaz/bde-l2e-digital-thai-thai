@@ -1085,13 +1085,12 @@ export default function Home() {
                   <div className="w-full max-w-4xl mt-6 flex flex-col gap-3.5 text-left">
                     {/* Top Status Cards Grid on PC (Report Status, Transfer Status & Cert Tracking) */}
                     {(statusResult.data.reportStatus || statusResult.data.transferStatus || statusResult.data.certTracking) && (
-                      <div className={`grid gap-3.5 w-full ${
-                        ((statusResult.data.reportStatus ? 1 : 0) + (statusResult.data.transferStatus ? 1 : 0) + (statusResult.data.certTracking ? 1 : 0)) === 3
+                      <div className={`grid gap-3.5 w-full ${((statusResult.data.reportStatus ? 1 : 0) + (statusResult.data.transferStatus ? 1 : 0) + (statusResult.data.certTracking ? 1 : 0)) === 3
                           ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
                           : ((statusResult.data.reportStatus ? 1 : 0) + (statusResult.data.transferStatus ? 1 : 0) + (statusResult.data.certTracking ? 1 : 0)) === 2
-                          ? 'grid-cols-1 md:grid-cols-2'
-                          : 'grid-cols-1'
-                      }`}>
+                            ? 'grid-cols-1 md:grid-cols-2'
+                            : 'grid-cols-1'
+                        }`}>
                         {/* 1. Transfer Status (Column T & U) */}
                         {statusResult.data.transferStatus && (
                           <div className={`p-4 sm:p-5 border rounded-2xl w-full shadow-sm flex flex-col justify-between ${statusResult.data.transferStatus.includes('โอนแล้ว')
@@ -1332,7 +1331,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-sm text-on-primary/80 font-body-sm">เปิดรับสมัครตั้งแต่วันนี้ถึง</p>
-                <p className="font-bold text-[20px] text-tertiary-fixed-dim tracking-wide drop-shadow-sm">10 สิงหาคม 2569</p>
+                <p className="font-bold text-[20px] text-tertiary-fixed-dim tracking-wide drop-shadow-sm">-- สิงหาคม 2569</p>
               </div>
             </div>
             <div className="text-sm text-on-primary/90 bg-on-primary/10 p-3.5 rounded-xl border border-on-primary/20 flex items-start gap-2.5 backdrop-blur-md">
