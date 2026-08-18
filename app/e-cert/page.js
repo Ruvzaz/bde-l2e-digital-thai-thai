@@ -97,6 +97,11 @@ export default function ECertPage() {
       setVerifiedCenter(data.center);
       setCertHistory(data.history || []);
       setShowNameField(false);
+
+      if (data.center?.isStaffOneOnly) {
+        setRecipientCount(1);
+        setRecipients([{ id: 1, prefix: "นาย", customPrefix: "", firstName: "", lastName: "" }]);
+      }
     } catch (err) {
       setAdminAuthError(err.message);
     } finally {
@@ -117,7 +122,8 @@ export default function ECertPage() {
 
   // Handlers for Step 2: Recipient Quantity & Field Adjustments
   const handleQuantityChange = (count) => {
-    const qty = Math.max(1, Math.min(50, Number(count) || 1));
+    const maxAllowed = verifiedCenter?.isStaffOneOnly ? 1 : 50;
+    const qty = Math.max(1, Math.min(maxAllowed, Number(count) || 1));
     setRecipientCount(qty);
 
     setRecipients((prev) => {
@@ -291,8 +297,9 @@ export default function ECertPage() {
         ctx.fillText(dayNumber, dayX, dayY);
 
         // QR Code overlay
+        const origin = typeof window !== "undefined" ? window.location.origin : "";
         const qrTargetUrl =
-          cert.verifyLink || `${window.location.origin}/verify/${cert.certCode}`;
+          cert.verifyLink || `${origin}/verify/${cert.certCode}`;
 
         try {
           const qrCanvas = document.createElement("canvas");
@@ -338,6 +345,34 @@ export default function ECertPage() {
         resolve(canvas.toDataURL("image/png"));
       };
     });
+  };
+
+  const handleDownloadSinglePng = async (cert) => {
+    try {
+      const dataUrl = await generateCanvasDataUrl(cert);
+      const link = document.createElement("a");
+      link.download = `Certificate-${(cert.fullName || cert.certCode).replace(/\s+/g, "_")}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (e) {
+      console.error("PNG Download Error:", e);
+    }
+  };
+
+  const handleDownloadSinglePdf = async (cert) => {
+    try {
+      const { jsPDF } = await import("jspdf");
+      const dataUrl = await generateCanvasDataUrl(cert);
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [2000, 1414],
+      });
+      pdf.addImage(dataUrl, "PNG", 0, 0, 2000, 1414);
+      pdf.save(`Certificate-${(cert.fullName || cert.certCode).replace(/\s+/g, "_")}.pdf`);
+    } catch (e) {
+      console.error("PDF Download Error:", e);
+    }
   };
 
   return (
@@ -656,24 +691,45 @@ export default function ECertPage() {
                   ))}
                 </select>
               </div>
-
-              {/* Quantity selector */}
-              <div className="mb-6 p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <label className="font-bold text-emerald-900">
-                  เลือกจำนวนผู้รับใบประกาศที่ต้องการออก:
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    min="1"
-                    max="50"
-                    value={recipientCount}
-                    onChange={(e) => handleQuantityChange(e.target.value)}
-                    className="w-24 px-3 py-2 rounded-lg border border-emerald-300 font-bold text-center bg-white"
-                  />
-                  <span className="text-sm font-medium text-emerald-700">คน</span>
+              {verifiedCenter?.isStaffOneOnly ? (
+                <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-lg shrink-0">
+                      👤
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-amber-950 text-sm">
+                        สิทธิ์ออกใบประกาศนียบัตร ผดศ. (1 ท่าน)
+                      </h4>
+                      <p className="text-xs text-amber-800 mt-0.5">
+                        โปรดตรวจสอบคำนำหน้า ชื่อ และนามสกุลให้ถูกต้องก่อนยืนยันสร้างใบประกาศ
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 rounded-full bg-amber-200/70 text-amber-900 font-bold text-xs shrink-0">
+                    โควตา 1 ใบ
+                  </span>
                 </div>
-              </div>
+              ) : (
+                <div className="mb-6 p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <label className="font-bold text-emerald-900 block">
+                      เลือกจำนวนผู้รับใบประกาศที่ต้องการออก:
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min="1"
+                      max="50"
+                      value={recipientCount}
+                      onChange={(e) => handleQuantityChange(e.target.value)}
+                      className="w-24 px-3 py-2 rounded-lg border border-emerald-300 font-bold text-center bg-white"
+                    />
+                    <span className="text-sm font-medium text-emerald-700">คน</span>
+                  </div>
+                </div>
+              )}
 
               {/* Duplicate Warnings Alert */}
               {duplicateWarnings.length > 0 && (
@@ -687,11 +743,13 @@ export default function ECertPage() {
                 {recipients.map((item, index) => (
                   <div
                     key={item.id}
-                    className="p-3.5 rounded-xl bg-white border border-emerald-100 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
+                    className="p-4 rounded-xl bg-white border border-emerald-100 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
                   >
-                    <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0">
-                      {index + 1}
-                    </div>
+                    {!verifiedCenter?.isStaffOneOnly && (
+                      <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0">
+                        {index + 1}
+                      </div>
+                    )}
 
                     <div className="w-full sm:w-36 shrink-0 flex flex-col gap-1.5">
                       <select
@@ -767,11 +825,11 @@ export default function ECertPage() {
           </div>
         )}
 
-        {/* ================= STEP 3: ISSUED CERTS & BATCH DOWNLOAD ================= */}
+        {/* ================= STEP 3: ISSUED CERTS & BATCH / SINGLE VIEW ================= */}
         {step === 3 && (
           <div className="space-y-6">
-            <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-emerald-100 p-6 sm:p-8 shadow-lg text-center">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-emerald-100 p-6 sm:p-8 shadow-lg text-center space-y-4">
+              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
                 <svg
                   className="w-8 h-8"
                   fill="none"
@@ -787,73 +845,124 @@ export default function ECertPage() {
                 </svg>
               </div>
 
-              <h2 className="text-2xl font-extrabold text-emerald-900">
-                สร้างใบประกาศนียบัตรสำเร็จเรียบร้อย!
-              </h2>
-              <p className="text-emerald-700 mt-1">
-                ออกใบประกาศจำนวน{" "}
-                <span className="font-bold text-emerald-800">
-                  {issuedCerts.length} ใบ
-                </span>{" "}
-                สำหรับ {verifiedCenter?.name}
-              </p>
+              <div>
+                {issuedCerts.length === 1 && (
+                  <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-mono font-bold text-xs inline-block mb-2">
+                    {issuedCerts[0]?.certCode}
+                  </span>
+                )}
+                <h2 className="text-2xl font-extrabold text-emerald-950">
+                  สร้างใบประกาศนียบัตรสำเร็จเรียบร้อย!
+                </h2>
+                <p className="text-emerald-700 text-sm mt-1">
+                  {issuedCerts.length === 1 ? (
+                    <>
+                      ใบประกาศนียบัตรสำหรับ: <span className="font-bold text-emerald-950 text-base">{issuedCerts[0]?.fullName}</span> ({verifiedCenter?.name})
+                    </>
+                  ) : (
+                    <>
+                      ออกใบประกาศจำนวน <span className="font-bold text-emerald-800">{issuedCerts.length} ใบ</span> สำหรับ {verifiedCenter?.name}
+                    </>
+                  )}
+                </p>
+              </div>
 
-              {/* Download All ZIP Button */}
-              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-                <button
-                  onClick={handleDownloadAllZip}
-                  disabled={isZipping}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 transition-all shadow-md cursor-pointer disabled:opacity-50"
-                >
-                  {isZipping ? "กำลังบีบอัดไฟล์ ZIP..." : "📦 ดาวน์โหลดใบประกาศทั้งหมด (ZIP)"}
-                </button>
+              {/* Action Buttons Tailored for Single or Multi Certs */}
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                {issuedCerts.length === 1 ? (
+                  <>
+                    <button
+                      onClick={() => handleDownloadSinglePng(issuedCerts[0])}
+                      className="px-6 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md transition-all cursor-pointer flex items-center gap-2"
+                    >
+                      🖼️ ดาวน์โหลดรูปภาพ (PNG)
+                    </button>
 
-                <button
-                  onClick={() => setStep(2)}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 transition-colors"
-                >
-                  + ออกใบประกาศเพิ่ม
-                </button>
+                    <button
+                      onClick={() => handleDownloadSinglePdf(issuedCerts[0])}
+                      className="px-6 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md transition-all cursor-pointer flex items-center gap-2"
+                    >
+                      📄 ดาวน์โหลดไฟล์ PDF
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={handleDownloadAllZip}
+                    disabled={isZipping}
+                    className="px-8 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 transition-all shadow-md cursor-pointer disabled:opacity-50"
+                  >
+                    {isZipping ? "กำลังบีบอัดไฟล์ ZIP..." : "📦 ดาวน์โหลดใบประกาศทั้งหมด (ZIP)"}
+                  </button>
+                )}
+
+                {verifiedCenter?.isStaffOneOnly ? (
+                  <button
+                    onClick={() => setStep(2)}
+                    className="px-5 py-3.5 rounded-xl font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors flex items-center gap-1.5 cursor-pointer"
+                  >
+                    ✏️ แก้ไขข้อมูลผู้รับ / ออกใหม่
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setStep(2)}
+                    className="px-5 py-3.5 rounded-xl font-semibold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 transition-colors flex items-center gap-1.5 cursor-pointer"
+                  >
+                    + ออกใบประกาศเพิ่ม
+                  </button>
+                )}
               </div>
             </div>
 
-            {/* Certificate Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {issuedCerts.map((cert, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/90 backdrop-blur-md rounded-2xl border border-emerald-100 p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold text-xs">
-                        {cert.certCode}
-                      </span>
-                      {cert.isReissued && (
-                        <span className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md font-medium">
-                          ใบเดิมที่เคยออกแล้ว
+            {/* Certificate Preview Display: Live Canvas for Single Cert vs Grid for Multi Certs */}
+            {issuedCerts.length === 1 ? (
+              <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-emerald-100 p-6 shadow-lg flex flex-col items-center">
+                <h3 className="font-bold text-emerald-950 mb-4 text-center text-lg flex items-center gap-2">
+                  <span>👁️</span> ตัวอย่างใบประกาศนียบัตรฉบับจริง
+                </h3>
+                <ECertCanvas
+                  certData={issuedCerts[0]}
+                  showDownloadBtn={false}
+                  className="w-full max-w-[850px]"
+                />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {issuedCerts.map((cert, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white/90 backdrop-blur-md rounded-2xl border border-emerald-100 p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold text-xs">
+                          {cert.certCode}
                         </span>
-                      )}
+                        {cert.isReissued && (
+                          <span className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md font-medium">
+                            ใบเดิมที่เคยออกแล้ว
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-lg font-bold text-emerald-950">
+                        {cert.fullName}
+                      </h3>
+                      <p className="text-xs text-emerald-600 mt-0.5">
+                        วันที่ออก: {cert.issueDate}
+                      </p>
                     </div>
-                    <h3 className="text-lg font-bold text-emerald-950">
-                      {cert.fullName}
-                    </h3>
-                    <p className="text-xs text-emerald-600 mt-0.5">
-                      วันที่ออก: {cert.issueDate}
-                    </p>
-                  </div>
 
-                  <div className="mt-4 pt-3 border-t border-emerald-50 flex items-center gap-2">
-                    <button
-                      onClick={() => setActivePreviewCert(cert)}
-                      className="flex-1 py-2 rounded-xl text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition-colors text-center"
-                    >
-                      👁️ ดูตัวอย่างใบประกาศ
-                    </button>
+                    <div className="mt-4 pt-3 border-t border-emerald-50 flex items-center gap-2">
+                      <button
+                        onClick={() => setActivePreviewCert(cert)}
+                        className="flex-1 py-2 rounded-xl text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition-colors text-center"
+                      >
+                        👁️ ดูตัวอย่างใบประกาศ
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </main>

@@ -25,10 +25,21 @@
  * 📌 [ปรับปรุงใหม่]: ดึงข้อมูลจาก e.namedValues โดยตรง เพื่อป้องกันปัญหาชีท/แถวไม่ตรงกัน
  */
 function onFormSubmit(e) {
-  // Guard Clause: ป้องกัน Error เวลาเผลอกด Run ใน Apps Script Editor
+  // Guard Clause 1: ป้องกัน Error เวลาเผลอกด Run ใน Apps Script Editor
   if (!e) {
     console.log("ฟังก์ชันนี้ทำงานผ่าน Trigger การส่ง Google Form เท่านั้น");
     return;
+  }
+
+  // -----------------------------------------
+  // 0. Guard Clause 2: ทำงานเฉพาะฟอร์มที่ส่งเข้ามาในชีท "#1 ส่งแผน" เท่านั้น
+  // -----------------------------------------
+  if (e.range) {
+    var sourceSheetName = e.range.getSheet().getName();
+    if (sourceSheetName !== "#1 ส่งแผน") {
+      console.log("ข้ามการทำงาน: ข้อมูลมาจากชีท '" + sourceSheetName + "' (ไม่ใช่ชีท '#1 ส่งแผน')");
+      return;
+    }
   }
 
   var centerCode = "";

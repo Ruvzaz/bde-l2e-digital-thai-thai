@@ -39,6 +39,55 @@ export async function POST(request) {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
 
+    // 0. Double-Check Selection Status in Sheet "Main BE" (Column J = Index 9)
+    try {
+      const mainBeRes = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: 'Main BE!A:Z',
+      });
+      const mainBeRows = mainBeRes.data.values || [];
+      let foundInMainBe = false;
+      let mainBeStatus = null;
+
+      for (let i = 1; i < mainBeRows.length; i++) {
+        const row = mainBeRows[i];
+        const rowCode = (row[0] || '').toString().trim();
+        const status = (row[9] || '').toString().trim();
+        const rowString = row.join(' ');
+
+        if (rowCode === cleanCenterCode || rowString.includes(cleanCenterCode)) {
+          foundInMainBe = true;
+          mainBeStatus = status;
+          break;
+        }
+      }
+
+      const isFullApproved = mainBeStatus === 'อนุมัติเข้าร่วมกิจกรรม';
+      const isStaffOneApproved = mainBeStatus === 'อนุมัติ ผดศ. เข้า 1 คน' || (mainBeStatus && mainBeStatus.includes('ผดศ. เข้า 1 คน'));
+      const isAllowedToIssue = foundInMainBe && (isFullApproved || isStaffOneApproved);
+
+      if (!isAllowedToIssue) {
+        const currentStatusText = mainBeStatus || 'ยังไม่มีข้อมูลในระบบ / ยังไม่อนุมัติ';
+        return NextResponse.json(
+          {
+            error: `รหัสศูนย์ ${cleanCenterCode} ไม่สามารถสร้างใบประกาศได้ เนื่องจากสถานะปัจจุบันคือ "${currentStatusText}" (อนุญาตเฉพาะศูนย์ที่มีสถานะ "อนุมัติเข้าร่วมกิจกรรม" หรือ "อนุมัติ ผดศ. เข้า 1 คน" เท่านั้น)`,
+          },
+          { status: 400 }
+        );
+      }
+
+      if (isStaffOneApproved && recipients.length > 1) {
+        return NextResponse.json(
+          {
+            error: `ศูนย์ที่มีสถานะ "อนุมัติ ผดศ. เข้า 1 คน" ได้รับสิทธิ์สร้างใบประกาศนียบัตรได้สูงสุดเพียง 1 ใบเท่านั้น`,
+          },
+          { status: 400 }
+        );
+      }
+    } catch (e) {
+      console.warn('Main BE status check warning:', e.message);
+    }
+
     const sheetName = 'E-Cert Logs';
 
     // 1. Check if sheet tab "E-Cert Logs" exists, if not create it with 11 headers

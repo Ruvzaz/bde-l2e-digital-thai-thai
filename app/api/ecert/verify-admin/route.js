@@ -107,10 +107,11 @@ export async function POST(request) {
 
       for (let i = 1; i < mainBeRows.length; i++) {
         const row = mainBeRows[i];
-        const status = (row[9] || '').toString().trim(); // Column J
+        const rowCode = (row[0] || '').toString().trim(); // Column A
+        const status = (row[9] || '').toString().trim();  // Column J "สถานะการคัดเลือก"
         const rowString = row.join(' ');
 
-        if (rowString.includes(cleanCenterCode)) {
+        if (rowCode === cleanCenterCode || rowString.includes(cleanCenterCode)) {
           foundInMainBe = true;
           mainBeStatus = status;
           break;
@@ -120,12 +121,16 @@ export async function POST(request) {
       console.warn('Error reading Main BE status:', e.message);
     }
 
-    if (foundInMainBe && mainBeStatus !== 'อนุมัติเข้าร่วมกิจกรรม') {
-      const currentStatusText = mainBeStatus || 'ยังไม่อนุมัติ';
+    const isFullApproved = mainBeStatus === 'อนุมัติเข้าร่วมกิจกรรม';
+    const isStaffOneApproved = mainBeStatus === 'อนุมัติ ผดศ. เข้า 1 คน' || (mainBeStatus && mainBeStatus.includes('ผดศ. เข้า 1 คน'));
+    const isAllowedToIssue = foundInMainBe && (isFullApproved || isStaffOneApproved);
+
+    if (!isAllowedToIssue) {
+      const currentStatusText = mainBeStatus || 'ยังไม่มีข้อมูลในระบบ / ยังไม่อนุมัติ';
       return NextResponse.json(
         {
           valid: false,
-          error: `รหัสศูนย์ ${cleanCenterCode} ยังไม่ได้รับการอนุมัติเข้าร่วมกิจกรรม (สถานะปัจจุบัน: "${currentStatusText}") จึงยังไม่สามารถใช้งานระบบออกใบประกาศ E-Cert ได้`,
+          error: `รหัสศูนย์ ${cleanCenterCode} ไม่สามารถสร้างใบประกาศได้ เนื่องจากสถานะปัจจุบันคือ "${currentStatusText}" (อนุญาตเฉพาะศูนย์ที่มีสถานะ "อนุมัติเข้าร่วมกิจกรรม" หรือ "อนุมัติ ผดศ. เข้า 1 คน" เท่านั้น)`,
         },
         { status: 400 }
       );
@@ -298,6 +303,9 @@ export async function POST(request) {
         name: verifiedCenterName,
         adminName: effectiveAdminName,
         email: cleanEmail,
+        status: mainBeStatus,
+        isStaffOneOnly: Boolean(isStaffOneApproved),
+        maxCerts: isStaffOneApproved ? 1 : null,
       },
       history: history.reverse(),
     });
