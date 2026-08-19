@@ -35,13 +35,23 @@ export async function POST(request) {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
 
-    // ดึงข้อมูลทั้งหมดจาก Main BE
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range: `${CONFIG.SHEET_NAME}!A:AZ`,
-    });
+    // ดึงข้อมูลพร้อมกันจากทั้ง Main BE และ Main Report
+    const [beResponse, reportResponse] = await Promise.all([
+      sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `${CONFIG.SHEET_NAME}!A:AZ`,
+      }),
+      sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `'Main Report'!A:AZ`,
+      }).catch(err => {
+        console.warn('Could not fetch sheet "Main Report" in check-status:', err.message);
+        return null;
+      }),
+    ]);
 
-    const rows = response.data.values || [];
+    const rows = beResponse?.data?.values || [];
+    const reportRows = reportResponse?.data?.values || [];
     const headers = rows[0] || [];
     const query = searchKey.toString().trim();
 
@@ -55,7 +65,33 @@ export async function POST(request) {
       const email = (row[CONFIG.EMAIL_COL] || '').toString().trim();
       const phone = (row[CONFIG.PHONE_COL] || '').toString().trim();
       const status = (row[CONFIG.STATUS_COL] || '').toString().trim();
-      const remark = (row[CONFIG.REMARK_COL] || '').toString().trim();
+      const mainBeRemarkRaw = (row[CONFIG.REMARK_COL] || '').toString().trim(); // คอลัมน์ K "หมายเหตุ" ใน Main BE
+      const mainBeRemark = (mainBeRemarkRaw === '#N/A' || mainBeRemarkRaw === '-') ? '' : mainBeRemarkRaw;
+
+      // ดึงข้อมูลหมายเหตุจาก Sheet "Main Report" คอลัมน์ E (Index 4 = "หมายเหตุตรวจผลงาน")
+      let mainReportRemarkRaw = '';
+      if (reportRows[i]) {
+        mainReportRemarkRaw = (reportRows[i][4] || '').toString().trim();
+      }
+      // Fallback: ถ้าแมตช์ตามแถวไม่เจอ ลองค้นตาม Center Code หรือ Email ใน Main Report
+      if (!mainReportRemarkRaw && reportRows.length > 0) {
+        const centerCode = (row[0] || '').toString().trim();
+        const matchedReportRow = reportRows.find((r, rIdx) => rIdx > 0 && (
+          (centerCode && (r[0] || '').toString().trim() === centerCode) ||
+          (email && (r[2] || r[6] || '').toString().trim() === email)
+        ));
+        if (matchedReportRow) {
+          mainReportRemarkRaw = (matchedReportRow[4] || '').toString().trim();
+        }
+      }
+      const mainReportRemark = (mainReportRemarkRaw === '#N/A' || mainReportRemarkRaw === '-') ? '' : mainReportRemarkRaw;
+
+      // รวมหมายเหตุทั้ง 2 คอลัมน์ คั่นด้วย /
+      const remarkParts = [];
+      if (mainBeRemark) remarkParts.push(mainBeRemark);
+      if (mainReportRemark) remarkParts.push(mainReportRemark);
+      const combinedRemark = remarkParts.join(' / ');
+
       const transferStatusRaw = (row[CONFIG.TRANSFER_STATUS_COL] || '').toString().trim();
       const transferStatus = transferStatusRaw === '#N/A' ? '' : transferStatusRaw;
 
@@ -91,7 +127,9 @@ export async function POST(request) {
         foundData = {
           name: name,
           status: status || 'ยังไม่ส่งแผน',
-          remark: remark, // ส่งหมายเหตุไปด้วย
+          remark: combinedRemark, // รวมหมายเหตุทั้ง 2 คอลัมน์ คั่นด้วย /
+          mainBeRemark: mainBeRemark,
+          mainReportRemark: mainReportRemark,
           transferStatus: transferStatus, // สถานะการโอนจาก Column T
           transferDate: transferDate, // วันที่โอนจาก Column U
           certTracking: certTracking, // เลข Tracking ใบประกาศจาก Column X

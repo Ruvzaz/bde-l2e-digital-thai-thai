@@ -29,14 +29,23 @@ export async function GET() {
 
     const sheets = google.sheets({ version: 'v4', auth });
 
-    // Fetch data from sheet "Main Report" columns A to CW
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range: `'Main Report'!A1:CW`,
-    }).catch(err => {
-      console.warn('Could not fetch sheet "Main Report":', err.message);
-      return null;
-    });
+    // Fetch data from sheet "Main Report" and "Main BE" concurrently
+    const [response, mainBeRes] = await Promise.all([
+      sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `'Main Report'!A1:CW`,
+      }).catch(err => {
+        console.warn('Could not fetch sheet "Main Report":', err.message);
+        return null;
+      }),
+      sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `'Main BE'!A:AD`,
+      }).catch(err => {
+        console.warn('Could not fetch sheet "Main BE" in admin reports:', err.message);
+        return null;
+      }),
+    ]);
 
     if (!response || !response.data.values || response.data.values.length === 0) {
       return NextResponse.json({
@@ -50,6 +59,7 @@ export async function GET() {
     }
 
     const allValues = response.data.values;
+    const mainBeValues = mainBeRes?.data?.values || [];
     const rawHeaders = allValues[0] || [];
     
     // Normalize headers (clean whitespace & line breaks)
@@ -68,6 +78,21 @@ export async function GET() {
         const val = row[colIdx] !== undefined ? row[colIdx].toString().trim() : '';
         rowObj[h] = val;
       });
+
+      // Find corresponding row in Main BE
+      const centerCode = (row[0] || '').toString().trim();
+      let beRow = mainBeValues[idx + 1]; // Try index match (header is row 0)
+      if (!beRow || (centerCode && (beRow[0] || '').toString().trim() !== centerCode)) {
+        beRow = mainBeValues.find((r, rIdx) => rIdx > 0 && centerCode && (r[0] || '').toString().trim() === centerCode);
+      }
+
+      // Attach Main BE summary metrics (Col AA=26, AB=27, AC=28, AD=29)
+      rowObj._mainBeMetrics = {
+        traineeCount: beRow ? (beRow[26] || '').toString().trim() : '',
+        preTestCount: beRow ? (beRow[27] || '').toString().trim() : '',
+        postTestCount: beRow ? (beRow[28] || '').toString().trim() : '',
+        satisfactionCount: beRow ? (beRow[29] || '').toString().trim() : '',
+      };
 
       // Extract structured participants array (Up to 20 participants)
       const participants = [];

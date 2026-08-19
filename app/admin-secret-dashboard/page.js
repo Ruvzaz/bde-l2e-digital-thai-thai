@@ -115,6 +115,10 @@ export default function AdminDashboardPage() {
     if (status.includes('แก้ไข')) {
       return { status: 'ต้องแก้ไข', type: 'REVISE', label: 'ต้องแก้ไข', badgeClass: 'bg-sky-100 text-sky-950 dark:bg-sky-950/80 dark:text-sky-300 border-sky-300 dark:border-sky-700/60 font-extrabold', dotClass: 'bg-sky-500' };
     }
+    const isSub = checkIsSubmitted(row);
+    if (!status && !isSub) {
+      return { status: 'ยังไม่ส่ง', type: 'NOT_SUBMITTED', label: 'ยังไม่ส่ง', badgeClass: 'bg-slate-100 text-slate-700 dark:bg-slate-800/80 dark:text-slate-300 border-slate-200 dark:border-slate-700 font-medium', dotClass: 'bg-slate-400' };
+    }
     return { status: 'รอตรวจ', type: 'PENDING', label: 'รอตรวจ', badgeClass: 'bg-amber-100 text-amber-950 dark:bg-amber-950/80 dark:text-amber-300 border-amber-300 dark:border-amber-700/60 font-semibold', dotClass: 'bg-amber-500' };
   };
 
@@ -186,7 +190,7 @@ export default function AdminDashboardPage() {
       (statusFilter === 'PASSED' && auditInfo.type === 'PASSED') ||
       (statusFilter === 'FAILED' && auditInfo.type === 'FAILED') ||
       (statusFilter === 'REVISE' && auditInfo.type === 'REVISE') ||
-      (statusFilter === 'PENDING' && auditInfo.type === 'PENDING');
+      (statusFilter === 'PENDING' && isSub && auditInfo.type === 'PENDING');
 
     return matchesSearch && matchesStatus;
   });
@@ -719,7 +723,12 @@ export default function AdminDashboardPage() {
       <main className="max-w-7xl mx-auto flex flex-col gap-6">
         {/* Summary Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="glass-card p-5 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4">
+          <div
+            onClick={() => setStatusFilter('ALL')}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
+              statusFilter === 'ALL' ? 'border-primary ring-2 ring-primary/20 shadow-md' : 'border-outline-variant/30'
+            }`}
+          >
             <div className="bg-primary/10 text-primary w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">domain</span>
             </div>
@@ -731,7 +740,12 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="glass-card p-5 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4">
+          <div
+            onClick={() => setStatusFilter('SUBMITTED')}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
+              statusFilter === 'SUBMITTED' ? 'border-emerald-500 ring-2 ring-emerald-500/20 shadow-md' : 'border-outline-variant/30'
+            }`}
+          >
             <div className="bg-emerald-600/10 text-emerald-600 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">assignment_turned_in</span>
             </div>
@@ -743,7 +757,12 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="glass-card p-5 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4">
+          <div
+            onClick={() => setStatusFilter('PASSED')}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
+              statusFilter === 'PASSED' ? 'border-emerald-600 ring-2 ring-emerald-600/20 shadow-md' : 'border-outline-variant/30'
+            }`}
+          >
             <div className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">verified</span>
             </div>
@@ -755,7 +774,12 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="glass-card p-5 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4">
+          <div
+            onClick={() => setStatusFilter('PENDING')}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
+              statusFilter === 'PENDING' ? 'border-amber-500 ring-2 ring-amber-500/20 shadow-md' : 'border-outline-variant/30'
+            }`}
+          >
             <div className="bg-amber-500/10 text-amber-600 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">pending_actions</span>
             </div>
@@ -1126,6 +1150,18 @@ export default function AdminDashboardPage() {
                 <span className="material-symbols-outlined text-[18px]">group</span>
                 <span>4. รายชื่อผู้เข้าร่วม ({selectedRow._participants?.length || 0})</span>
               </button>
+
+              <button
+                onClick={() => setActiveTab('METRICS')}
+                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
+                  activeTab === 'METRICS'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[18px]">equalizer</span>
+                <span>5. สรุปข้อมูลอบรม & ประเมินผล</span>
+              </button>
             </div>
 
             {/* Modal Body */}
@@ -1232,6 +1268,81 @@ export default function AdminDashboardPage() {
                   )}
                 </div>
               )}
+
+              {/* TAB 5: METRICS / EVALUATION */}
+              {activeTab === 'METRICS' && (() => {
+                const metrics = selectedRow._mainBeMetrics || {};
+                const mTraineeRaw = metrics.traineeCount || getVal(selectedRow, 'จำนวนผู้เข้าอบรม') || getVal(selectedRow, 'จำนวนผู้อบรม');
+                const mPreRaw = metrics.preTestCount;
+                const mPostRaw = metrics.postTestCount;
+                const mSatRaw = metrics.satisfactionCount;
+
+                const mTrainee = (mTraineeRaw && mTraineeRaw !== '#N/A' && mTraineeRaw !== 'ไม่พบข้อมูล' && mTraineeRaw !== '-') ? mTraineeRaw : '-';
+                const mPre = (mPreRaw && mPreRaw !== '#N/A' && mPreRaw !== 'ไม่พบข้อมูล' && mPreRaw !== '-') ? mPreRaw : '-';
+                const mPost = (mPostRaw && mPostRaw !== '#N/A' && mPostRaw !== 'ไม่พบข้อมูล' && mPostRaw !== '-') ? mPostRaw : '-';
+                const mSat = (mSatRaw && mSatRaw !== '#N/A' && mSatRaw !== 'ไม่พบข้อมูล' && mSatRaw !== '-') ? mSatRaw : '-';
+
+                return (
+                  <div className="space-y-6">
+                    <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-3xl p-6 shadow-sm text-center">
+                      <p className="text-sm font-bold text-primary uppercase tracking-wider mb-6 flex items-center justify-center gap-2">
+                        <span className="material-symbols-outlined text-[24px]">equalizer</span>
+                        <span>สรุปข้อมูลการอบรม & การประเมินผล</span>
+                      </p>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/* 1. จำนวนผู้อบรม */}
+                        <div className="bg-emerald-500/10 dark:bg-emerald-950/40 border border-emerald-500/20 rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-xs">
+                          <div className="bg-emerald-500/20 p-3 rounded-full text-emerald-700 dark:text-emerald-300 mb-3">
+                            <span className="material-symbols-outlined text-[26px]">groups</span>
+                          </div>
+                          <span className="text-xs sm:text-sm font-bold text-emerald-900 dark:text-emerald-300">จำนวนผู้อบรม</span>
+                          <span className="text-3xl font-extrabold text-emerald-950 dark:text-emerald-100 font-mono mt-1 mb-0.5">
+                            {mTrainee}
+                          </span>
+                          <span className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">ท่าน</span>
+                        </div>
+
+                        {/* 2. Pre-Test */}
+                        <div className="bg-sky-500/10 dark:bg-sky-950/40 border border-sky-500/20 rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-xs">
+                          <div className="bg-sky-500/20 p-3 rounded-full text-sky-700 dark:text-sky-300 mb-3">
+                            <span className="material-symbols-outlined text-[26px]">quiz</span>
+                          </div>
+                          <span className="text-xs sm:text-sm font-bold text-sky-900 dark:text-sky-300">Pre-Test</span>
+                          <span className="text-3xl font-extrabold text-sky-950 dark:text-sky-100 font-mono mt-1 mb-0.5">
+                            {mPre}
+                          </span>
+                          <span className="text-xs text-sky-700 dark:text-sky-400 font-medium">ชุด</span>
+                        </div>
+
+                        {/* 3. Post-Test */}
+                        <div className="bg-indigo-500/10 dark:bg-indigo-950/40 border border-indigo-500/20 rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-xs">
+                          <div className="bg-indigo-500/20 p-3 rounded-full text-indigo-700 dark:text-indigo-300 mb-3">
+                            <span className="material-symbols-outlined text-[26px]">assignment_turned_in</span>
+                          </div>
+                          <span className="text-xs sm:text-sm font-bold text-indigo-900 dark:text-indigo-300">Post-Test</span>
+                          <span className="text-3xl font-extrabold text-indigo-950 dark:text-indigo-100 font-mono mt-1 mb-0.5">
+                            {mPost}
+                          </span>
+                          <span className="text-xs text-indigo-700 dark:text-indigo-400 font-medium">ชุด</span>
+                        </div>
+
+                        {/* 4. ความพึงพอใจ */}
+                        <div className="bg-amber-500/10 dark:bg-amber-950/40 border border-amber-500/20 rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-xs">
+                          <div className="bg-amber-500/20 p-3 rounded-full text-amber-700 dark:text-amber-300 mb-3">
+                            <span className="material-symbols-outlined text-[26px]">sentiment_satisfied</span>
+                          </div>
+                          <span className="text-xs sm:text-sm font-bold text-amber-900 dark:text-amber-300">ความพึงพอใจ</span>
+                          <span className="text-3xl font-extrabold text-amber-950 dark:text-amber-100 font-mono mt-1 mb-0.5">
+                            {mSat}
+                          </span>
+                          <span className="text-xs text-amber-700 dark:text-amber-400 font-medium">ชุด</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Modal Footer */}
