@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { generateClientWordDoc } from '@/utils/clientWordExport';
 
 export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ export default function AdminDashboardPage() {
   const [activeImagePreview, setActiveImagePreview] = useState(null); // Lightbox zoom modal
   const [lastRefreshed, setLastRefreshed] = useState(null);
   const [auditNote, setAuditNote] = useState(''); // Note for Column E "หมายเหตุตรวจผลงาน"
+  const [generatingWord, setGeneratingWord] = useState(false);
 
   const fetchReportData = async () => {
     setLoading(true);
@@ -1000,12 +1002,36 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
 
-              <button
-                onClick={() => setSelectedRow(null)}
-                className="text-on-surface-variant hover:text-on-surface p-2 rounded-full hover:bg-surface-container-high transition-colors"
-              >
-                <span className="material-symbols-outlined text-[24px]">close</span>
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={async () => {
+                    try {
+                      setGeneratingWord(true);
+                      await generateClientWordDoc(selectedRow);
+                    } catch (err) {
+                      console.error('Word export error:', err);
+                      alert('เกิดข้อผิดพลาดในการดาวน์โหลดเอกสาร Word: ' + err.message);
+                    } finally {
+                      setGeneratingWord(false);
+                    }
+                  }}
+                  disabled={generatingWord}
+                  className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm active:scale-95 disabled:opacity-50 cursor-pointer"
+                  title="ดาวน์โหลดรายงาน Word (.docx) ของศูนย์นี้ทันที"
+                >
+                  <span className={`material-symbols-outlined text-[18px] ${generatingWord ? 'animate-spin' : ''}`}>
+                    {generatingWord ? 'refresh' : 'description'}
+                  </span>
+                  <span>{generatingWord ? 'กำลังสร้างไฟล์...' : 'ดาวน์โหลดรายงาน Word (.docx)'}</span>
+                </button>
+
+                <button
+                  onClick={() => setSelectedRow(null)}
+                  className="text-on-surface-variant hover:text-on-surface p-2 rounded-full hover:bg-surface-container-high transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[24px]">close</span>
+                </button>
+              </div>
             </div>
 
             {/* Admin Audit Action Control Bar */}

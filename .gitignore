@@ -45,3 +45,24 @@ next-env.d.ts
 DESIGN.md
 google_apps_script.md
 app/canvas-test/
+
+/DTT02.docx
+!public/templates/DTT02.docx
+
+# Generated Output
+/output_reports/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+venv/
+.venv/
+test_drive_img.py
+test_extract_img.py
+test_all_drive_imgs.py
+generate_reports.py
+test_img.py
+generate_reports_img_fixed.py
