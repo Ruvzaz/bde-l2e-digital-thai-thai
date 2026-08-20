@@ -3,8 +3,8 @@ import JSZip from 'jszip';
 export async function generateClientWordDoc(row) {
   if (!row) return;
 
-  // 1. Fetch template from /templates/DTT02.docx
-  const response = await fetch('/templates/DTT02.docx');
+  // 1. Fetch fresh template from /templates/DTT02.docx (bypass browser HTTP cache)
+  const response = await fetch(`/templates/DTT02.docx?v=${Date.now()}`, { cache: 'no-store' });
   if (!response.ok) {
     throw new Error(`ไม่สามารถโหลดไฟล์แม่แบบ DTT02.docx ได้ (Status ${response.status})`);
   }
