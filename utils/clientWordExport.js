@@ -176,33 +176,30 @@ export async function generateClientWordDoc(row) {
     }
   };
 
-  // Table 3: 3.1 Overview Images (2)
-  if (tables[2]) {
-    const cells = tables[2].getElementsByTagName('w:tc');
-    if (overviewUrls[0]) embedImageToCell(cells[0], overviewUrls[0], 3.2, 2.5);
-    if (overviewUrls[1]) embedImageToCell(cells[1], overviewUrls[1], 3.2, 2.5);
-  }
-
-  // Table 4: 3.2 Workshop Images (4)
-  if (tables[3]) {
-    const cells = tables[3].getElementsByTagName('w:tc');
-    for (let i = 0; i < Math.min(4, workshopUrls.length); i++) {
-      if (cells[i]) embedImageToCell(cells[i], workshopUrls[i], 3.2, 2.5);
+  // Helper to process any image table dynamically & clear unused cells
+  const processImageTable = (tableNode, urls, maxW = 3.2, maxH = 2.5) => {
+    if (!tableNode) return;
+    const cells = tableNode.getElementsByTagName('w:tc');
+    for (let i = 0; i < cells.length; i++) {
+      if (i < urls.length && urls[i]) {
+        embedImageToCell(cells[i], urls[i], maxW, maxH);
+      } else {
+        setCellTextXML(cells[i], '');
+      }
     }
-  }
+  };
 
-  // Table 5: 3.3 Snack Images (2)
-  if (tables[4]) {
-    const cells = tables[4].getElementsByTagName('w:tc');
-    if (snackUrls[0]) embedImageToCell(cells[0], snackUrls[0], 3.2, 2.5);
-    if (snackUrls[1]) embedImageToCell(cells[1], snackUrls[1], 3.2, 2.5);
-  }
+  // Table 3: 3.1 Overview Images
+  processImageTable(tables[2], overviewUrls, 3.2, 2.5);
 
-  // Table 6: 3.4 Lunch Image (1)
-  if (tables[5]) {
-    const cells = tables[5].getElementsByTagName('w:tc');
-    if (lunchUrls[0]) embedImageToCell(cells[0], lunchUrls[0], 3.5, 2.5);
-  }
+  // Table 4: 3.2 Workshop Images
+  processImageTable(tables[3], workshopUrls, 3.2, 2.5);
+
+  // Table 5: 3.3 Snack Images
+  processImageTable(tables[4], snackUrls, 3.2, 2.5);
+
+  // Table 6: 3.4 Lunch Image
+  processImageTable(tables[5], lunchUrls, 3.5, 2.5);
 
   // Table 7: Video Links
   if (tables[6]) {
