@@ -90,7 +90,7 @@ export default function AdminDashboardPage() {
   const checkIsSubmitted = (row) => {
     if (!row) return false;
     const status = getVal(row, 'สถานะการส่ง');
-    
+
     // 1. Check status string directly
     if (status && (status.includes('ส่งรายงานแล้ว') || status === 'ส่งแล้ว' || status === 'เรียบร้อย')) {
       return true;
@@ -356,11 +356,10 @@ export default function AdminDashboardPage() {
               <button
                 key={p}
                 onClick={() => setCurrentPage(p)}
-                className={`w-8 h-8 rounded-xl text-xs font-bold transition-all ${
-                  safeCurrentPage === p
-                    ? 'bg-primary text-on-primary shadow-sm scale-105'
-                    : 'text-on-surface-variant hover:bg-surface-container-high'
-                }`}
+                className={`w-8 h-8 rounded-xl text-xs font-bold transition-all ${safeCurrentPage === p
+                  ? 'bg-primary text-on-primary shadow-sm scale-105'
+                  : 'text-on-surface-variant hover:bg-surface-container-high'
+                  }`}
               >
                 {p}
               </button>
@@ -522,11 +521,10 @@ export default function AdminDashboardPage() {
                     e.stopPropagation();
                     setCurrentIndex(idx);
                   }}
-                  className={`h-2 rounded-full transition-all ${
-                    safeIndex === idx
-                      ? 'bg-emerald-400 w-5'
-                      : 'bg-white/40 hover:bg-white/80 w-2'
-                  }`}
+                  className={`h-2 rounded-full transition-all ${safeIndex === idx
+                    ? 'bg-emerald-400 w-5'
+                    : 'bg-white/40 hover:bg-white/80 w-2'
+                    }`}
                   title={`ไปยังรูปที่ ${idx + 1}`}
                 />
               ))}
@@ -750,7 +748,7 @@ export default function AdminDashboardPage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold font-headline-md">Admin Dashboard</h1>
+              <h1 className="text-xl sm:text-2xl font-bold font-headline-md">ผลงานอัตลักษณ์ชุมชน</h1>
               <span className="bg-emerald-100 text-emerald-950 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-300/50">
                 Secret Path
               </span>
@@ -790,9 +788,8 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div
             onClick={() => setStatusFilter('ALL')}
-            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
-              statusFilter === 'ALL' ? 'border-primary ring-2 ring-primary/20 shadow-md' : 'border-outline-variant/30'
-            }`}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${statusFilter === 'ALL' ? 'border-primary ring-2 ring-primary/20 shadow-md' : 'border-outline-variant/30'
+              }`}
           >
             <div className="bg-primary/10 text-primary w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">domain</span>
@@ -807,9 +804,8 @@ export default function AdminDashboardPage() {
 
           <div
             onClick={() => setStatusFilter('SUBMITTED')}
-            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
-              statusFilter === 'SUBMITTED' ? 'border-emerald-500 ring-2 ring-emerald-500/20 shadow-md' : 'border-outline-variant/30'
-            }`}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${statusFilter === 'SUBMITTED' ? 'border-emerald-500 ring-2 ring-emerald-500/20 shadow-md' : 'border-outline-variant/30'
+              }`}
           >
             <div className="bg-emerald-600/10 text-emerald-600 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">assignment_turned_in</span>
@@ -824,9 +820,8 @@ export default function AdminDashboardPage() {
 
           <div
             onClick={() => setStatusFilter('PASSED')}
-            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
-              statusFilter === 'PASSED' ? 'border-emerald-600 ring-2 ring-emerald-600/20 shadow-md' : 'border-outline-variant/30'
-            }`}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${statusFilter === 'PASSED' ? 'border-emerald-600 ring-2 ring-emerald-600/20 shadow-md' : 'border-outline-variant/30'
+              }`}
           >
             <div className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">verified</span>
@@ -841,9 +836,8 @@ export default function AdminDashboardPage() {
 
           <div
             onClick={() => setStatusFilter('PENDING')}
-            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${
-              statusFilter === 'PENDING' ? 'border-amber-500 ring-2 ring-amber-500/20 shadow-md' : 'border-outline-variant/30'
-            }`}
+            className={`glass-card p-5 rounded-3xl bg-surface-container-lowest border transition-all cursor-pointer flex items-center gap-4 hover:shadow-md ${statusFilter === 'PENDING' ? 'border-amber-500 ring-2 ring-amber-500/20 shadow-md' : 'border-outline-variant/30'
+              }`}
           >
             <div className="bg-amber-500/10 text-amber-600 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[26px]">pending_actions</span>
@@ -862,11 +856,10 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setViewMode('REPORTS')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                viewMode === 'REPORTS'
-                  ? 'bg-primary text-on-primary shadow-md scale-102'
-                  : 'bg-surface-container-high/60 text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${viewMode === 'REPORTS'
+                ? 'bg-primary text-on-primary shadow-md scale-102'
+                : 'bg-surface-container-high/60 text-on-surface-variant hover:bg-surface-container-high'
+                }`}
             >
               <span className="material-symbols-outlined text-[20px]">table_chart</span>
               <span>รายงานผลการจัดกิจกรรมทั้งหมด</span>
@@ -877,14 +870,13 @@ export default function AdminDashboardPage() {
 
             <button
               onClick={() => setViewMode('VIDEOS')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                viewMode === 'VIDEOS'
-                  ? 'bg-rose-600 text-white shadow-md scale-102'
-                  : 'bg-surface-container-high/60 text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${viewMode === 'VIDEOS'
+                ? 'bg-rose-600 text-white shadow-md scale-102'
+                : 'bg-surface-container-high/60 text-on-surface-variant hover:bg-surface-container-high'
+                }`}
             >
               <span className="material-symbols-outlined text-[20px]">movie</span>
-              <span>วิดีโอ (Digital Thai Thai) Column V</span>
+              <span>ดูผลงาน Video</span>
               <span className="bg-white/20 text-[11px] px-2 py-0.5 rounded-full font-mono">
                 {totalVideoCount}
               </span>
@@ -1127,7 +1119,7 @@ export default function AdminDashboardPage() {
                       const code = getVal(row, 'รหัส') || '-';
                       const name = getVal(row, 'ชื่อศูนย์') || '-';
                       const province = getVal(row, 'จังหวัด') || '-';
-                      
+
                       const adminPrefix = getVal(row, 'คำนำหน้า ผู้ดูแล') || getVal(row, 'คำนำหน้า');
                       const rawAdminName = getVal(row, 'ชื่อผู้ดูแล');
                       const cleanAdminName = (rawAdminName && rawAdminName !== 'ไม่พบข้อมูล' && rawAdminName !== '-') ? rawAdminName : '';
@@ -1298,11 +1290,10 @@ export default function AdminDashboardPage() {
                   <button
                     onClick={() => handleUpdateAuditStatus(selectedRow, 'ผ่าน')}
                     disabled={updatingStatus}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${
-                      selectedAuditInfo.type === 'PASSED'
-                        ? 'bg-emerald-600 text-white ring-2 ring-emerald-400'
-                        : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 border border-emerald-500/30'
-                    }`}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${selectedAuditInfo.type === 'PASSED'
+                      ? 'bg-emerald-600 text-white ring-2 ring-emerald-400'
+                      : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 border border-emerald-500/30'
+                      }`}
                   >
                     <span>🟢 ให้ผ่าน</span>
                   </button>
@@ -1310,11 +1301,10 @@ export default function AdminDashboardPage() {
                   <button
                     onClick={() => handleUpdateAuditStatus(selectedRow, 'ไม่ผ่าน')}
                     disabled={updatingStatus}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${
-                      selectedAuditInfo.type === 'FAILED'
-                        ? 'bg-rose-600 text-white ring-2 ring-rose-400'
-                        : 'bg-rose-500/10 text-rose-700 dark:text-rose-300 hover:bg-rose-500/20 border border-rose-500/30'
-                    }`}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${selectedAuditInfo.type === 'FAILED'
+                      ? 'bg-rose-600 text-white ring-2 ring-rose-400'
+                      : 'bg-rose-500/10 text-rose-700 dark:text-rose-300 hover:bg-rose-500/20 border border-rose-500/30'
+                      }`}
                   >
                     <span>🔴 ไม่ผ่าน</span>
                   </button>
@@ -1322,11 +1312,10 @@ export default function AdminDashboardPage() {
                   <button
                     onClick={() => handleUpdateAuditStatus(selectedRow, 'ต้องแก้ไข')}
                     disabled={updatingStatus}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${
-                      selectedAuditInfo.type === 'REVISE'
-                        ? 'bg-sky-600 text-white ring-2 ring-sky-400'
-                        : 'bg-sky-500/10 text-sky-700 dark:text-sky-300 hover:bg-sky-500/20 border border-sky-500/30'
-                    }`}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${selectedAuditInfo.type === 'REVISE'
+                      ? 'bg-sky-600 text-white ring-2 ring-sky-400'
+                      : 'bg-sky-500/10 text-sky-700 dark:text-sky-300 hover:bg-sky-500/20 border border-sky-500/30'
+                      }`}
                   >
                     <span>🔵 ให้แก้ไข</span>
                   </button>
@@ -1334,11 +1323,10 @@ export default function AdminDashboardPage() {
                   <button
                     onClick={() => handleUpdateAuditStatus(selectedRow, 'รอตรวจ')}
                     disabled={updatingStatus}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${
-                      selectedAuditInfo.type === 'PENDING'
-                        ? 'bg-amber-600 text-white ring-2 ring-amber-400'
-                        : 'bg-amber-500/10 text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 border border-amber-500/30'
-                    }`}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 shadow-xs active:scale-95 disabled:opacity-50 ${selectedAuditInfo.type === 'PENDING'
+                      ? 'bg-amber-600 text-white ring-2 ring-amber-400'
+                      : 'bg-amber-500/10 text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 border border-amber-500/30'
+                      }`}
                   >
                     <span>🟡 รอตรวจ</span>
                   </button>
@@ -1346,32 +1334,30 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-              {/* Status Notification Alert */}
-              {statusNotification && (
-                <div className={`px-6 py-2 text-xs font-bold flex items-center justify-between gap-2 border-b border-outline-variant/20 animate-fade-in ${
-                  statusNotification.type === 'success' ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200' : 'bg-rose-50 text-rose-800 dark:bg-rose-950/60 dark:text-rose-200'
+            {/* Status Notification Alert */}
+            {statusNotification && (
+              <div className={`px-6 py-2 text-xs font-bold flex items-center justify-between gap-2 border-b border-outline-variant/20 animate-fade-in ${statusNotification.type === 'success' ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200' : 'bg-rose-50 text-rose-800 dark:bg-rose-950/60 dark:text-rose-200'
                 }`}>
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[18px]">
-                      {statusNotification.type === 'success' ? 'check_circle' : 'error'}
-                    </span>
-                    <span>{statusNotification.message}</span>
-                  </div>
-                  <button onClick={() => setStatusNotification(null)} className="hover:opacity-75">
-                    <span className="material-symbols-outlined text-[16px]">close</span>
-                  </button>
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[18px]">
+                    {statusNotification.type === 'success' ? 'check_circle' : 'error'}
+                  </span>
+                  <span>{statusNotification.message}</span>
                 </div>
-              )}
+                <button onClick={() => setStatusNotification(null)} className="hover:opacity-75">
+                  <span className="material-symbols-outlined text-[16px]">close</span>
+                </button>
+              </div>
+            )}
 
             {/* Modal Tabs */}
             <div className="flex border-b border-outline-variant/30 bg-surface-container-high/20 px-6 gap-2 overflow-x-auto">
               <button
                 onClick={() => setActiveTab('INFO')}
-                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'INFO'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-on-surface-variant hover:text-on-surface'
-                }`}
+                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'INFO'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+                  }`}
               >
                 <span className="material-symbols-outlined text-[18px]">info</span>
                 <span>1. ข้อมูลทั่วไป</span>
@@ -1379,11 +1365,10 @@ export default function AdminDashboardPage() {
 
               <button
                 onClick={() => setActiveTab('FILES')}
-                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'FILES'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-on-surface-variant hover:text-on-surface'
-                }`}
+                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'FILES'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+                  }`}
               >
                 <span className="material-symbols-outlined text-[18px]">folder_zip</span>
                 <span>2. เอกสาร & รูปภาพ</span>
@@ -1391,11 +1376,10 @@ export default function AdminDashboardPage() {
 
               <button
                 onClick={() => setActiveTab('CONTEST')}
-                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'CONTEST'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-on-surface-variant hover:text-on-surface'
-                }`}
+                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'CONTEST'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+                  }`}
               >
                 <span className="material-symbols-outlined text-[18px]">emoji_events</span>
                 <span>3. สื่อประกวด</span>
@@ -1403,11 +1387,10 @@ export default function AdminDashboardPage() {
 
               <button
                 onClick={() => setActiveTab('PARTICIPANTS')}
-                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'PARTICIPANTS'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-on-surface-variant hover:text-on-surface'
-                }`}
+                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'PARTICIPANTS'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+                  }`}
               >
                 <span className="material-symbols-outlined text-[18px]">group</span>
                 <span>4. รายชื่อผู้เข้าร่วม ({selectedRow._participants?.length || 0})</span>
@@ -1415,11 +1398,10 @@ export default function AdminDashboardPage() {
 
               <button
                 onClick={() => setActiveTab('METRICS')}
-                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'METRICS'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-on-surface-variant hover:text-on-surface'
-                }`}
+                className={`py-3 px-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'METRICS'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+                  }`}
               >
                 <span className="material-symbols-outlined text-[18px]">equalizer</span>
                 <span>5. สรุปข้อมูลอบรม & ประเมินผล</span>
@@ -1743,11 +1725,10 @@ export default function AdminDashboardPage() {
               {/* Status Notification */}
               {statusNotification && (
                 <div
-                  className={`p-4 rounded-2xl text-sm font-bold flex items-center justify-between gap-3 shadow-sm ${
-                    statusNotification.type === 'success'
-                      ? 'bg-emerald-100 text-emerald-950 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/60'
-                      : 'bg-rose-100 text-rose-950 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300 dark:border-rose-700/60'
-                  }`}
+                  className={`p-4 rounded-2xl text-sm font-bold flex items-center justify-between gap-3 shadow-sm ${statusNotification.type === 'success'
+                    ? 'bg-emerald-100 text-emerald-950 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/60'
+                    : 'bg-rose-100 text-rose-950 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300 dark:border-rose-700/60'
+                    }`}
                 >
                   <span>{statusNotification.message}</span>
                   <button onClick={() => setStatusNotification(null)}>
