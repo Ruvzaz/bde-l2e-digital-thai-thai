@@ -10,9 +10,12 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [provinceFilter, setProvinceFilter] = useState('ALL');
+  const [viewMode, setViewMode] = useState('REPORTS'); // 'REPORTS' | 'VIDEOS'
   const [selectedRow, setSelectedRow] = useState(null); // For Modal detail view
   const [activeTab, setActiveTab] = useState('INFO'); // Modal tabs: 'INFO', 'FILES', 'CONTEST', 'PARTICIPANTS'
   const [activeImagePreview, setActiveImagePreview] = useState(null); // Lightbox zoom modal
+  const [activeVideoModal, setActiveVideoModal] = useState(null); // Dedicated video popup + quick audit modal
   const [lastRefreshed, setLastRefreshed] = useState(null);
   const [auditNote, setAuditNote] = useState(''); // Note for Column E "หมายเหตุตรวจผลงาน"
   const [generatingWord, setGeneratingWord] = useState(false);
@@ -47,7 +50,7 @@ export default function AdminDashboardPage() {
 
   // Lock background body scroll when modal or lightbox is active
   useEffect(() => {
-    if (selectedRow || activeImagePreview) {
+    if (selectedRow || activeImagePreview || activeVideoModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -55,7 +58,7 @@ export default function AdminDashboardPage() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [selectedRow, activeImagePreview]);
+  }, [selectedRow, activeImagePreview, activeVideoModal]);
 
   // Helper to find cell value by partial header match
   const getVal = (row, partialHeader) => {
@@ -169,7 +172,55 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Filter rows based on search and status
+  // Helper to extract Column V "วิดีโอ (Digital Thai Thai)" video URL
+  const getColVVideoUrl = (row) => {
+    if (!row) return '';
+    const val =
+      getVal(row, 'วิดีโอ (Digital Thai Thai)') ||
+      getVal(row, 'Digital Thai Thai') ||
+      getVal(row, 'วิดีโอ');
+    if (val && val !== 'ไม่พบข้อมูล' && val !== '-' && val !== 'ไม่มี') {
+      const urls = val.match(/https?:\/\/[^\s,"]+/g);
+      return urls && urls.length > 0 ? urls[0] : val.trim();
+    }
+    return '';
+  };
+
+  // Helper to open dedicated video popup modal + quick audit
+  const openVideoModal = (row) => {
+    const videoUrl = getColVVideoUrl(row);
+    if (!videoUrl) return;
+    const driveId = getDriveFileId(videoUrl);
+    const ytId = getYouTubeVideoId(videoUrl);
+    const isMp4 = /\.(mp4|webm|mov)($|\?)/i.test(videoUrl);
+    const currentAuditStatus = getVal(row, 'สถานะตรวจรายงาน');
+    const currentNote = getVal(row, 'หมายเหตุตรวจผลงาน');
+
+    setAuditNote(currentNote || '');
+    setStatusNotification(null);
+    setActiveVideoModal({
+      row,
+      videoUrl,
+      driveId,
+      ytId,
+      isMp4,
+      auditStatus: currentAuditStatus,
+    });
+  };
+
+  // Extract unique provinces for Column B Filter
+  const uniqueProvinces = Array.from(
+    new Set(
+      data.rows
+        .map((r) => getVal(r, 'จังหวัด'))
+        .filter((p) => p && p !== 'ไม่พบข้อมูล' && p !== '-')
+    )
+  ).sort((a, b) => a.localeCompare(b, 'th'));
+
+  // Total count of Column V videos
+  const totalVideoCount = data.rows.filter((r) => getColVVideoUrl(r) !== '').length;
+
+  // Filter rows based on search, status, province, and viewMode
   const filteredRows = data.rows.filter((row) => {
     const code = getVal(row, 'รหัส');
     const name = getVal(row, 'ชื่อศูนย์');
@@ -177,7 +228,18 @@ export default function AdminDashboardPage() {
     const adminName = getVal(row, 'ชื่อผู้ดูแล');
     const isSub = checkIsSubmitted(row);
     const auditInfo = getAuditStatusInfo(row);
+    const colVVideo = getColVVideoUrl(row);
 
+    // If in VIDEOS view mode, row MUST have a Column V video URL
+    if (viewMode === 'VIDEOS' && !colVVideo) {
+      return false;
+    }
+
+    // Filter by Province (Column B)
+    const matchesProvince =
+      provinceFilter === 'ALL' || province === provinceFilter;
+
+    // Filter by Search Query
     const matchesSearch =
       !searchQuery.trim() ||
       code.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -185,6 +247,7 @@ export default function AdminDashboardPage() {
       province.toLowerCase().includes(searchQuery.toLowerCase()) ||
       adminName.toLowerCase().includes(searchQuery.toLowerCase());
 
+    // Filter by Status
     const matchesStatus =
       statusFilter === 'ALL' ||
       (statusFilter === 'SUBMITTED' && isSub) ||
@@ -194,7 +257,7 @@ export default function AdminDashboardPage() {
       (statusFilter === 'REVISE' && auditInfo.type === 'REVISE') ||
       (statusFilter === 'PENDING' && isSub && auditInfo.type === 'PENDING');
 
-    return matchesSearch && matchesStatus;
+    return matchesProvince && matchesSearch && matchesStatus;
   });
 
   // Pagination State
@@ -204,7 +267,7 @@ export default function AdminDashboardPage() {
   // Auto-reset page when search, filter or itemsPerPage change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, statusFilter, itemsPerPage]);
+  }, [searchQuery, statusFilter, provinceFilter, viewMode, itemsPerPage]);
 
   // Calculate pagination parameters
   const totalPages = Math.ceil(filteredRows.length / itemsPerPage) || 1;
@@ -794,11 +857,50 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
+        {/* Navigation View Mode Tabs */}
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-surface-container-lowest p-2 rounded-2xl border border-outline-variant/30 shadow-xs">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setViewMode('REPORTS')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                viewMode === 'REPORTS'
+                  ? 'bg-primary text-on-primary shadow-md scale-102'
+                  : 'bg-surface-container-high/60 text-on-surface-variant hover:bg-surface-container-high'
+              }`}
+            >
+              <span className="material-symbols-outlined text-[20px]">table_chart</span>
+              <span>รายงานผลการจัดกิจกรรมทั้งหมด</span>
+              <span className="bg-white/20 text-[11px] px-2 py-0.5 rounded-full font-mono">
+                {data.total}
+              </span>
+            </button>
+
+            <button
+              onClick={() => setViewMode('VIDEOS')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                viewMode === 'VIDEOS'
+                  ? 'bg-rose-600 text-white shadow-md scale-102'
+                  : 'bg-surface-container-high/60 text-on-surface-variant hover:bg-surface-container-high'
+              }`}
+            >
+              <span className="material-symbols-outlined text-[20px]">movie</span>
+              <span>วิดีโอ (Digital Thai Thai) Column V</span>
+              <span className="bg-white/20 text-[11px] px-2 py-0.5 rounded-full font-mono">
+                {totalVideoCount}
+              </span>
+            </button>
+          </div>
+
+          <div className="text-xs font-semibold text-on-surface-variant px-3 py-1 bg-surface-container-high/40 rounded-xl">
+            {viewMode === 'VIDEOS' ? `คลังคลิปวิดีโอ (${filteredRows.length} รายการ)` : `ตารางรายงานทั้งหมด (${filteredRows.length} รายการ)`}
+          </div>
+        </div>
+
         {/* Filter Toolbar */}
         <div className="glass-card p-4 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             {/* Search Bar */}
-            <div className="relative w-full sm:w-80">
+            <div className="relative w-full sm:w-72">
               <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">
                 search
               </span>
@@ -819,16 +921,32 @@ export default function AdminDashboardPage() {
               )}
             </div>
 
+            {/* Province Filter Dropdown (Column B) */}
+            <div className="relative w-full sm:w-auto">
+              <select
+                value={provinceFilter}
+                onChange={(e) => setProvinceFilter(e.target.value)}
+                className="w-full sm:w-auto bg-surface-container-high/60 border border-outline-variant/40 rounded-2xl px-4 py-2 text-sm text-on-surface font-semibold focus:outline-none focus:border-primary cursor-pointer"
+              >
+                <option value="ALL">📍 จังหวัดทั้งหมด ({uniqueProvinces.length} จังหวัด)</option>
+                {uniqueProvinces.map((prov) => (
+                  <option key={prov} value={prov}>
+                    📍 {prov}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Status Filter */}
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full sm:w-auto bg-surface-container-high/60 border border-outline-variant/40 rounded-2xl px-4 py-2 text-sm text-on-surface font-medium focus:outline-none focus:border-primary"
+              className="w-full sm:w-auto bg-surface-container-high/60 border border-outline-variant/40 rounded-2xl px-4 py-2 text-sm text-on-surface font-medium focus:outline-none focus:border-primary cursor-pointer"
             >
               <option value="ALL">สถานะทั้งหมด</option>
               <option value="SUBMITTED">เฉพาะศูนย์ที่มีรายงานผลแล้ว</option>
               <option value="EMPTY">เฉพาะศูนย์ยังไม่มีรายงานผล</option>
-              <option value="PASSED">🟢 ธรรมดาผ่านการตรวจ</option>
+              <option value="PASSED">🟢 ผ่านการตรวจ</option>
               <option value="FAILED">🔴 ไม่ผ่านการตรวจ</option>
               <option value="REVISE">🔵 แจ้งกลับให้แก้ไข</option>
               <option value="PENDING">🟡 ส่งแล้ว (รอตรวจรายงาน)</option>
@@ -851,7 +969,7 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* Structured Data Table View */}
+        {/* Content Container (Table View vs Video Grid View) */}
         <div className="glass-card rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-md overflow-hidden">
           {loading ? (
             <div className="p-12 text-center flex flex-col items-center justify-center gap-3">
@@ -865,10 +983,129 @@ export default function AdminDashboardPage() {
               </div>
               <h4 className="text-base font-bold text-on-surface">ไม่พบข้อมูลตามเงื่อนไขที่ระบุ</h4>
               <p className="text-sm text-on-surface-variant max-w-md">
-                {searchQuery ? `ไม่พบข้อมูลที่ตรงกับคำว่า "${searchQuery}"` : 'ยังไม่มีข้อมูลรายงานผลในระบบ'}
+                {searchQuery ? `ไม่พบข้อมูลที่ตรงกับคำว่า "${searchQuery}"` : 'ยังไม่มีข้อมูลรายงานผลหรือคลิปวิดีโอในหมวดนี้'}
               </p>
             </div>
+          ) : viewMode === 'VIDEOS' ? (
+            /* Dedicated Video Gallery View */
+            <>
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {paginatedRows.map((row) => {
+                    const code = getVal(row, 'รหัส') || '-';
+                    const name = getVal(row, 'ชื่อศูนย์') || '-';
+                    const province = getVal(row, 'จังหวัด') || '-';
+                    const rawAdminName = getVal(row, 'ชื่อผู้ดูแล');
+                    const cleanAdminName = (rawAdminName && rawAdminName !== 'ไม่พบข้อมูล' && rawAdminName !== '-') ? rawAdminName : '-';
+                    const videoUrl = getColVVideoUrl(row);
+                    const ytId = getYouTubeVideoId(videoUrl);
+                    const driveId = getDriveFileId(videoUrl);
+                    const auditInfo = getAuditStatusInfo(row);
+                    const note = getVal(row, 'หมายเหตุตรวจผลงาน');
+
+                    return (
+                      <div
+                        key={row._id}
+                        className="glass-card rounded-3xl bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/40 transition-all shadow-sm hover:shadow-lg overflow-hidden flex flex-col justify-between group"
+                      >
+                        <div>
+                          {/* Video Thumbnail Box */}
+                          <div
+                            onClick={() => openVideoModal(row)}
+                            className="relative w-full h-[200px] bg-slate-900 overflow-hidden cursor-pointer group/vid flex items-center justify-center"
+                            title="คลิกเพื่อรับชมคลิปวิดีโอ"
+                          >
+                            {ytId ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img
+                                src={`https://img.youtube.com/vi/${ytId}/hqdefault.jpg`}
+                                alt={name}
+                                className="w-full h-full object-cover group-hover/vid:scale-105 transition-transform duration-300 opacity-80 group-hover/vid:opacity-90"
+                              />
+                            ) : driveId ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img
+                                src={`/api/admin/drive-image?id=${driveId}`}
+                                alt={name}
+                                className="w-full h-full object-cover group-hover/vid:scale-105 transition-transform duration-300 opacity-80 group-hover/vid:opacity-90"
+                                onError={(e) => {
+                                  e.currentTarget.onerror = null;
+                                  e.currentTarget.src = `https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`;
+                                }}
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-slate-900 to-rose-950 flex flex-col items-center justify-center p-4 text-center">
+                                <span className="material-symbols-outlined text-[48px] text-rose-500 mb-1">movie</span>
+                                <span className="text-xs font-bold text-white/80 line-clamp-1">{videoUrl}</span>
+                              </div>
+                            )}
+
+                            <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-white font-mono font-bold text-xs px-3 py-1 rounded-xl border border-white/20">
+                              {code}
+                            </div>
+
+                            <div className="absolute top-3 right-3 bg-rose-600/90 text-white font-bold text-xs px-3 py-1 rounded-xl shadow-md">
+                              📍 {province}
+                            </div>
+
+                            <div className="absolute z-10 w-14 h-14 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-xl backdrop-blur-sm group-hover/vid:scale-110 transition-transform">
+                              <span className="material-symbols-outlined text-[32px] translate-x-0.5">play_arrow</span>
+                            </div>
+
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/vid:opacity-100 transition-opacity flex items-end justify-center pb-3 text-white font-bold text-xs">
+                              <span className="flex items-center gap-1 bg-black/70 px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-sm">
+                                <span className="material-symbols-outlined text-[16px]">play_circle</span>
+                                <span>คลิกเพื่อรับชมคลิปวิดีโอ</span>
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Center Info */}
+                          <div className="p-5 space-y-3">
+                            <div>
+                              <h4 className="text-base font-bold text-on-surface line-clamp-1 group-hover:text-primary transition-colors">
+                                {name}
+                              </h4>
+                              <p className="text-xs text-on-surface-variant mt-0.5 flex items-center gap-1.5">
+                                <span className="material-symbols-outlined text-[14px]">person</span>
+                                <span>ผู้ดูแล: {cleanAdminName}</span>
+                              </p>
+                            </div>
+
+                            <div className="flex items-center justify-between gap-2 pt-2 border-t border-outline-variant/20">
+                              <span className={`inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border shadow-xs ${auditInfo.badgeClass}`}>
+                                <span className={`w-2 h-2 rounded-full ${auditInfo.dotClass}`}></span>
+                                <span>{auditInfo.label}</span>
+                              </span>
+
+                              {note && (
+                                <span className="text-xs text-on-surface-variant/80 italic truncate max-w-[140px]" title={note}>
+                                  📝 {note}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Button */}
+                        <div className="p-4 bg-surface-container-high/30 border-t border-outline-variant/20">
+                          <button
+                            onClick={() => openVideoModal(row)}
+                            className="w-full flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-98 cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">play_circle</span>
+                            <span>เปิดดูคลิปวิดีโอ</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {renderPaginationControls()}
+            </>
           ) : (
+            /* Standard Data Table View */
             <>
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse text-sm">
@@ -900,18 +1137,17 @@ export default function AdminDashboardPage() {
                       const rawPhone = getVal(row, 'เบอร์โทรศัพท์');
                       const phone = (rawPhone && rawPhone !== 'ไม่พบข้อมูล' && rawPhone !== '-') ? rawPhone : '-';
 
-                      const rawCount = getVal(row, 'จำนวนผู้เข้าอบรม');
-                      const count = (rawCount && rawCount !== 'ไม่พบข้อมูล' && rawCount !== '-') ? rawCount : '-';
-
                       const isSubmitted = checkIsSubmitted(row);
                       const auditInfo = getAuditStatusInfo(row);
+                      const metrics = row._mainBeMetrics || {};
+                      const count = metrics.traineeCount || getVal(row, 'จำนวนผู้เข้าอบรม') || getVal(row, 'จำนวนผู้อบรม') || '-';
 
                       return (
                         <tr
                           key={row._id || idx}
-                          className="hover:bg-surface-container-high/40 transition-colors"
+                          className="hover:bg-surface-container-high/40 transition-colors group cursor-pointer"
                         >
-                          <td className="py-3.5 px-4 text-center font-semibold text-on-surface-variant/70">
+                          <td className="py-3.5 px-4 text-center text-on-surface-variant font-mono text-xs">
                             {startIndex + idx + 1}
                           </td>
                           <td className="py-3.5 px-4 font-mono font-bold text-primary">
@@ -1458,6 +1694,157 @@ export default function AdminDashboardPage() {
                   className="max-h-[80vh] max-w-full object-contain rounded-2xl"
                 />
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Dedicated Video Popup & Quick Audit Modal */}
+      {activeVideoModal && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fade-in overflow-y-auto"
+          onClick={() => setActiveVideoModal(null)}
+        >
+          <div
+            className="bg-surface-container-lowest dark:bg-surface-container-lowest border border-outline-variant/30 rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl flex flex-col my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-5 sm:p-6 border-b border-outline-variant/30 flex items-start justify-between gap-4 bg-surface-container-high/30">
+              <div className="flex items-center gap-3">
+                <div className="bg-rose-600/10 p-3 rounded-2xl text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                  <span className="material-symbols-outlined text-[28px]">movie</span>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="bg-primary/10 text-primary text-xs font-mono font-bold px-2.5 py-0.5 rounded-lg border border-primary/20">
+                      {getVal(activeVideoModal.row, 'รหัส')}
+                    </span>
+                    <span className="bg-emerald-100 text-emerald-950 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold px-2.5 py-0.5 rounded-lg">
+                      📍 {getVal(activeVideoModal.row, 'จังหวัด')}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-on-surface mt-1">
+                    {getVal(activeVideoModal.row, 'ชื่อศูนย์')}
+                  </h3>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setActiveVideoModal(null)}
+                className="bg-surface-container-high hover:bg-surface-container-highest p-2 rounded-full text-on-surface-variant transition-all shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            {/* Modal Body: Video Player + Audit Panel */}
+            <div className="p-5 sm:p-6 space-y-6">
+              {/* Status Notification */}
+              {statusNotification && (
+                <div
+                  className={`p-4 rounded-2xl text-sm font-bold flex items-center justify-between gap-3 shadow-sm ${
+                    statusNotification.type === 'success'
+                      ? 'bg-emerald-100 text-emerald-950 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/60'
+                      : 'bg-rose-100 text-rose-950 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300 dark:border-rose-700/60'
+                  }`}
+                >
+                  <span>{statusNotification.message}</span>
+                  <button onClick={() => setStatusNotification(null)}>
+                    <span className="material-symbols-outlined text-[18px]">close</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Video Player Container */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[16px] text-rose-600">play_circle</span>
+                    <span>วิดีโอ (Digital Thai Thai) Column V</span>
+                  </p>
+                  <a
+                    href={activeVideoModal.videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-bold text-primary hover:underline flex items-center gap-1 bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 transition-all hover:bg-primary/20"
+                  >
+                    <span>เปิดลิงก์ต้นฉบับ</span>
+                    <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                  </a>
+                </div>
+
+                <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl bg-black border border-outline-variant/30">
+                  {activeVideoModal.ytId ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${activeVideoModal.ytId}?autoplay=1`}
+                      title="YouTube Video"
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : activeVideoModal.isMp4 ? (
+                    <video
+                      src={activeVideoModal.videoUrl}
+                      controls
+                      autoPlay
+                      className="w-full h-full object-contain"
+                    ></video>
+                  ) : activeVideoModal.driveId ? (
+                    <video
+                      src={`/api/admin/drive-image?id=${activeVideoModal.driveId}`}
+                      controls
+                      autoPlay
+                      className="w-full h-full object-contain bg-black"
+                      onError={(e) => {
+                        // Fallback to Google Drive Preview iframe if direct stream is unsupported
+                        e.currentTarget.style.display = 'none';
+                        const fallbackIframe = document.getElementById(`drive-fallback-${activeVideoModal.driveId}`);
+                        if (fallbackIframe) fallbackIframe.style.display = 'block';
+                      }}
+                    ></video>
+                  ) : (
+                    <iframe
+                      src={activeVideoModal.videoUrl}
+                      title="Video Preview"
+                      className="w-full h-full border-0"
+                      allow="autoplay"
+                    ></iframe>
+                  )}
+                  {activeVideoModal.driveId && (
+                    <iframe
+                      id={`drive-fallback-${activeVideoModal.driveId}`}
+                      src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
+                      title="Google Drive Video Fallback"
+                      className="w-full h-full border-0 hidden"
+                      allow="autoplay"
+                      allowFullScreen
+                    ></iframe>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-outline-variant/30 bg-surface-container-high/30 flex items-center justify-between">
+              <button
+                onClick={() => {
+                  setSelectedRow(activeVideoModal.row);
+                  setActiveVideoModal(null);
+                }}
+                className="text-xs font-bold text-primary hover:underline flex items-center gap-1 px-3 py-1.5 rounded-xl hover:bg-primary/10 transition-all cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[16px]">article</span>
+                <span>เปิดดูรายงานฉบับเต็ม</span>
+              </button>
+
+              <button
+                onClick={() => setActiveVideoModal(null)}
+                className="bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-bold text-xs px-5 py-2 rounded-xl transition-all cursor-pointer"
+              >
+                ปิดหน้าต่าง
+              </button>
             </div>
           </div>
         </div>
